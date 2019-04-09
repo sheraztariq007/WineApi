@@ -1,5 +1,9 @@
 const  seq = require('../models/index');
 const  Usuarios = require('../models/usuarios');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+var md5 = require("md5")
+
 module.exports = {
     getUserLists:function(){
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
@@ -14,7 +18,7 @@ module.exports = {
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         users.findOne({where:{
             'email':email,
-            'password':password
+            'password':md5(password)
         }}).then(result=> {
             if(result!=null)
         {
