@@ -1,5 +1,8 @@
 const  seq = require('../models/index');
+var dateTime = require('node-datetime');
+var time = new Date();
 const  Usuarios = require('../models/usuarios');
+const  Moduledisease = require('../models/module_disease');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -39,8 +42,33 @@ module.exports = {
     }).catch(err=>{
             console.log(err);
     });
-    }
+    },
+    getDiseaseList:function(userid,disease_type,details,imageUrl,res){
+        const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
+        disease.create({
+            reportedBy_user_id:userid,disease_type:disease_type,maintenace:details,image_url:imageUrl,reported_datetime:getDate()+" "+getTime()
+        }).then(result=>{
+            console.log("done");
+        res.end({
+            'status':200,
+            'message':'Successfully send'
+        })
+        }).catch (err=>{
+            console.log(err);
+        });
+}
 
+}
+function getTime() {
+    var time = new Date();
+    console.log(time.toLocaleString('en-US', { month: 'long', hour12: true }));
+    console.log(time.toLocaleString('en-US', { weekday: 'long', hour12: true }));
+    return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
 
-
+function getDate() {
+    var dt = dateTime.create();
+    var formatted = dt.format('Y-m-d');
+    console.log(formatted);
+    return formatted;
 }

@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const module_disease = sequelize.define('module_disease', {
     reportedBy_user_id: DataTypes.INTEGER,
     company_id: DataTypes.INTEGER,
+    disease_type: DataTypes.INTEGER,
     maintenace: DataTypes.TEXT,
     image_url: DataTypes.TEXT,
     location: DataTypes.TEXT,

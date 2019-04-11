@@ -14,6 +14,9 @@ module.exports = {
       company_id: {
         type: Sequelize.INTEGER
       },
+      disease_type: {
+        type: Sequelize.INTEGER
+      },
       maintenace: {
         type: Sequelize.TEXT
       },
