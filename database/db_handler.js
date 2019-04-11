@@ -44,10 +44,12 @@ module.exports = {
             console.log(err);
     });
     },
-    getDiseaseList:function(userid,disease_type,details,imageUrl,res){
+    getDiseaseList:function(userid,disease_type,details,imageUrl,location,res){
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
-            reportedBy_user_id:userid,disease_type:disease_type,maintenace:details,image_url:imageUrl,reported_datetime:getDate()+" "+getTime()
+            reportedBy_user_id:userid,disease_type:disease_type
+            ,maintenace:details,image_url:imageUrl,
+            location:location,reported_datetime:getDate()+" "+getTime()
         }).then(result=>{
             console.log("done");
         res.send({
@@ -64,7 +66,7 @@ module.exports = {
             reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
             labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
             app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,location:req.body.location,
-            reported_date_time:req.body.reported_date_time
+            reported_date_time:getDate()+" "+getTime()
         }).then(result=>{
             res.send({
             'status':200,

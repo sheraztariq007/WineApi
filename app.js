@@ -39,6 +39,7 @@ app.post('/api/disease', upload, function (req,res,next) {
     db_helper.getDiseaseList(req.param('userId', null),
         req.param('disease_type', null),
         req.param('details', null),
-        originalFileName,res)
+        originalFileName,
+        req.param('location', null),res)
     console.log(originalFileName)
 });
