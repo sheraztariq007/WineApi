@@ -19,14 +19,19 @@ app.post('/', function (req,res) {
     console.log(req.body.name)
     res.send(req.param('name', null));
 });
-app.post('/api/login',function (req,res) {
-    console.log(req.body.email+req.body.password);
-    db_helper.loginUser(req.body.email,req.body.password,res);
-});
+
 var server = app.listen(3000,function () {
     var host = server.address().address
     var port = server.address().port
     console.log('Server is running  on Http://%s:%s',host,port);
+});
+app.post('/api/login',function (req,res) {
+    console.log(req.body.email+req.body.password);
+    db_helper.loginUser(req.body.email,req.body.password,res);
+});
+app.post('/api/fieldnotebook',function (req,res) {
+  //  console.log(req.body.email+req.body.password);
+    db_helper.saveFieldNodeBook(req,res);
 });
 app.post('/api/disease', upload, function (req,res,next) {
     var originalFileName = req.file.filename
@@ -36,5 +41,4 @@ app.post('/api/disease', upload, function (req,res,next) {
         req.param('details', null),
         originalFileName,res)
     console.log(originalFileName)
-    res.send("hello world");
 });
