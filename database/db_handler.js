@@ -4,6 +4,8 @@ var time = new Date();
 const  Usuarios = require('../models/usuarios');
 const  Moduledisease = require('../models/module_disease');
 const  Modulefieldnotebook = require('../models/module_fieldnotebook');
+const  Modulemaintain = require('../models/module_maintain');
+const  Modulesampling = require('../models/module_sampling');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -75,6 +77,41 @@ module.exports = {
         }).catch(err=>{
             console.log(err);
         });
+    },
+    saveMaintaince:function(userid,maintane_type,details,imageUrl,location,res){
+        const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
+        maintain.create({
+            reportedBy_user_id:userid,maintane_type:maintane_type
+            ,details:details,image_url:imageUrl,
+            location:location,reported_date_time:getDate()+" "+getTime()
+        }).then(result=>{
+            console.log("done");
+        res.send({
+            'status':200,
+            'message':'Successfully send'
+        })
+    }).catch (err=>{
+            console.log(err);
+    });
+    },
+    saveSampling:function(req,res){
+        const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        sampling.create({
+            reportedBy_user_id:req.body.userId,sample_name:req.body.sample_name,
+            sample_type:req.body.sample_type,cluster_per_unit_edit:req.body.cluster_per_unit_edit,
+                boxes_per_field:req.body.boxes_per_field,
+            kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,
+            field_type:req.body.field_type
+            ,location:req.body.location,reported_datetime:getDate()+" "+getTime()
+        }).then(result=>{
+            console.log("done");
+        res.send({
+            'status':200,
+            'message':'Successfully send'
+        })
+    }).catch (err=>{
+            console.log(err);
+    });
     }
 }
 function getTime() {

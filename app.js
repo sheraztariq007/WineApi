@@ -43,3 +43,16 @@ app.post('/api/disease', upload, function (req,res,next) {
         req.param('location', null),res)
     console.log(originalFileName)
 });
+
+app.post('/api/maintaince', upload, function (req,res,next) {
+    var originalFileName = req.file.filename
+    db_helper.saveMaintaince(req.param('userId', null),
+        req.param('maintane_type', null),
+        req.param('details', null),
+        originalFileName,
+        req.param('location', null),res)
+    console.log(originalFileName)
+});
+app.post('/api/sampling' ,function (req,res) {
+    db_helper.saveSampling(req,res)
+});
