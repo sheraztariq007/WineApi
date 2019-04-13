@@ -3,20 +3,22 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
 
-      return queryInterface.bulkInsert('labors', [
-          {
+      return queryInterface.bulkInsert('diseases', [{
         name: 'Otros'
+      },{
+        name: 'Mildiu'
       },
         {
-          name: 'Abonados'
+          name: 'Botrytis'
         },
         {
-          name: 'Fertilizantes'
+          name: 'Excoriosis'
         },
         {
-          name: 'Fitosanitarios'
-        }
-        ], {});
+          name: 'Clorosis'
+        }, {
+          name: 'Aracnosis'
+        }], {});
   },
 
   down: (queryInterface, Sequelize) => {

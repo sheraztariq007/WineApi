@@ -56,3 +56,15 @@ app.post('/api/maintaince', upload, function (req,res,next) {
 app.post('/api/sampling' ,function (req,res) {
     db_helper.saveSampling(req,res)
 });
+app.post('/api/fieldlist' ,function (req,res) {
+    db_helper.fieldlist(res)
+});
+app.post('/api/laborlist' ,function (req,res) {
+    db_helper.laborlist(res)
+});
+app.post('/api/maintenancelist' ,function (req,res) {
+    db_helper.maintenancelist(res)
+});
+app.post('/api/diseaseslist' ,function (req,res) {
+    db_helper.diseaseslist(res)
+});

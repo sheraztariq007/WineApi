@@ -6,6 +6,10 @@ const  Moduledisease = require('../models/module_disease');
 const  Modulefieldnotebook = require('../models/module_fieldnotebook');
 const  Modulemaintain = require('../models/module_maintain');
 const  Modulesampling = require('../models/module_sampling');
+const  Fields = require('../models/field');
+const  Labor = require('../models/labor');
+const  Maintenance = require('../models/maintenance');
+const  Diseases = require('../models/disease');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -112,6 +116,50 @@ module.exports = {
     }).catch (err=>{
             console.log(err);
     });
+    },
+    fieldlist:function(res){
+        const fld =  Fields(seq.sequelize,seq.sequelize.Sequelize);
+        fld.findAll().then(result=>{
+            res.send({
+            'status':200,
+            "data":result
+        });
+        }).catch (err=>{
+
+        });
+    },
+    laborlist:function(res){
+        const labor =  Labor(seq.sequelize,seq.sequelize.Sequelize);
+        labor.findAll().then(result=>{
+            res.send({
+            'status':200,
+            "data":result
+        });
+    }).catch (err=>{
+
+        });
+    },
+    maintenancelist:function(res){
+        const maintenance =  Maintenance(seq.sequelize,seq.sequelize.Sequelize);
+        maintenance.findAll().then(result=>{
+            res.send({
+            'status':200,
+            "data":result
+        });
+    }).catch (err=>{
+
+        });
+    },
+    diseaseslist:function(res){
+        const diseases =  Diseases(seq.sequelize,seq.sequelize.Sequelize);
+        diseases.findAll().then(result=>{
+            res.send({
+            'status':200,
+            "data":result
+        });
+    }).catch (err=>{
+
+        });
     }
 }
 function getTime() {
