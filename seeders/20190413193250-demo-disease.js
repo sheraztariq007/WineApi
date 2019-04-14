@@ -18,16 +18,16 @@ module.exports = {
           name: 'Clorosis'
         }, {
           name: 'Aracnosis'
+        },{
+          name: 'Mosquito verde'
+        },{
+          name: 'Oidio'
+        }{
+          name: 'Polilla del racimo'
         }], {});
   },
 
   down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+      return queryInterface.bulkDelete('diseases', null, {});
   }
 };

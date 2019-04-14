@@ -106,7 +106,10 @@ module.exports = {
                 boxes_per_field:req.body.boxes_per_field,
             kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,
             field_type:req.body.field_type
-            ,location:req.body.location,reported_datetime:getDate()+" "+getTime()
+            ,location:req.body.location,reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.body.sample_type_field_id,
+            sample_type_lning:req.body.sample_type_lning,sample_type_strain:req.body.sample_type_strain,sample_type_no_of_breaks:req.body.sample_type_no_of_breaks,
+            weight_purning:req.body.weight_purning,drop_buds:req.body.drop_buds,number_of_buds:req.body.number_of_buds,
+            number_of_bunches:req.body.number_of_bunches
         }).then(result=>{
             console.log("done");
         res.send({

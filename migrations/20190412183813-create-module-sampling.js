@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       sample_type: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       cluster_per_unit_edit: {
         type: Sequelize.TEXT
@@ -35,6 +35,34 @@ module.exports = {
       location: {
         type: Sequelize.TEXT
       },
+      sample_type_field_id: {
+        type: Sequelize.INTEGER
+      },
+      sample_type_date: {
+        type: Sequelize.INTEGER
+      },
+      sample_type_lning: {
+        type: Sequelize.INTEGER
+      },
+      sample_type_strain: {
+        type: Sequelize.INTEGER
+      },
+      sample_type_no_of_breaks: {
+        type: Sequelize.INTEGER
+      },
+      weight_purning: {
+        type: Sequelize.INTEGER
+      },
+      drop_buds: {
+        type: Sequelize.INTEGER
+      },
+      number_of_buds: {
+        type: Sequelize.INTEGER
+      },
+
+      number_of_bunches: {
+        type: Sequelize.INTEGER
+      },
       reported_datetime: {
         type: Sequelize.TEXT
       },
@@ -48,7 +76,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
-
       }
     });
   },
