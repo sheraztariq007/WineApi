@@ -2,12 +2,13 @@ var express = require('express')
 var multer = require('multer');
 var db_helper = require('./database/db_handler');
 var bodyParser = require('body-parser')
+var md5 = require("md5")
 //  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
 }).single('avatar');
-
+console.log(md5("1213456"))
 var app = express();
 app.use(express.static("uploads"))
 app.use(express.json())

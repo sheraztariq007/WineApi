@@ -14,6 +14,12 @@ module.exports = {
       company: {
         type: Sequelize.INTEGER
       },
+      field_id: {
+        type: Sequelize.INTEGER
+      },
+      role_id: {
+        type: Sequelize.INTEGER
+      },
       password: {
         type: Sequelize.STRING
       },

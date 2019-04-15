@@ -16,13 +16,17 @@ module.exports = {
         },
         {
           name: 'Clorosis'
-        }, {
+        },
+        {
           name: 'Aracnosis'
-        },{
+        },
+        {
           name: 'Mosquito verde'
-        },{
+        },
+        {
           name: 'Oidio'
-        }{
+        },
+        {
           name: 'Polilla del racimo'
         }], {});
   },
