@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       sample_type_date: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       sample_type_lning: {
         type: Sequelize.INTEGER
