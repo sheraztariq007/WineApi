@@ -10,11 +10,15 @@ const  Fields = require('../models/field');
 const  Labor = require('../models/labor');
 const  Maintenance = require('../models/maintenance');
 const  Diseases = require('../models/disease');
+const  Moduletasks = require('../models/module_task');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
 
 module.exports = {
+    /*
+    * Get user Lists
+    * */
     getUserLists:function(){
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         users.findAll().then(result=>{
@@ -23,6 +27,8 @@ module.exports = {
             console.log(err);
     });
     },
+
+    /*  Login User APi*/
 
     loginUser:function(email,password,res){
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
@@ -50,6 +56,7 @@ module.exports = {
             console.log(err);
     });
     },
+    /*save All Disease Requests*/
     getDiseaseList:function(userid,disease_type,details,imageUrl,location,res){
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
@@ -66,6 +73,7 @@ module.exports = {
             console.log(err);
         });
 },
+    /*Save all Notebook Request*/
     saveFieldNodeBook:function (req,res) {
         const  field = Modulefieldnotebook(seq.sequelize,seq.sequelize.Sequelize);
         field.create({
@@ -82,6 +90,8 @@ module.exports = {
             console.log(err);
         });
     },
+    /*Save All Maintaince Request */
+
     saveMaintaince:function(userid,maintane_type,details,imageUrl,location,res){
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
@@ -98,6 +108,7 @@ module.exports = {
             console.log(err);
     });
     },
+    /*Save Sampling*/
     saveSampling:function(req,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
         sampling.create({
@@ -120,6 +131,7 @@ module.exports = {
             console.log(err);
     });
     },
+    /*Get Field Listss*/
     fieldlist:function(res){
         const fld =  Fields(seq.sequelize,seq.sequelize.Sequelize);
         fld.findAll().then(result=>{
@@ -142,6 +154,7 @@ module.exports = {
 
         });
     },
+    /*Maintainance List*/
     maintenancelist:function(res){
         const maintenance =  Maintenance(seq.sequelize,seq.sequelize.Sequelize);
         maintenance.findAll().then(result=>{
@@ -153,6 +166,7 @@ module.exports = {
 
         });
     },
+    /*Disease Lists*/
     diseaseslist:function(res){
         const diseases =  Diseases(seq.sequelize,seq.sequelize.Sequelize);
         diseases.findAll().then(result=>{
@@ -163,8 +177,44 @@ module.exports = {
     }).catch (err=>{
 
         });
+    },
+    /*get user lists with fild compare*/
+    searchUserByField:function(comapny_id,res){
+    const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+    users.findAll({
+        where:{company:comapny_id},attributes:
+            ['id','email'],
+    }).then(result=>{
+        res.send({
+        'status':200,
+        "data":result
+    });
+}).catch(err=>{
+        console.log(err);
+});
+},
+    /*
+    * Save Tasks
+    * */
+    addNewTasks:function(req,res){
+        const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.create({
+            user_id:req.body.user_id,assign_from_id:req.body.assign_from_id,
+            task_name:req.body.task_name,task_details:req.body.task_details,
+            creation_date:req.body.creation_date,completion_date:req.body.completion_date,
+            target_date:req.body.target_date,is_repeat:req.body.is_repeat
+        }).then(result=>{
+            res.send({
+            'status':200,
+            "message":"tasks Successfully saved"
+        });
+
+        }).catch(err=>{
+
+        });
     }
 }
+/*Get Current Time*/
 function getTime() {
     var time = new Date();
     console.log(time.toLocaleString('en-US', { month: 'long', hour12: true }));
@@ -172,6 +222,7 @@ function getTime() {
     return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
+/*Get Current Date*/
 function getDate() {
     var dt = dateTime.create();
     var formatted = dt.format('Y-m-d');

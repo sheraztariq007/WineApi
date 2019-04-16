@@ -2,13 +2,13 @@ var express = require('express')
 var multer = require('multer');
 var db_helper = require('./database/db_handler');
 var bodyParser = require('body-parser')
-var md5 = require("md5")
+//var md5 = require("md5")
 //  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
 }).single('avatar');
-console.log(md5("1213456"))
+//console.log(md5("1213456"))
 var app = express();
 app.use(express.static("uploads"))
 app.use(express.json())
@@ -68,4 +68,10 @@ app.post('/api/maintenancelist' ,function (req,res) {
 });
 app.post('/api/diseaseslist' ,function (req,res) {
     db_helper.diseaseslist(res)
+});
+app.post('/api/searchuserbyfield' ,function (req,res) {
+    db_helper.searchUserByField(req.body.company_id,res)
+});
+app.post('/api/addnewtasks' ,function (req,res) {
+    db_helper.addNewTasks(req,res)
 });

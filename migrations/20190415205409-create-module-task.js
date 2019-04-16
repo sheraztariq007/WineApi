@@ -17,13 +17,16 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      assign_from_id: {
+        type: Sequelize.INTEGER
+      },
       creation_date: {
         type: Sequelize.TEXT
       },
-      completion_data: {
+      completion_date: {
         type: Sequelize.TEXT
       },
-      target_data: {
+      target_date: {
         type: Sequelize.TEXT
       },
       comment: {

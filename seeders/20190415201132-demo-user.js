@@ -8,7 +8,6 @@ module.exports = {
                 password:'aadc03fecca9b5cc2fd64b333cb0875e',
                 company:'1',
                 role_id:'2',
-                field_id:'1',
                 name:'abdullah',
                 surname:'masood'
             },
@@ -17,7 +16,6 @@ module.exports = {
                 password:'aadc03fecca9b5cc2fd64b333cb0875e',
                 company:'1',
                 role_id:'2',
-                field_id:'2',
                 name:'Tom',
                 surname:'jery'
             }
@@ -27,7 +25,6 @@ module.exports = {
                 password:'aadc03fecca9b5cc2fd64b333cb0875e',
                 company:'1',
                 role_id:'3',
-                field_id:'2',
                 name:'Tom',
                 surname:'jery'
             }
