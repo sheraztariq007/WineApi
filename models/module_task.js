@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     completion_date: DataTypes.TEXT,
     target_date: DataTypes.TEXT,
     comment: DataTypes.TEXT,
-    is_repeat: DataTypes.BOOLEAN
+    status:DataTypes.INTEGER,
+    is_repeat: DataTypes.BOOLEAN,
+    is_enable: DataTypes.BOOLEAN
   }, {});
   module_task.associate = function(models) {
     // associations can be defined here

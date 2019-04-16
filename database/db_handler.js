@@ -202,7 +202,8 @@ module.exports = {
             user_id:req.body.user_id,assign_from_id:req.body.assign_from_id,
             task_name:req.body.task_name,task_details:req.body.task_details,
             creation_date:req.body.creation_date,completion_date:req.body.completion_date,
-            target_date:req.body.target_date,is_repeat:req.body.is_repeat
+            target_date:req.body.target_date,is_repeat:req.body.is_repeat,
+            status:req.body.status,is_enable:req.body.is_enable
         }).then(result=>{
             res.send({
             'status':200,
@@ -211,6 +212,19 @@ module.exports = {
 
         }).catch(err=>{
 
+        });
+    },
+    getTasksLists:function(req,res){
+        const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.findAll({where:{"user_id":req.body.user_id,
+        "status":req.body.status},
+        "is_enable":true}).then(result=>{
+            res.send({
+            "status":200,
+            "data":result
+        });
+        }).catch(err=>{
+            console.log(err);
         });
     }
 }

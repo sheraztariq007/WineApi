@@ -75,3 +75,6 @@ app.post('/api/searchuserbyfield' ,function (req,res) {
 app.post('/api/addnewtasks' ,function (req,res) {
     db_helper.addNewTasks(req,res)
 });
+app.post('/api/gettasksLists' ,function (req,res) {
+    db_helper.getTasksLists(req,res)
+});

@@ -32,7 +32,13 @@ module.exports = {
       comment: {
         type: Sequelize.TEXT
       },
+      status: {
+        type: Sequelize.INTEGER
+      },
       is_repeat: {
+        type: Sequelize.BOOLEAN
+      },
+      is_enable: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
