@@ -78,3 +78,6 @@ app.post('/api/addnewtasks' ,function (req,res) {
 app.post('/api/gettasksLists' ,function (req,res) {
     db_helper.getTasksLists(req,res)
 });
+app.post('/api/taskslists' ,function (req,res) {
+    db_helper.getTasksNames(req,res)
+});

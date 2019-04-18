@@ -1,39 +1,18 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('module_tasks', {
+    return queryInterface.createTable('assign_tasks_users_lists', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      task_name: {
-        type: Sequelize.TEXT
-      },
-      task_details: {
-        type: Sequelize.TEXT
-      },
-      assign_from_id: {
+      task_id: {
         type: Sequelize.INTEGER
       },
-      completion_date: {
-        type: Sequelize.TEXT
-      },
-      target_date: {
-        type: Sequelize.TEXT
-      },
-      comment: {
-        type: Sequelize.TEXT
-      },
-      status: {
+      user_id: {
         type: Sequelize.INTEGER
-      },
-      is_repeat: {
-        type: Sequelize.BOOLEAN
-      },
-      is_enable: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -45,10 +24,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now")
+
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('module_tasks');
+    return queryInterface.dropTable('assign_tasks_users_lists');
   }
 };

@@ -11,14 +11,18 @@ const  Labor = require('../models/labor');
 const  Maintenance = require('../models/maintenance');
 const  Diseases = require('../models/disease');
 const  Moduletasks = require('../models/module_task');
+const  AssignTasksUsersLists = require('../models/assign_tasks_users_lists');
+const  UserTasksDates = require('../models/user_tasks_date');
+const  UserTasksFields = require('../models/user_tasks_fields');
+const  Tasks = require('../models/tasks');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
 
 module.exports = {
     /*
-    * Get user Lists
-    * */
+     * Get user Lists
+     * */
     getUserLists:function(){
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         users.findAll().then(result=>{
@@ -40,7 +44,7 @@ module.exports = {
         {
             res.send({
                 'status':200,
-                 'data':result
+                'data':result
             })
             console.log(result.email);
         }
@@ -69,10 +73,10 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        }).catch (err=>{
+    }).catch (err=>{
             console.log(err);
-        });
-},
+    });
+    },
     /*Save all Notebook Request*/
     saveFieldNodeBook:function (req,res) {
         const  field = Modulefieldnotebook(seq.sequelize,seq.sequelize.Sequelize);
@@ -86,9 +90,9 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        }).catch(err=>{
+    }).catch(err=>{
             console.log(err);
-        });
+    });
     },
     /*Save All Maintaince Request */
 
@@ -114,7 +118,7 @@ module.exports = {
         sampling.create({
             reportedBy_user_id:req.body.userId,sample_name:req.body.sample_name,
             sample_type:req.body.sample_type,cluster_per_unit_edit:req.body.cluster_per_unit_edit,
-                boxes_per_field:req.body.boxes_per_field,
+            boxes_per_field:req.body.boxes_per_field,
             kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,
             field_type:req.body.field_type
             ,location:req.body.location,reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.body.sample_type_field_id,
@@ -139,7 +143,7 @@ module.exports = {
             'status':200,
             "data":result
         });
-        }).catch (err=>{
+    }).catch (err=>{
 
         });
     },
@@ -180,52 +184,74 @@ module.exports = {
     },
     /*get user lists with fild compare*/
     searchUserByField:function(comapny_id,res){
-    const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
-    users.findAll({
-        where:{company:comapny_id},attributes:
-            ['id','email'],
-    }).then(result=>{
-        res.send({
-        'status':200,
-        "data":result
+        const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        users.findAll({
+            where:{company:comapny_id},attributes:
+                ['id','email'],
+        }).then(result=>{
+            res.send({
+            'status':200,
+            "data":result
+        });
+    }).catch(err=>{
+            console.log(err);
     });
-}).catch(err=>{
-        console.log(err);
-});
-},
+    },
     /*
-    * Save Tasks
-    * */
+     * Save Tasks
+     * */
     addNewTasks:function(req,res){
         const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
+         console.log(req.body.users_lists);
         tasks.create({
-            user_id:req.body.user_id,assign_from_id:req.body.assign_from_id,
-            task_name:req.body.task_name,task_details:req.body.task_details,
-            creation_date:req.body.creation_date,completion_date:req.body.completion_date,
+            assign_from_id:req.body.assign_from_id,
+            task_name:req.body.task_name,task_details:req.body.task_details
+            ,completion_date:req.body.completion_date,
             target_date:req.body.target_date,is_repeat:req.body.is_repeat,
             status:req.body.status,is_enable:req.body.is_enable
         }).then(result=>{
-            res.send({
+
+            if(req.body.users_lists!="0")
+        {
+            saveUsersLists(req.body.users_lists, result.id);
+        }
+        if(req.body.fields_lists!="0"){
+            saveTasksFields(req.body.fields_lists, result.id);
+        }
+        if(req.body.repeate_date!="0") {
+            saveTasksDates(req.body.repeate_date,  result.id);
+        }
+        res.send({
             'status':200,
             "message":"tasks Successfully saved"
         });
 
-        }).catch(err=>{
+    }).catch(err=>{
 
         });
     },
     getTasksLists:function(req,res){
         const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
         tasks.findAll({where:{"user_id":req.body.user_id,
-        "status":req.body.status},
-        "is_enable":true}).then(result=>{
+            "status":req.body.status},
+            "is_enable":true}).then(result=>{
             res.send({
             "status":200,
             "data":result
         });
-        }).catch(err=>{
+    }).catch(err=>{
             console.log(err);
+    });
+    }, getTasksNames:function(req,res){
+        const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.findAll().then(result=>{
+            res.send({
+            "status":200,
+            "data":result
         });
+    }).catch(err=>{
+            console.log(err);
+    });
     }
 }
 /*Get Current Time*/
@@ -242,4 +268,38 @@ function getDate() {
     var formatted = dt.format('Y-m-d');
     console.log(formatted);
     return formatted;
+}
+function saveUsersLists(usersdata,task_id){
+    const userlists = AssignTasksUsersLists(seq.sequelize,seq.sequelize.Sequelize);
+    users = usersdata.split(",");
+    for(var i=0;i<users.length;i++){
+        userlists.create({ task_id:task_id,
+            user_id:users[i]}).then(result=>{
+        }).catch (err=>{
+            console.log(err);
+    });
+    }
+}
+
+function saveTasksFields(tasksdata,task_id){
+    const taskfields = UserTasksFields(seq.sequelize,seq.sequelize.Sequelize);
+    tasks = tasksdata.split(",");
+    for(var i=0;i<tasks.length;i++){
+        taskfields.create({ task_id:task_id,field_id:tasks[i]}).then(result=>{
+
+        }).catch (err=>{
+            console.log(err);
+    });
+    }
+}
+function saveTasksDates(tasksDates,task_id){
+    const dates = UserTasksDates(seq.sequelize,seq.sequelize.Sequelize);
+    d = tasksDates.split(",");
+    for(var i=0;i<d.length;i++){
+        dates.create({ task_id:task_id,date:d[i]}).then(result=>{
+
+        }).catch (err=>{
+            console.log(err);
+    });
+    }
 }
