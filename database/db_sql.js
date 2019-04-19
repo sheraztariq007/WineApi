@@ -41,9 +41,15 @@ module.exports = {
         }
         });
     },
-    newTasks:function(res1){
+    newTasks:function(user_id,res1){
         client.query("select  module_tasks.id,task_name,task_details,assign_from_id,status from  assign_tasks_users_lists,module_tasks " +
-            "where   assign_tasks_users_lists.task_id=module_tasks.id AND assign_tasks_users_lists.user_id=10 " ,(err,res)=>{
+            "where   assign_tasks_users_lists.task_id=module_tasks.id AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
+            //console.log(err,res);
+            res1.send({"send":res.rows})
+    });
+    },
+    taskWithFields:function(field_id,res1){
+        client.query("Select name from fields, user_tasks_fields where fields.id=user_tasks_fields.field_id AND user_tasks_fields.task_id=13" ,(err,res)=>{
             //console.log(err,res);
             res1.send({"send":res.rows})
     });

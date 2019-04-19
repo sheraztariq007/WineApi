@@ -89,5 +89,8 @@ app.post('/api/getData' ,function (req,res) {
     db_sql.MyTasks(res)
 });
 app.post('/api/newTasks' ,function (req,res) {
-    db_sql.newTasks(res)
+    db_sql.newTasks(req.body.user_id,res)
+});
+app.post('/api/taskWithFields' ,function (req,res) {
+    db_sql.taskWithFields(req.body.field_id,res)
 });
