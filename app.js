@@ -1,14 +1,15 @@
 var express = require('express')
 var multer = require('multer');
 var db_helper = require('./database/db_handler');
+var db_sql = require('./database/db_sql');
 var bodyParser = require('body-parser')
-//var md5 = require("md5")
+var md5 = require("md5")
 //  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
 }).single('avatar');
-//console.log(md5("1213456"))
+console.log(md5("123456"))
 var app = express();
 app.use(express.static("uploads"))
 app.use(express.json())
@@ -28,7 +29,7 @@ var server = app.listen(3000,function () {
 });
 app.post('/api/login',function (req,res) {
     console.log(req.body.email+req.body.password);
-    db_helper.loginUser(req.body.email,req.body.password,res);
+    db_sql.loginUser(req.body.email,req.body.password,res);
 });
 app.post('/api/fieldnotebook',function (req,res) {
   //  console.log(req.body.email+req.body.password);
@@ -80,4 +81,13 @@ app.post('/api/gettasksLists' ,function (req,res) {
 });
 app.post('/api/taskslists' ,function (req,res) {
     db_helper.getTasksNames(req,res)
+});
+app.post('/api/myuploadedtasks' ,function (req,res) {
+    db_helper.myUploadTasks(req,res)
+});
+app.post('/api/getData' ,function (req,res) {
+    db_sql.MyTasks(res)
+});
+app.post('/api/newTasks' ,function (req,res) {
+    db_sql.newTasks(res)
 });

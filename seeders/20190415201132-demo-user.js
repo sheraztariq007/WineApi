@@ -2,10 +2,10 @@
 
 module.exports = {
         up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('Usuarios', [
+        return queryInterface.bulkInsert('usuarios', [
             {
                 email: 'test@gmail.com',
-                password:'aadc03fecca9b5cc2fd64b333cb0875e',
+                password:'e10adc3949ba59abbe56e057f20f883e',
                 company:'1',
                 role_id:'2',
                 name:'abdullah',
@@ -13,7 +13,7 @@ module.exports = {
             },
             {
                 email: 'manager@gmail.com',
-                password:'aadc03fecca9b5cc2fd64b333cb0875e',
+                password:'e10adc3949ba59abbe56e057f20f883e',
                 company:'1',
                 role_id:'2',
                 name:'Tom',
@@ -22,7 +22,7 @@ module.exports = {
             ,
             {
                 email: 'user@gmail.com',
-                password:'aadc03fecca9b5cc2fd64b333cb0875e',
+                password:'e10adc3949ba59abbe56e057f20f883e',
                 company:'1',
                 role_id:'3',
                 name:'Tom',

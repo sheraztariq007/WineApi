@@ -15,6 +15,7 @@ const  AssignTasksUsersLists = require('../models/assign_tasks_users_lists');
 const  UserTasksDates = require('../models/user_tasks_date');
 const  UserTasksFields = require('../models/user_tasks_fields');
 const  Tasks = require('../models/tasks');
+const  user_role = require('../models/user_role');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -35,11 +36,14 @@ module.exports = {
     /*  Login User APi*/
 
     loginUser:function(email,password,res){
+        //,include: [{model:role, as: 'role'}]
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        const role = user_role(seq.sequelize,seq.sequelize.Sequelize);
+        users.hasMany(role, {foreignKey: 'id', as: 'role'});
         users.findOne({where:{
             'email':email,
-            'password':md5(password)
-        }}).then(result=> {
+            'password':"aadc03fecca9b5cc2fd64b333cb0875e"
+        },include: [{model:role, as: 'role'}]}).then(result=> {
             if(result!=null)
         {
             res.send({
@@ -242,12 +246,28 @@ module.exports = {
     }).catch(err=>{
             console.log(err);
     });
-    }, getTasksNames:function(req,res){
+    },
+    getTasksNames:function(req,res){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
         tasks.findAll().then(result=>{
             res.send({
             "status":200,
             "data":result
+        });
+    }).catch(err=>{
+            console.log(err);
+    });
+    }
+    ,myUploadTasks:function(req,res){
+        const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.findAll({
+            where:{assign_from_id:req.body.user_id}
+        }).then(result=>{
+
+            res.send({
+            "status":200,
+            "data":result,
+            "users":getTasksUsers(4)
         });
     }).catch(err=>{
             console.log(err);
@@ -302,4 +322,17 @@ function saveTasksDates(tasksDates,task_id){
             console.log(err);
     });
     }
+
+}
+function getTasksUsers(task_id) {
+    users=null;
+    const userlists = AssignTasksUsersLists(seq.sequelize, seq.sequelize.Sequelize);
+    userlists.findAll({
+        where:{
+            task_id:task_id
+        }
+    }).then(result=>{
+       console.log(result);
+});
+    return users;
 }
