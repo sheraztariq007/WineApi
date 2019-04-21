@@ -85,8 +85,8 @@ app.post('/api/taskslists' ,function (req,res) {
 app.post('/api/myuploadedtasks' ,function (req,res) {
     db_helper.myUploadTasks(req,res)
 });
-app.post('/api/getData' ,function (req,res) {
-    db_sql.MyTasks(res)
+app.post('/api/assign_tasks' ,function (req,res) {
+    db_sql.AssignTasks(req.body.user_id,res)
 });
 app.post('/api/newTasks' ,function (req,res) {
     db_sql.newTasks(req.body.user_id,res)

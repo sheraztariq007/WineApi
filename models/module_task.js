@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const module_task = sequelize.define('module_tasks', {
-    task_name: DataTypes.TEXT,
+    task_id: DataTypes.INTEGER,
     task_details: DataTypes.TEXT,
     assign_from_id: DataTypes.INTEGER,
     completion_date: DataTypes.TEXT,

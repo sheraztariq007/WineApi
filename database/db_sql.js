@@ -7,12 +7,12 @@ const client = new Client({
 });
 client.connect();
 module.exports = {
-   MyTasks:function(res1){
-       client.query("select  task_name,task_details,assign_from_id,status,assign_tasks_users_lists.user_id, u.email" +
-           " from module_tasks ,assign_tasks_users_lists, usuarios as u where assign_from_id=1" +
-           " AND  module_tasks.id=assign_tasks_users_lists.task_id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
-           res1.send({"send":res.rows})
-       client.end();
+    AssignTasks:function(user_id,res1){
+       client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , task_details,assign_from_id,status,assign_tasks_users_lists.user_id, u.email" +
+           " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
+           " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
+       //  console.log(err,res);
+          res1.send({"send":res.rows})
    });
    },
     loginUser:function(email,password,res){

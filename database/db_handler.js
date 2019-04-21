@@ -209,7 +209,7 @@ module.exports = {
          console.log(req.body.users_lists);
         tasks.create({
             assign_from_id:req.body.assign_from_id,
-            task_name:req.body.task_name,task_details:req.body.task_details
+            task_id:req.body.task_name,task_details:req.body.task_details
             ,completion_date:req.body.completion_date,
             target_date:req.body.target_date,is_repeat:req.body.is_repeat,
             status:req.body.status,is_enable:req.body.is_enable

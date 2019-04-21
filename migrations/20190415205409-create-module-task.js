@@ -8,8 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      task_name: {
-        type: Sequelize.TEXT
+      task_id: {
+        type: Sequelize.INTEGER
       },
       task_details: {
         type: Sequelize.TEXT
