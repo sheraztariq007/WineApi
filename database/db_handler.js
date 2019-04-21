@@ -263,11 +263,10 @@ module.exports = {
         tasks.findAll({
             where:{assign_from_id:req.body.user_id}
         }).then(result=>{
-
             res.send({
             "status":200,
             "data":result,
-            "users":getTasksUsers(4)
+            "users":getTasksUsers(req.body.user_id)
         });
     }).catch(err=>{
             console.log(err);
@@ -292,6 +291,7 @@ function getDate() {
 function saveUsersLists(usersdata,task_id){
     const userlists = AssignTasksUsersLists(seq.sequelize,seq.sequelize.Sequelize);
     users = usersdata.split(",");
+    console.log(users);
     for(var i=0;i<users.length;i++){
         userlists.create({ task_id:task_id,
             user_id:users[i]}).then(result=>{

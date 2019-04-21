@@ -12,7 +12,8 @@ module.exports = {
            " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
            " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
        //  console.log(err,res);
-          res1.send({"send":res.rows})
+          res1.send({"status":200,
+           "data":res.rows})
    });
    },
     loginUser:function(email,password,res){
@@ -37,21 +38,20 @@ module.exports = {
         }else{
             res.send({"status":204,
                 "message": "sorry user not found"})
-
         }
         });
     },
     newTasks:function(user_id,res1){
-        client.query("select  module_tasks.id,task_name,task_details,assign_from_id,status from  assign_tasks_users_lists,module_tasks " +
-            "where   assign_tasks_users_lists.task_id=module_tasks.id AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
-            //console.log(err,res);
-            res1.send({"send":res.rows})
+        client.query("select  module_tasks.id,tasks.name as task_name,task_details,assign_from_id,status,module_tasks.createdat from  assign_tasks_users_lists,module_tasks, tasks " +
+            "where  assign_tasks_users_lists.task_id=module_tasks.id AND module_tasks.task_id=tasks.id  AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
+            console.log(err,res);
+            res1.send({"status":200,"data":res.rows})
     });
     },
     taskWithFields:function(field_id,res1){
         client.query("Select name from fields, user_tasks_fields where fields.id=user_tasks_fields.field_id AND user_tasks_fields.task_id=13" ,(err,res)=>{
             //console.log(err,res);
-            res1.send({"send":res.rows})
+            res1.send({"status":200,"send":res.rows})
     });
     }
 }

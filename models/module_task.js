@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     completion_date: DataTypes.TEXT,
     target_date: DataTypes.TEXT,
     comment: DataTypes.TEXT,
+    createdat: DataTypes.DATE,
     status:DataTypes.INTEGER,
     is_repeat: DataTypes.BOOLEAN,
     is_enable: DataTypes.BOOLEAN

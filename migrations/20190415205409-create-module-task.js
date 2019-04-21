@@ -35,6 +35,11 @@ module.exports = {
       is_enable: {
         type: Sequelize.BOOLEAN
       },
+      createdat: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now")
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
