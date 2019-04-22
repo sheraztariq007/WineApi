@@ -94,3 +94,9 @@ app.post('/api/newTasks' ,function (req,res) {
 app.post('/api/taskWithFields' ,function (req,res) {
     db_sql.taskWithFields(req.body.field_id,res)
 });
+app.post('/api/updatetaskstatus' ,function (req,res) {
+    db_sql.updatTaskStatus(req.body.task_id,req.body.user_id,req.body.status,res)
+});
+app.post('/api/deletetasks' ,function (req,res) {
+    db_sql.deletetasks(req.body.task_id,req.body.user_id,res)
+});

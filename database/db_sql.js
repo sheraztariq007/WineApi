@@ -53,5 +53,38 @@ module.exports = {
             //console.log(err,res);
             res1.send({"status":200,"send":res.rows})
     });
+    },
+    updatTaskStatus:function(task_id,user_id,status,resp){
+        client.query("update module_tasks  set status='"+status+"' where  id=" +
+            "(select task_id from assign_tasks_users_lists where task_id='"+task_id+"' AND user_id='"+user_id+"')",(err,res)=>{
+            console.log(err,res);
+        if(res.rowCount>0){
+            resp.send({
+                "status":200,
+                "message":"status updated"
+            });
+        }else{
+            resp.send({
+                "status":204,
+                "message":"Sorry Status not update"
+            });
+        }
+    });
+    },
+    deletetasks:function(task_id,manager_id,resp){
+        client.query("delete from module_tasks where id='"+task_id+"' AND assign_from_id='"+manager_id+"' ",(err,res)=>{
+            console.log(err,res);
+        if(res.rowCount>0){
+            resp.send({
+                "status":200,
+                "message":"Task Successfully deleted"
+            });
+        }else{
+            resp.send({
+                "status":204,
+                "message":"Sorry Status not Delete"
+            });
+        }
+        });
     }
 }
