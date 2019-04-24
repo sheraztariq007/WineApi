@@ -48,10 +48,12 @@ module.exports = {
             res1.send({"status":200,"data":res.rows})
     });
     },
-    taskWithFields:function(field_id,res1){
-        client.query("Select name from fields, user_tasks_fields where fields.id=user_tasks_fields.field_id AND user_tasks_fields.task_id=13" ,(err,res)=>{
+    taskWithFields:function(task_id,res1){
+        client.query("Select name from fields, " +
+            "user_tasks_fields where fields.id=user_tasks_fields.field_id" +
+            " AND user_tasks_fields.task_id='"+task_id+"'" ,(err,res)=>{
             //console.log(err,res);
-            res1.send({"status":200,"send":res.rows})
+            res1.send({"status":200,"data":res.rows})
     });
     },
     updatTaskStatus:function(task_id,user_id,status,resp){

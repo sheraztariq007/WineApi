@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/seeders/20190413171158-demo-labor.js" />
+    <file url="file://$PROJECT_DIR$/seeders/20190413172409-demo-maintenance.js" />
+    <file url="file://$PROJECT_DIR$/seeders/20190413193250-demo-disease.js" />
+    <file url="file://$PROJECT_DIR$/seeders/20190415194406-demo-role.js" />
+    <file url="file://$PROJECT_DIR$/seeders/20190415201132-demo-user.js" />
+    <file url="file://$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js" />
+  </component>
+</project>

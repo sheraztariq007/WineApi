@@ -6,13 +6,11 @@ module.exports = {
 
       return queryInterface.bulkInsert('fields',[
           {
-              name: 'Otros',
-              company_id:2
+              name: 'Otros'
           },
           {
               name: 'PDC 1',
               company_id:2
-
           },
           {
               name: 'PDC 2',
