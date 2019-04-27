@@ -20,7 +20,6 @@ module.exports = {
           },
           {
               name: 'PSTM 1',
-              company_id:1
           },
           {
               name: 'PSTM 2',

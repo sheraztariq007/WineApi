@@ -293,8 +293,13 @@ function saveUsersLists(usersdata,task_id){
     users = usersdata.split(",");
     console.log(users);
     for(var i=0;i<users.length;i++){
-        userlists.create({ task_id:task_id,
-            user_id:users[i]}).then(result=>{
+        userlists.create(
+            {
+                task_id:task_id,
+                user_id:users[i],
+                status:0
+            }
+        ).then(result=>{
         }).catch (err=>{
             console.log(err);
     });

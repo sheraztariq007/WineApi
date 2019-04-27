@@ -8,7 +8,8 @@ const client = new Client({
 client.connect();
 module.exports = {
     AssignTasks:function(user_id,res1){
-        client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , task_details,assign_from_id,status,assign_tasks_users_lists.user_id, u.email" +
+        client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , " +
+            "task_details,assign_from_id,assign_tasks_users_lists.status as status,assign_tasks_users_lists.user_id, u.email" +
             " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
             " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
               console.log(err,res);
@@ -42,7 +43,7 @@ module.exports = {
         });
     },
     newTasks:function(user_id,res1){
-        client.query("select  module_tasks.id,tasks.name as task_name,task_details,assign_from_id,status,module_tasks.createdat from  assign_tasks_users_lists,module_tasks, tasks " +
+        client.query("select  module_tasks.id,tasks.name as task_name,task_details,assign_from_id,assign_tasks_users_lists.status as status ,module_tasks.createdat from  assign_tasks_users_lists,module_tasks, tasks " +
             "where  assign_tasks_users_lists.task_id=module_tasks.id AND module_tasks.task_id=tasks.id  AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
             console.log(err,res);
             res1.send({"status":200,"data":res.rows})
@@ -82,6 +83,17 @@ module.exports = {
             resp.send({
                 "status":200,
                 "message":"Task Successfully deleted"
+            });
+            client.query("select id  from module_tasks where id=(select task_id from assign_tasks_users_lists where task_id='"+task_id+"')"
+                ,(err,resc)=>
+            {
+                console.log(err,resc);
+                if(resc.rowCount==0){
+                client.query("delete from module_tasks where id='"+task_id+"'",(err,resd)=>{
+                    console.log(err,resd);
+                });
+            }
+
             });
         }else{
             resp.send({
