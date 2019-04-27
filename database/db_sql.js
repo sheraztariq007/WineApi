@@ -58,21 +58,12 @@ module.exports = {
     });
     },
     updatTaskStatus:function(task_id,user_id,status,resp){
-        client.query("update assign_tasks_users_lists  set status='"+status+"' " +
-            " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
-            console.log(err,res);
-        if(res.rowCount>0){
-            resp.send({
-                "status":200,
-                "message":"status updated"
-            });
+        if(status==1){
+            checkAlreadyTaskRunning(task_id,user_id,status,resp);
         }else{
-            resp.send({
-                "status":204,
-                "message":"Sorry Status not update"
-            });
+            updateTasks(task_id,user_id,status,resp);
         }
-    });
+
     },
     deletetasks:function(task_id,manager_id,user_id,resp){
         client.query("delete from assign_tasks_users_lists where task_id='"+task_id+"'" +
@@ -84,7 +75,7 @@ module.exports = {
                 "status":200,
                 "message":"Task Successfully deleted"
             });
-            client.query("select id  from module_tasks where id=(select task_id from assign_tasks_users_lists where task_id='"+task_id+"')"
+            client.query("select id  from module_tasks where id=(select task_id from assign_tasks_users_lists where task_id='"+task_id+"'  LIMIT 1)"
                 ,(err,resc)=>
             {
                 console.log(err,resc);
@@ -103,4 +94,35 @@ module.exports = {
         }
         });
     }
+}
+
+function updateTasks(task_id,user_id,status,resp){
+    client.query("update assign_tasks_users_lists  set status='"+status+"' " +
+        " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
+        // console.log(err,res);
+        if(res.rowCount>0){
+        resp.send({
+            "status":200,
+            "message":"status updated"
+        });
+    }else{
+        resp.send({
+            "status":204,
+            "message":"Sorry Status not update"
+        });
+    }
+});
+}
+function checkAlreadyTaskRunning(task_id,user_id,status,resp) {
+    client.query("select task_id from assign_tasks_users_lists where  user_id='" + user_id + "' AND status=1", (err, response) => {
+        console.log(response.rowCount);
+    if (response.rowCount > 0) {
+        resp.send({
+            "status": 204,
+            "message": "Please first finish your old job."
+        });
+    } else {
+        updateTasks(task_id,user_id,status,resp);
+    }
+});
 }
