@@ -8,14 +8,14 @@ const client = new Client({
 client.connect();
 module.exports = {
     AssignTasks:function(user_id,res1){
-       client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , task_details,assign_from_id,status,assign_tasks_users_lists.user_id, u.email" +
-           " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
-           " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
-       //  console.log(err,res);
-          res1.send({"status":200,
-           "data":res.rows})
-   });
-   },
+        client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , task_details,assign_from_id,status,assign_tasks_users_lists.user_id, u.email" +
+            " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
+            " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
+              console.log(err,res);
+            res1.send({"status":200,
+            "data":res.rows})
+    });
+    },
     loginUser:function(email,password,res){
         //,include: [{model:role, as: 'role'}]
         // client.query("select *from usuarios",(err,res1)=>{
@@ -73,8 +73,10 @@ module.exports = {
         }
     });
     },
-    deletetasks:function(task_id,manager_id,resp){
-        client.query("delete from module_tasks where id='"+task_id+"' AND assign_from_id='"+manager_id+"' ",(err,res)=>{
+    deletetasks:function(task_id,manager_id,user_id,resp){
+        client.query("delete from assign_tasks_users_lists where task_id='"+task_id+"'" +
+            " AND user_id ='"+user_id+"' ",
+            (err,res)=>{
             console.log(err,res);
         if(res.rowCount>0){
             resp.send({

@@ -98,5 +98,7 @@ app.post('/api/updatetaskstatus' ,function (req,res) {
     db_sql.updatTaskStatus(req.body.task_id,req.body.user_id,req.body.status,res)
 });
 app.post('/api/deletetasks' ,function (req,res) {
-    db_sql.deletetasks(req.body.task_id,req.body.user_id,res)
+    db_sql.deletetasks(req.body.task_id,
+        req.body.manager_id,
+        req.body.user_id,res)
 });
