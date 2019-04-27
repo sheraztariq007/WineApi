@@ -310,7 +310,8 @@ function saveTasksFields(tasksdata,task_id){
     const taskfields = UserTasksFields(seq.sequelize,seq.sequelize.Sequelize);
     tasks = tasksdata.split(",");
     for(var i=0;i<tasks.length;i++){
-        taskfields.create({ task_id:task_id,field_id:tasks[i]}).then(result=>{
+        taskfields.create({
+            task_id:task_id,field_id:tasks[i]}).then(result=>{
 
         }).catch (err=>{
             console.log(err);

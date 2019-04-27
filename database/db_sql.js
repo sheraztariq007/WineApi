@@ -58,8 +58,8 @@ module.exports = {
     });
     },
     updatTaskStatus:function(task_id,user_id,status,resp){
-        client.query("update module_tasks  set status='"+status+"' where  id=" +
-            "(select task_id from assign_tasks_users_lists where task_id='"+task_id+"' AND user_id='"+user_id+"')",(err,res)=>{
+        client.query("update assign_tasks_users_lists  set status='"+status+"' " +
+            " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
             console.log(err,res);
         if(res.rowCount>0){
             resp.send({

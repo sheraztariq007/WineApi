@@ -94,6 +94,11 @@ app.post('/api/newTasks' ,function (req,res) {
 app.post('/api/taskWithFields' ,function (req,res) {
     db_sql.taskWithFields(req.body.task_id,res)
 });
+/*
+*  0 for new status
+*  1 for status in inprogres
+*  2 for status end
+* */
 app.post('/api/updatetaskstatus' ,function (req,res) {
     db_sql.updatTaskStatus(req.body.task_id,req.body.user_id,req.body.status,res)
 });
