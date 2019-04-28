@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     task_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     status: DataTypes.INTEGER,
-    completion_date: DataTypes.TEXT
+    completion_date: DataTypes.TEXT,
+    task_start_time:DataTypes.TEXT
   }, {});
   assign_tasks_users_lists.associate = function(models) {
     // associations can be defined here

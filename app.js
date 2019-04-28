@@ -107,3 +107,7 @@ app.post('/api/deletetasks' ,function (req,res) {
         req.body.manager_id,
         req.body.user_id,res)
 });
+
+app.post('/api/getlistofdates' ,function (req,res) {
+    db_helper.getListsOfDates(req.body.task_id,res)
+});

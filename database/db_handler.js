@@ -211,7 +211,6 @@ module.exports = {
             assign_from_id:req.body.assign_from_id,
             task_id:req.body.task_name,task_details:req.body.task_details
             ,completion_date:req.body.completion_date,
-            target_date:req.body.target_date,is_repeat:req.body.is_repeat,
             status:req.body.status,is_enable:req.body.is_enable
         }).then(result=>{
 
@@ -271,6 +270,23 @@ module.exports = {
     }).catch(err=>{
             console.log(err);
     });
+    },
+    getListsOfDates:function(task_id,res){
+        const dates = UserTasksDates(seq.sequelize,seq.sequelize.Sequelize);
+        dates.findAll({
+            where:{
+                task_id:task_id
+            }
+        }).then(results=>{
+            console.log(results);
+        res.send({
+            "status":200,
+            "data":results
+        });
+
+        }).catch (err=>{
+            console.log(err);
+        });
     }
 }
 /*Get Current Time*/

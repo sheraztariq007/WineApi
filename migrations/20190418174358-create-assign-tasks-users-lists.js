@@ -20,6 +20,9 @@ module.exports = {
       completion_date: {
         type: Sequelize.TEXT
       },
+      task_start_time: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

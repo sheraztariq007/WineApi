@@ -1,6 +1,7 @@
 const {pool,Client} = require("pg");
 var md5 = require("md5")
-
+var dateTime = require('node-datetime');
+var time = new Date();
 var connectionString = "postgres://postgres:admin123@localhost:5432/test";
 const client = new Client({
     connectionString:connectionString
@@ -61,7 +62,7 @@ module.exports = {
         if(status==1){
             checkAlreadyTaskRunning(task_id,user_id,status,resp);
         }else{
-            updateTasks(task_id,user_id,status,resp);
+            endTask(task_id,user_id,status,resp);
         }
 
     },
@@ -96,10 +97,30 @@ module.exports = {
     }
 }
 
-function updateTasks(task_id,user_id,status,resp){
-    client.query("update assign_tasks_users_lists  set status='"+status+"' " +
+function endTask(task_id,user_id,status,resp){
+    var time_date =getDate()+"-"+getTime()
+    client.query("update assign_tasks_users_lists  set status='"+status+"' , completion_date= '"+time_date+"'" +
         " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
         // console.log(err,res);
+        if(res.rowCount>0){
+        resp.send({
+            "status":200,
+            "message":"status updated"
+        });
+    }else{
+        resp.send({
+            "status":204,
+            "message":"Sorry Status not update"
+        });
+    }
+});
+}
+
+function start_task(task_id,user_id,status,resp){
+    var time_date =getDate()+"-"+getTime();
+    client.query("update assign_tasks_users_lists  set status='"+status+"' , task_start_time='"+time_date+"'" +
+        " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
+        console.log(err,res);
         if(res.rowCount>0){
         resp.send({
             "status":200,
@@ -122,7 +143,22 @@ function checkAlreadyTaskRunning(task_id,user_id,status,resp) {
             "message": "Please first finish your old job."
         });
     } else {
-        updateTasks(task_id,user_id,status,resp);
+        start_task(task_id,user_id,status,resp);
     }
 });
+}
+/*Get Current Time*/
+function getTime() {
+    var time = new Date();
+    console.log(time.toLocaleString('en-US', { month: 'long', hour12: true }));
+    console.log(time.toLocaleString('en-US', { weekday: 'long', hour12: true }));
+    return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
+/*Get Current Date*/
+function getDate() {
+    var dt = dateTime.create();
+    var formatted = dt.format('Y-m-d');
+    console.log(formatted);
+    return formatted;
 }

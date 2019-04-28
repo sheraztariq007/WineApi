@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="9178e0ea-dc48-430b-aa2c-f1fc5c58c0a8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/db_handler.js" afterPath="$PROJECT_DIR$/database/db_handler.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/db_sql.js" afterPath="$PROJECT_DIR$/database/db_sql.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migrations/20190415205409-create-module-task.js" afterPath="$PROJECT_DIR$/migrations/20190415205409-create-module-task.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migrations/20190418174358-create-assign-tasks-users-lists.js" afterPath="$PROJECT_DIR$/migrations/20190418174358-create-assign-tasks-users-lists.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/assign_tasks_users_lists.js" afterPath="$PROJECT_DIR$/models/assign_tasks_users_lists.js" />
     </list>
     <ignored path="wineapp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="db_handler.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="db_handler.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/db_handler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="299" column="23" selection-start-line="299" selection-start-column="23" selection-end-line="299" selection-end-column="23" />
+            <state relative-caret-position="463">
+              <caret line="283" column="26" selection-start-line="283" selection-start-column="26" selection-end-line="283" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -44,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db_sql.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="db_sql.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/db_sql.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="64" column="9" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+            <state relative-caret-position="-220">
+              <caret line="120" column="8" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -67,8 +72,18 @@
       <file leaf-file-name="module_task.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/module_task.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="6" column="36" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="36" />
+            <state relative-caret-position="132">
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20190409072128-create-usuarios.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/20190409072128-create-usuarios.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1232">
+              <caret line="56" column="31" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -77,8 +92,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="76" column="21" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
+            <state relative-caret-position="417">
+              <caret line="111" column="16" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -87,8 +102,8 @@
       <file leaf-file-name="assign_tasks_users_lists.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/assign_tasks_users_lists.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="19" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="19" />
+            <state relative-caret-position="154">
+              <caret line="7" column="19" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -97,18 +112,8 @@
       <file leaf-file-name="20190415205409-create-module-task.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/20190415205409-create-module-task.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="21" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="module_sampling.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/module_sampling.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+            <state relative-caret-position="369">
+              <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -117,8 +122,8 @@
       <file leaf-file-name="20190418174358-create-assign-tasks-users-lists.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/20190418174358-create-assign-tasks-users-lists.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+            <state relative-caret-position="506">
+              <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -179,19 +184,19 @@
         <option value="$PROJECT_DIR$/migrations/20190418192702-create-tasks.js" />
         <option value="$PROJECT_DIR$/database/db_sql.php" />
         <option value="$PROJECT_DIR$/models/usuarios.js" />
-        <option value="$PROJECT_DIR$/migrations/20190409072128-create-usuarios.js" />
         <option value="$PROJECT_DIR$/seeders/20190415201132-demo-user.js" />
         <option value="$PROJECT_DIR$/migrations/20190409210701-create-field.js" />
         <option value="$PROJECT_DIR$/models/field.js" />
-        <option value="$PROJECT_DIR$/migrations/20190415205409-create-module-task.js" />
         <option value="$PROJECT_DIR$/models/module_task.js" />
         <option value="$PROJECT_DIR$/seeders/20190413170103-demo-fields.js" />
         <option value="$PROJECT_DIR$/data backup/20190413170103-demo-fields.js" />
         <option value="$PROJECT_DIR$/models/assign_tasks_users_lists.js" />
         <option value="$PROJECT_DIR$/migrations/20190418174358-create-assign-tasks-users-lists.js" />
+        <option value="$PROJECT_DIR$/database/db_sql.js" />
+        <option value="$PROJECT_DIR$/migrations/20190409072128-create-usuarios.js" />
+        <option value="$PROJECT_DIR$/migrations/20190415205409-create-module-task.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/database/db_handler.js" />
-        <option value="$PROJECT_DIR$/database/db_sql.js" />
       </list>
     </option>
   </component>
@@ -238,8 +243,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -448,12 +453,13 @@
       <workItem from="1556217056935" duration="2002000" />
       <workItem from="1556224188685" duration="1132000" />
       <workItem from="1556309081138" duration="4546000" />
-      <workItem from="1556347312343" duration="16793000" />
+      <workItem from="1556347312343" duration="21927000" />
+      <workItem from="1556442268863" duration="2495000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179663000" />
+    <option name="totallyTimeSpent" value="187292000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -465,17 +471,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3029001" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30719656" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5042965" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3295583" sideWeight="0.49570355" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27066818" sideWeight="0.49570355" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -508,7 +514,7 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -712,20 +718,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/20190409072128-create-usuarios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1276">
-          <caret line="58" column="15" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/seeders/20190415201132-demo-user.js" />
     <entry file="file://$PROJECT_DIR$/config/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -733,7 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -741,7 +737,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/module_sampling.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -761,66 +763,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/module_sampling.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/module_task.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="6" column="36" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="36" />
+        <state relative-caret-position="132">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/assign_tasks_users_lists.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="19" />
+        <state relative-caret-position="154">
+          <caret line="7" column="19" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/20190415205409-create-module-task.js">
+    <entry file="file://$PROJECT_DIR$/migrations/20190409072128-create-usuarios.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="21" selection-end-column="8" />
+        <state relative-caret-position="1232">
+          <caret line="56" column="31" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/migrations/20190418174358-create-assign-tasks-users-lists.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+        <state relative-caret-position="506">
+          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/migrations/20190415205409-create-module-task.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="76" column="21" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/db_handler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="299" column="23" selection-start-line="299" selection-start-column="23" selection-end-line="299" selection-end-column="23" />
+        <state relative-caret-position="369">
+          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/db_sql.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="64" column="9" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+        <state relative-caret-position="-220">
+          <caret line="120" column="8" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="111" column="16" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/db_handler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="283" column="26" selection-start-line="283" selection-start-column="26" selection-end-line="283" selection-end-column="26" />
           <folding />
         </state>
       </provider>
