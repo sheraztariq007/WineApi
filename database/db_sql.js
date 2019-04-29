@@ -13,8 +13,8 @@ module.exports = {
             "task_details,assign_from_id,assign_tasks_users_lists.status as status,assign_tasks_users_lists.user_id, u.email" +
             " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
             " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
-              console.log(err,res);
-            res1.send({"status":200,
+            console.log(err,res);
+        res1.send({"status":200,
             "data":res.rows})
     });
     },
@@ -34,20 +34,20 @@ module.exports = {
             "from usuarios,user_roles where" +
             " usuarios.email='"+email+"' AND usuarios.password='"+md5(password)+"' AND usuarios.role_id=user_roles.id LIMIT 1",(err,resp)=>{
             // console.log(err,resp);
-        if(resp.rows.length>0) {
+            if(resp.rows.length>0) {
             res.send({"status":200,
                 "data": resp.rows})
         }else{
             res.send({"status":204,
                 "message": "sorry user not found"})
         }
-        });
+    });
     },
     newTasks:function(user_id,res1){
         client.query("select  module_tasks.id,tasks.name as task_name,task_details,assign_from_id,assign_tasks_users_lists.status as status ,module_tasks.createdat from  assign_tasks_users_lists,module_tasks, tasks " +
             "where  assign_tasks_users_lists.task_id=module_tasks.id AND module_tasks.task_id=tasks.id  AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
             console.log(err,res);
-            res1.send({"status":200,"data":res.rows})
+        res1.send({"status":200,"data":res.rows})
     });
     },
     taskWithFields:function(task_id,res1){
@@ -80,21 +80,39 @@ module.exports = {
                 ,(err,resc)=>
             {
                 console.log(err,resc);
-                if(resc.rowCount==0){
+            if(resc.rowCount==0){
                 client.query("delete from module_tasks where id='"+task_id+"'",(err,resd)=>{
                     console.log(err,resd);
-                });
+            });
             }
 
-            });
+        });
         }else{
             resp.send({
                 "status":204,
                 "message":"Sorry Status not Delete"
             });
         }
-        });
-    }
+    });
+    },
+    checkRunningTasks:function(user_id,resp) {
+        client.query("select assign_tasks_users_lists.task_id as task_id,tasks.name as name " +
+            "from assign_tasks_users_lists,tasks   where  assign_tasks_users_lists.task_id=tasks.id AND   user_id='" + user_id + "' AND status=1", (err, response) => {
+            console.log(err,response);
+        if (response.rowCount > 0) {
+            resp.send({
+                "status": 200,
+                "data":response.rows,
+                "message": "Please first finish your old job."
+            });
+        }else{
+            resp.send({
+                "status": 204,
+                "message": "No One Task is Running"
+            });
+        }
+    });
+}
 }
 
 function endTask(task_id,user_id,status,resp){
@@ -121,7 +139,7 @@ function start_task(task_id,user_id,status,resp){
     client.query("update assign_tasks_users_lists  set status='"+status+"' , task_start_time='"+time_date+"'" +
         " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
         console.log(err,res);
-        if(res.rowCount>0){
+    if(res.rowCount>0){
         resp.send({
             "status":200,
             "message":"status updated"

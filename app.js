@@ -110,4 +110,7 @@ app.post('/api/deletetasks' ,function (req,res) {
 
 app.post('/api/getlistofdates' ,function (req,res) {
     db_helper.getListsOfDates(req.body.task_id,res)
+
+});app.post('/api/checkrunningtasks' ,function (req,res) {
+    db_sql.checkRunningTasks(req.body.user_id,res)
 });
