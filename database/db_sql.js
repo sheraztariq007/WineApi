@@ -96,8 +96,10 @@ module.exports = {
     });
     },
     checkRunningTasks:function(user_id,resp) {
-        client.query("select assign_tasks_users_lists.task_id as task_id,tasks.name as name " +
-            "from assign_tasks_users_lists,tasks   where  assign_tasks_users_lists.task_id=tasks.id AND   user_id='" + user_id + "' AND status=1", (err, response) => {
+        client.query("select module_tasks.id as task_id, tasks.name as name  from  module_tasks,assign_tasks_users_lists,tasks where " +
+            "assign_tasks_users_lists.user_id='"+user_id+"' AND assign_tasks_users_lists.status = 1 AND " +
+            "module_tasks.id=assign_tasks_users_lists.task_id AND " +
+            "tasks.id=module_tasks.task_id ", (err, response) => {
             console.log(err,response);
         if (response.rowCount > 0) {
             resp.send({
