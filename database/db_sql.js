@@ -96,7 +96,7 @@ module.exports = {
     });
     },
     checkRunningTasks:function(user_id,resp) {
-        client.query("select module_tasks.id as task_id, tasks.name as name  from  module_tasks,assign_tasks_users_lists,tasks where " +
+        client.query("select tasks.id as task_id, tasks.name as name  from  module_tasks,assign_tasks_users_lists,tasks where " +
             "assign_tasks_users_lists.user_id='"+user_id+"' AND assign_tasks_users_lists.status = 1 AND " +
             "module_tasks.id=assign_tasks_users_lists.task_id AND " +
             "tasks.id=module_tasks.task_id ", (err, response) => {
