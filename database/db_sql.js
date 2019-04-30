@@ -114,7 +114,22 @@ module.exports = {
             });
         }
     });
-}
+},
+    createLocationTable:function(){
+    client.query("create table  if not exists module_task_gps_tracking (" +
+        "app_user_id integer," +
+        "location_data geometry," +
+        "datetime date default CURRENT_TIMESTAMP" +
+        ")");
+},
+    savegeometrylocation:function(userid,lat,lon){
+        var time_date =getDate()+"-"+getTime()
+        client.query("insert into module_task_gps_tracking(app_user_id,location_data) " +
+            "values('"+userid+"', ST_GeomFromText('POINT("+lat+" "+lon+")') )"
+            ,(err,resp)=>{
+            console.log(err,resp);
+        });
+    }
 }
 
 function endTask(task_id,user_id,status,resp){
@@ -167,6 +182,7 @@ function checkAlreadyTaskRunning(task_id,user_id,status,resp) {
     }
 });
 }
+
 /*Get Current Time*/
 function getTime() {
     var time = new Date();

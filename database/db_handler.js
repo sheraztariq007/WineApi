@@ -16,6 +16,8 @@ const  UserTasksDates = require('../models/user_tasks_date');
 const  UserTasksFields = require('../models/user_tasks_fields');
 const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
+const  TasksLocations =  require('../models/tasks_locations');
+const  constants = require('../config/constants.json')
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -69,7 +71,9 @@ module.exports = {
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
             reportedBy_user_id:userid,disease_type:disease_type
-            ,maintenace:details,image_url:imageUrl,
+            ,maintenace:details,
+            image_url:imageUrl,
+            carto_image:constants.base_url+imageUrl,
             location:location,reported_datetime:getDate()+" "+getTime()
         }).then(result=>{
             console.log("done");
@@ -104,7 +108,9 @@ module.exports = {
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
             reportedBy_user_id:userid,maintane_type:maintane_type
-            ,details:details,image_url:imageUrl,
+            ,details:details,
+            image_url:imageUrl,
+            carto_image:constants.base_url+imageUrl,
             location:location,reported_date_time:getDate()+" "+getTime()
         }).then(result=>{
             console.log("done");
@@ -286,6 +292,25 @@ module.exports = {
 
         }).catch (err=>{
             console.log(err);
+        });
+    },
+    savetaskLocation:function (req,res) {
+        const task_location = TasksLocations(seq.sequelize,seq.sequelize.Sequelize);
+        task_location.create({
+            app_user_id:req.body.user_id,
+            latitude:req.body.latitude,
+            longitude:req.body.longitude
+        }).then(result=>{
+            res.send({
+            "status":200,
+            "data":result
+        });
+            console.log(result);
+        }).catch(err=>{
+            res.send({
+            "status":204,
+            "data":err
+    });
         });
     }
 }

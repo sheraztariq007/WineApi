@@ -4,6 +4,7 @@ var db_helper = require('./database/db_handler');
 var db_sql = require('./database/db_sql');
 var bodyParser = require('body-parser')
 var md5 = require("md5")
+var fs = require('fs')
 //  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
@@ -21,6 +22,8 @@ app.post('/', function (req,res) {
     console.log(req.body.name)
     res.send(req.param('name', null));
 });
+
+db_sql.createLocationTable();
 
 var server = app.listen(3000,function () {
     var host = server.address().address
@@ -111,6 +114,29 @@ app.post('/api/deletetasks' ,function (req,res) {
 app.post('/api/getlistofdates' ,function (req,res) {
     db_helper.getListsOfDates(req.body.task_id,res)
 
-});app.post('/api/checkrunningtasks' ,function (req,res) {
+});
+app.post('/api/checkrunningtasks' ,function (req,res) {
     db_sql.checkRunningTasks(req.body.user_id,res)
 });
+app.post('/api/savetasklocation' ,function (req,res) {
+    db_helper.savetaskLocation(req,res)
+    db_sql.savegeometrylocation(req.body.user_id,req.body.latitude, req.body.longitude);
+});
+
+
+app.get('/api/images/getimages' ,function (req,res) {
+    fs.readdir("uploads", function(err, filenames) {
+
+        if (err) {
+            console.log(err)
+            return;
+        }
+        else{
+            res.send({
+               "images" : req.connection.remoteAddress
+            });
+        }
+
+    });
+});
+
