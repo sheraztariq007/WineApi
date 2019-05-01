@@ -23,8 +23,6 @@ app.post('/', function (req,res) {
     res.send(req.param('name', null));
 });
 
-db_sql.createLocationTable();
-
 var server = app.listen(3000,function () {
     var host = server.address().address
     var port = server.address().port
@@ -119,8 +117,7 @@ app.post('/api/checkrunningtasks' ,function (req,res) {
     db_sql.checkRunningTasks(req.body.user_id,res)
 });
 app.post('/api/savetasklocation' ,function (req,res) {
-    db_helper.savetaskLocation(req,res)
-    db_sql.savegeometrylocation(req.body.user_id,req.body.latitude, req.body.longitude);
+    db_sql.savegeometrylocation(req);
 });
 
 

@@ -2,9 +2,9 @@ const {pool,Client} = require("pg");
 var md5 = require("md5")
 var dateTime = require('node-datetime');
 var time = new Date();
-var connectionString = "postgres://postgres:admin123@localhost:5432/test";
+const  constants = require('../config/constants.json')
 const client = new Client({
-    connectionString:connectionString
+    connectionString:constants.database_url
 });
 client.connect();
 module.exports = {
@@ -116,16 +116,26 @@ module.exports = {
     });
 },
     createLocationTable:function(){
-    client.query("create table  if not exists module_task_gps_tracking (" +
-        "app_user_id integer," +
-        "location_data geometry," +
-        "datetime date default CURRENT_TIMESTAMP" +
-        ")");
+        client.query("create table " +
+            " if not exists module_tasks_locations (" +
+            "app_user_id integer," +
+            "company_id integer,"+
+            "latitude text,"+
+            "longitude text,"+
+            "location geometry," +
+            "datetime timestamp " +
+            ")",(err,res)=>{
+            console.log(err,res);
+    });
 },
-    savegeometrylocation:function(userid,lat,lon){
-        var time_date =getDate()+"-"+getTime()
-        client.query("insert into module_task_gps_tracking(app_user_id,location_data) " +
-            "values('"+userid+"', ST_GeomFromText('POINT("+lat+" "+lon+")') )"
+    savegeometrylocation:function(req){
+        var time_date =new Date().toISOString().slice(0, 19).replace('T', ' ');
+        console.log(time_date);
+        client.query("insert into module_tasks_locations" +
+            "(company_id,app_user_id,latitude,longitude,location,datetime) " +
+            "values('"+req.body.company_id+"','"+req.body.user_id+"'," +
+            " '"+req.body.latitude+"','"+req.body.longitude+"' " +
+            ",ST_GeomFromText('POINT("+req.body.latitude+" "+req.body.longitude+")'), '"+time_date+"' )"
             ,(err,resp)=>{
             console.log(err,resp);
         });
