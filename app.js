@@ -5,6 +5,9 @@ var db_sql = require('./database/db_sql');
 var bodyParser = require('body-parser')
 var md5 = require("md5")
 var fs = require('fs')
+var dateTime = require('node-datetime');
+var time = new Date();
+
 //  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
@@ -18,6 +21,9 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+
+
+
 app.post('/', function (req,res) {
     console.log(req.body.name)
     res.send(req.param('name', null));
@@ -119,7 +125,9 @@ app.post('/api/checkrunningtasks' ,function (req,res) {
 app.post('/api/savetasklocation' ,function (req,res) {
     db_sql.savegeometrylocation(req);
 });
-
+app.post('/api/getuserslocations' ,function (req,res) {
+    db_sql.getUsersLocations(req,res);
+});
 
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {

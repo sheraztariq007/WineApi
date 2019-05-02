@@ -114,12 +114,13 @@ module.exports = {
             });
         }
     });
-},
+    },
     createLocationTable:function(){
         client.query("create table " +
             " if not exists module_tasks_locations (" +
             "app_user_id integer," +
             "company_id integer,"+
+            "task_id integer,"+
             "latitude text,"+
             "longitude text,"+
             "location geometry," +
@@ -127,18 +128,40 @@ module.exports = {
             ")",(err,res)=>{
             console.log(err,res);
     });
-},
+    },
     savegeometrylocation:function(req){
         var time_date =new Date().toISOString().slice(0, 19).replace('T', ' ');
         console.log(time_date);
         client.query("insert into module_tasks_locations" +
-            "(company_id,app_user_id,latitude,longitude,location,datetime) " +
-            "values('"+req.body.company_id+"','"+req.body.user_id+"'," +
+            "(company_id,app_user_id,task_id,latitude,longitude,location,datetime) " +
+            "values('"+req.body.company_id+"','"+req.body.user_id+"',"+req.body.task_id+", " +
             " '"+req.body.latitude+"','"+req.body.longitude+"' " +
             ",ST_GeomFromText('POINT("+req.body.latitude+" "+req.body.longitude+")'), '"+time_date+"' )"
             ,(err,resp)=>{
             console.log(err,resp);
+    });
+    },
+
+    getUsersLocations:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(500* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("select  DISTINCT mtask.app_user_id," +
+            "mtask.latitude as latitude , mtask.longitude as longitude, " +
+            "usuarios.name as user_name,tasks.name as task_name " +
+            ", mtask.datetime as datetime from module_tasks_locations as" +
+            " mtask, usuarios, tasks" +
+            " where mtask.app_user_id IN" +
+            " ("+req.body.users_id+")  AND  mtask.datetime >='"+time_date+"'  AND mtask.task_id="+req.body.task_id+"  AND " +
+            " mtask.app_user_id=usuarios.id AND tasks.id=mtask.task_id " +
+            " ORDER BY mtask.app_user_id   ",
+            (err,resp)=>{
+            console.log(err,resp);
+        res.send({
+            "status":200,
+            "data":resp.rows
         });
+
+    });
     }
 }
 
