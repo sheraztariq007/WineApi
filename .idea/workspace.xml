@@ -5,6 +5,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/db_sql.js" afterPath="$PROJECT_DIR$/database/db_sql.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js" afterPath="$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js" />
     </list>
     <ignored path="wineapp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,7 +29,7 @@
       <file leaf-file-name="db_handler.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/db_handler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6666">
+            <state relative-caret-position="5151">
               <caret line="303" column="20" selection-start-line="303" selection-start-column="20" selection-end-line="303" selection-end-column="20" />
               <folding />
             </state>
@@ -38,8 +39,18 @@
       <file leaf-file-name="db_sql.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/db_sql.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="153" column="114" selection-start-line="153" selection-start-column="107" selection-end-line="153" selection-end-column="114" />
+            <state relative-caret-position="233">
+              <caret line="101" column="66" selection-start-line="101" selection-start-column="66" selection-end-line="101" selection-end-column="66" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20190418192811-demo-tasks.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -48,7 +59,7 @@
       <file leaf-file-name="exe.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/execute/exe.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
+            <state relative-caret-position="17">
               <caret line="1" column="28" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
               <folding />
             </state>
@@ -58,7 +69,7 @@
       <file leaf-file-name="20190430100237-create-tasks-locations.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/20190430100237-create-tasks-locations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
+            <state relative-caret-position="374">
               <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
               <folding />
             </state>
@@ -68,7 +79,7 @@
       <file leaf-file-name="20190418192702-create-tasks.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/20190418192702-create-tasks.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
+            <state relative-caret-position="272">
               <caret line="16" column="41" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="41" />
               <folding />
             </state>
@@ -78,7 +89,7 @@
       <file leaf-file-name="tasks_locations.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/tasks_locations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
+            <state relative-caret-position="34">
               <caret line="2" column="48" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
               <folding />
             </state>
@@ -88,8 +99,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2816">
-              <caret line="128" column="22" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+            <state relative-caret-position="280">
+              <caret line="131" column="28" selection-start-line="131" selection-start-column="28" selection-end-line="131" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -98,7 +109,7 @@
       <file leaf-file-name="constants.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/constants.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
+            <state relative-caret-position="34">
               <caret line="2" column="67" selection-start-line="2" selection-start-column="67" selection-end-line="2" selection-end-column="67" />
               <folding />
             </state>
@@ -110,16 +121,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="module_maintain.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/module_maintain.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -167,7 +168,6 @@
         <option value="$PROJECT_DIR$/migrations/20190418173651-create-user-tasks-fields.js" />
         <option value="$PROJECT_DIR$/models/user_tasks_date.js" />
         <option value="$PROJECT_DIR$/models/tasks.js" />
-        <option value="$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js" />
         <option value="$PROJECT_DIR$/migrations/20190418173801-create-user-tasks-date.js" />
         <option value="$PROJECT_DIR$/migrations/20190418192702-create-tasks.js" />
         <option value="$PROJECT_DIR$/database/db_sql.php" />
@@ -191,6 +191,7 @@
         <option value="$PROJECT_DIR$/database/db_handler.js" />
         <option value="$PROJECT_DIR$/config/constants.json" />
         <option value="$PROJECT_DIR$/execute/exe.js" />
+        <option value="$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/database/db_sql.js" />
       </list>
@@ -209,10 +210,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1552" />
+    <option name="height" value="840" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -239,7 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -344,6 +344,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -459,12 +460,13 @@
       <workItem from="1556691544296" duration="6361000" />
       <workItem from="1556710478521" duration="8049000" />
       <workItem from="1556782782264" duration="20003000" />
-      <workItem from="1556819369608" duration="5706000" />
+      <workItem from="1556819369608" duration="5867000" />
+      <workItem from="1556864758136" duration="12259000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="262358000" />
+    <option name="totallyTimeSpent" value="274778000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -476,17 +478,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="1" />
+    <frame x="-8" y="-8" width="1552" height="840" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23684211" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3016086" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5042965" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38844848" sideWeight="0.49570355" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21640736" sideWeight="0.49570355" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -691,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@types/node/dns.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="331">
@@ -777,7 +772,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/module_maintain.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
+        <state relative-caret-position="272">
           <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
           <folding />
         </state>
@@ -785,7 +780,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/migrations/20190418192702-create-tasks.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
+        <state relative-caret-position="272">
           <caret line="16" column="41" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="41" />
           <folding />
         </state>
@@ -808,7 +803,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/constants.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
+        <state relative-caret-position="34">
           <caret line="2" column="67" selection-start-line="2" selection-start-column="67" selection-end-line="2" selection-end-column="67" />
           <folding />
         </state>
@@ -816,7 +811,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/execute/exe.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
+        <state relative-caret-position="17">
           <caret line="1" column="28" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
           <folding />
         </state>
@@ -824,7 +819,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/tasks_locations.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
+        <state relative-caret-position="34">
           <caret line="2" column="48" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
           <folding />
         </state>
@@ -832,7 +827,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/migrations/20190430100237-create-tasks-locations.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
+        <state relative-caret-position="374">
           <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding />
         </state>
@@ -840,24 +835,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/database/db_handler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6666">
+        <state relative-caret-position="5151">
           <caret line="303" column="20" selection-start-line="303" selection-start-column="20" selection-end-line="303" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seeders/20190418192811-demo-tasks.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2816">
-          <caret line="128" column="22" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+        <state relative-caret-position="280">
+          <caret line="131" column="28" selection-start-line="131" selection-start-column="28" selection-end-line="131" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/db_sql.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="153" column="114" selection-start-line="153" selection-start-column="107" selection-end-line="153" selection-end-column="114" />
+        <state relative-caret-position="233">
+          <caret line="101" column="66" selection-start-line="101" selection-start-column="66" selection-end-line="101" selection-end-column="66" />
           <folding />
         </state>
       </provider>

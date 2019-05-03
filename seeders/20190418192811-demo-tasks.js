@@ -3,9 +3,14 @@
 module.exports = {
         up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('tasks', [
+
+            {
+                name: 'NONE'
+            },
             {
                 name: 'ABONO ORGÁNICO'
             },
+
             {
                 name: 'TRABAJO COLMENAS'
             },
