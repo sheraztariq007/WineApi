@@ -144,7 +144,7 @@ module.exports = {
 
     getUsersLocations:function(req,res){
         var newDateObj = new Date();
-        var time_date =new Date(newDateObj.getTime()-(60* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select  DISTINCT mtask.app_user_id," +
             "mtask.latitude as latitude , mtask.longitude as longitude, " +
             "usuarios.name as user_name,tasks.name as task_name " +
