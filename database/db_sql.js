@@ -3,6 +3,11 @@ var md5 = require("md5")
 var dateTime = require('node-datetime');
 var time = new Date();
 const  constants = require('../config/constants.json')
+var FCM = require('fcm-node');
+var serverKey = constants.server_key; //put your server key here
+var fcm = new FCM(serverKey);
+
+
 const client = new Client({
     connectionString:constants.database_url
 });
@@ -173,6 +178,21 @@ module.exports = {
             "data":resp.rows
         });
         });
+    },
+    savetoken:function(req,res){
+        sendNotifications();
+        console.log(req.body.user_id+" "+req.body.token);
+        client.query("SELECT *from fcm_tokens where user_id='"+req.body.user_id+"'",(err,resp)=>{
+        if(resp.rowCount>0){
+            client.query("update fcm_tokens set token='"+req.body.token+"' where user_id="+req.body.user_id+" ", (err,res1)=>{
+                console.log(err,res1);
+            });
+        }else{
+            client.query("insert into fcm_tokens(user_id,token) values('"+req.body.user_id+"','"+req.body.token+"') ", (err,res2)=>{
+                console.log(err,res2);
+            });
+        }
+        });
     }
 }
 
@@ -241,4 +261,36 @@ function getDate() {
     var formatted = dt.format('Y-m-d');
     console.log(formatted);
     return formatted;
+}
+
+function sendNotifications(title,message){
+    client.query("select token from fcm_tokens",(err,res)=>{
+        console.log(res.rows);
+    if(res.rowCount>0) {
+        for (var i = 0; i < res.rowCount; i++) {
+            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                to: res.rows[i].token,
+                collapse_key: 'your_collapse_key',
+
+                notification: {
+                    title: title,
+                    body: message
+                },
+                data: {  //you can send only notification or only data(or include both)
+                    my_key: 'my value',
+                    my_another_key: 'my another value'
+                }
+            };
+
+            fcm.send(message, function (err, response) {
+                if (err) {
+                    console.log("Something has gone wrong!");
+                } else {
+                    console.log("Successfully sent with response: ", response);
+                }
+            });
+        }
+    }
+    });
+
 }

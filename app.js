@@ -132,6 +132,10 @@ app.post('/api/getsingleuserlocation' ,function (req,res) {
     db_sql.getSingleUserLocation(req,res);
 });
 
+app.post('/api/savetoken' ,function (req,res) {
+    db_sql.savetoken(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 
