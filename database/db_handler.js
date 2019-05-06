@@ -100,6 +100,9 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
+        console.log(req.body)
+        db_sql.sendNotifications("New Notebook","Notebook uploaded from users"
+            ,"NoteField",result.id,req.body.company_id,"notebook")
     }).catch(err=>{
             console.log(err);
     });

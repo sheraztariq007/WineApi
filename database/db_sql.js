@@ -262,6 +262,31 @@ module.exports = {
             });
         }
     });
+    },notebookDetailsById:function(req,res){
+        client.query("Select module_fieldnotebooks.marchinar_id as marchinar_id ," +
+            " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.end_date as end_date," +
+            "module_fieldnotebooks.product as product," +
+            " module_fieldnotebooks.app_method as app_method, module_fieldnotebooks.surface as surface," +
+            "module_fieldnotebooks.location as location, " +
+            "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name, " +
+            "labors.name as labors_name" +
+            " from usuarios,labors,fields,module_fieldnotebooks where " +
+            " module_fieldnotebooks.id='"+req.body.id+"' " +
+            "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
+            " module_fieldnotebooks.labore_id=labors.id AND  module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            console.log(err,resp);
+        if(resp.rowCount>0){
+            res.send({
+                "status":200,
+                "data":resp.rows
+            });
+        }else{
+            res.send({
+                "status":204,
+                "message":"Some thing Wrong!"
+            });
+        }
+    });
     }
 }
 
