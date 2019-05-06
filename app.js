@@ -49,7 +49,8 @@ app.post('/api/disease', upload, function (req,res,next) {
         req.param('disease_type', null),
         req.param('details', null),
         originalFileName,
-        req.param('location', null),res)
+        req.param('location', null),
+        req.param('company_id', null),res)
     console.log(originalFileName)
 });
 
@@ -134,6 +135,10 @@ app.post('/api/getsingleuserlocation' ,function (req,res) {
 
 app.post('/api/savetoken' ,function (req,res) {
     db_sql.savetoken(req,res);
+    //db_sql.sendNotifications('dssds','sdsds',"3",2,req);
+});
+app.post('/api/detaildiseasebyid' ,function (req,res) {
+    db_sql.detailDiseaseById(req,res);
 });
 
 app.get('/api/images/getimages' ,function (req,res) {

@@ -18,6 +18,7 @@ const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
 const  TasksLocations =  require('../models/tasks_locations');
 const  constants = require('../config/constants.json')
+const  db_sql = require('./db_sql')
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
@@ -67,10 +68,10 @@ module.exports = {
     });
     },
     /*save All Disease Requests*/
-    getDiseaseList:function(userid,disease_type,details,imageUrl,location,res){
+    getDiseaseList:function(userid,disease_type,details,imageUrl,location,companyId,res){
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
-            reportedBy_user_id:userid,disease_type:disease_type
+            reportedby_user_id:userid,disease_type:disease_type
             ,maintenace:details,
             image_url:imageUrl,
             carto_image:constants.base_url+imageUrl,
@@ -81,6 +82,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
+        db_sql.sendNotifications("New Disease","Disease upload from users","Disease",result.id,companyId,"disease_details")
     }).catch (err=>{
             console.log(err);
     });
@@ -107,7 +109,7 @@ module.exports = {
     saveMaintaince:function(userid,maintane_type,details,imageUrl,location,res){
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
-            reportedBy_user_id:userid,maintane_type:maintane_type
+            reportedby_user_id:userid,maintane_type:maintane_type
             ,details:details,
             image_url:imageUrl,
             carto_image:constants.base_url+imageUrl,
@@ -126,7 +128,7 @@ module.exports = {
     saveSampling:function(req,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
         sampling.create({
-            reportedBy_user_id:req.body.userId,sample_name:req.body.sample_name,
+            reportedby_user_id:req.body.userId,sample_name:req.body.sample_name,
             sample_type:req.body.sample_type,cluster_per_unit_edit:req.body.cluster_per_unit_edit,
             boxes_per_field:req.body.boxes_per_field,
             kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,

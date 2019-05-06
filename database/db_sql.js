@@ -7,7 +7,6 @@ var FCM = require('fcm-node');
 var serverKey = constants.server_key; //put your server key here
 var fcm = new FCM(serverKey);
 
-
 const client = new Client({
     connectionString:constants.database_url
 });
@@ -180,7 +179,6 @@ module.exports = {
         });
     },
     savetoken:function(req,res){
-        sendNotifications();
         console.log(req.body.user_id+" "+req.body.token);
         client.query("SELECT *from fcm_tokens where user_id='"+req.body.user_id+"'",(err,resp)=>{
         if(resp.rowCount>0){
@@ -192,6 +190,57 @@ module.exports = {
                 console.log(err,res2);
             });
         }
+        });
+    },
+    sendNotifications:function (title,message,type,id,company_id,screen_name) {
+        client.query("select  fcm_tokens.token from usuarios,fcm_tokens where company='"+company_id+"' AND " +
+            "role_id=2 AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
+            console.log(err,res);
+        if(res.rowCount>0) {
+            for (var i = 0; i < res.rowCount; i++) {
+                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                    to: res.rows[i].token,
+
+                    notification: {
+                        click_action: screen_name,
+                        title: title,
+                        body: type+ " Uplaoded From Users"
+                    },
+                    data: {  //you can send only notification or only data(or include both)
+                        type: type,
+                        id: id
+                    }
+                };
+                  fcm.send(message, function (err, response) {
+                 if (err) {
+                 console.log("Something has gone wrong!");
+                 } else {
+                 console.log("Successfully sent with response: ", response);
+                 }
+                 });
+            }
+        }
+    });
+    },
+    detailDiseaseById:function(req,res){
+        client.query("SELECT  usuarios.name as name , module_diseases.id as disease_id," +
+            " diseases.name as diseases_name,module_diseases.image_url as image_url," +
+            " module_diseases.reported_datetime as reported_datetime," +
+            " module_diseases.maintenace as details, module_diseases.location as location " +
+            " from module_diseases,diseases,usuarios where module_diseases.id='"+req.body.id+"' AND" +
+            " module_diseases.disease_type=diseases.id AND module_diseases.reportedby_user_id = usuarios.id",(err,resp)=>{
+            console.log(err,resp);
+          if(resp.rowCount>0){
+              res.send({
+                  "status":200,
+                  "data":resp.rows
+              });
+          }else{
+              res.send({
+                 "status":204,
+                  "message":"Some thing Wrong!"
+              });
+          }
         });
     }
 }
@@ -263,34 +312,7 @@ function getDate() {
     return formatted;
 }
 
-function sendNotifications(title,message){
-    client.query("select token from fcm_tokens",(err,res)=>{
-        console.log(res.rows);
-    if(res.rowCount>0) {
-        for (var i = 0; i < res.rowCount; i++) {
-            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                to: res.rows[i].token,
-                collapse_key: 'your_collapse_key',
+function notifications(title,message,type,id,req){
 
-                notification: {
-                    title: title,
-                    body: message
-                },
-                data: {  //you can send only notification or only data(or include both)
-                    my_key: 'my value',
-                    my_another_key: 'my another value'
-                }
-            };
-
-            fcm.send(message, function (err, response) {
-                if (err) {
-                    console.log("Something has gone wrong!");
-                } else {
-                    console.log("Successfully sent with response: ", response);
-                }
-            });
-        }
-    }
-    });
 
 }
