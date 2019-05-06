@@ -147,6 +147,8 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
+        db_sql.sendNotifications("New Sample","Sample uploaded from users"
+            ,"Sample",result.id,req.body.company_id,"sample_field")
     }).catch (err=>{
             console.log(err);
     });
