@@ -287,6 +287,25 @@ module.exports = {
             });
         }
     });
+    },
+    samplingDetailById:function(req,res){
+        client.query("SELECT module_samplings.sample_type_field_id  as sample_type_field_id, " +
+            "module_samplings.field_type as  field_type from fields,module_samplings where" +
+            " module_samplings.sample_type_field_id=fields.id  AND " +
+            "  module_samplings.field_type=fields.id",(err,resp)=>{
+            console.log(err,resp);
+        if(resp.rowCount>0){
+            res.send({
+                "status":200,
+                "data":resp.rows
+            });
+        }else{
+            res.send({
+                "status":204,
+                "message":"Some thing Wrong!"
+            });
+        }
+    });
     }
 }
 

@@ -147,6 +147,9 @@ app.post('/api/maintaindiseasebyid' ,function (req,res) {
 app.post('/api/notebookdetailsbyid' ,function (req,res) {
     db_sql.notebookDetailsById(req,res);
 });
+app.post('/api/samplingdetailbyid' ,function (req,res) {
+    db_sql.samplingDetailById(req,res);
+});
 
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
