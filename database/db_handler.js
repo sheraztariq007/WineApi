@@ -132,7 +132,7 @@ module.exports = {
     saveSampling:function(req,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
         sampling.create({
-            reportedby_user_id:req.body.userId,sample_name:req.body.sample_name,
+            reportedby_user_id:req.body.reportedby_user_id,sample_name:req.body.sample_name,
             sample_type:req.body.sample_type,cluster_per_unit_edit:req.body.cluster_per_unit_edit,
             boxes_per_field:req.body.boxes_per_field,
             kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,
