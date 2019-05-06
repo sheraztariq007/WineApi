@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const module_maintain = sequelize.define('module_maintain', {
-    reportedBy_user_id: DataTypes.INTEGER,
+    reportedby_user_id: DataTypes.INTEGER,
     company_id: DataTypes.INTEGER,
     maintane_type: DataTypes.INTEGER,
     details: DataTypes.TEXT,

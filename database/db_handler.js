@@ -82,7 +82,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        db_sql.sendNotifications("New Disease","Disease upload from users","Disease",result.id,companyId,"disease_details")
+        db_sql.sendNotifications("New Disease","Disease uploaded from users","Disease",result.id,companyId,"disease_details")
     }).catch (err=>{
             console.log(err);
     });
@@ -106,7 +106,7 @@ module.exports = {
     },
     /*Save All Maintaince Request */
 
-    saveMaintaince:function(userid,maintane_type,details,imageUrl,location,res){
+    saveMaintaince:function(userid,maintane_type,details,imageUrl,location,companyId,res){
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
             reportedby_user_id:userid,maintane_type:maintane_type
@@ -120,6 +120,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
+        db_sql.sendNotifications("New Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
     }).catch (err=>{
             console.log(err);
     });

@@ -60,7 +60,8 @@ app.post('/api/maintaince', upload, function (req,res,next) {
         req.param('maintane_type', null),
         req.param('details', null),
         originalFileName,
-        req.param('location', null),res)
+        req.param('location', null),
+        req.param('company_id', null),res)
     console.log(originalFileName)
 });
 app.post('/api/sampling' ,function (req,res) {
@@ -139,6 +140,9 @@ app.post('/api/savetoken' ,function (req,res) {
 });
 app.post('/api/detaildiseasebyid' ,function (req,res) {
     db_sql.detailDiseaseById(req,res);
+});
+app.post('/api/maintaindiseasebyid' ,function (req,res) {
+    db_sql.maintainDiseaseById(req,res);
 });
 
 app.get('/api/images/getimages' ,function (req,res) {

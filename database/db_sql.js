@@ -242,6 +242,26 @@ module.exports = {
               });
           }
         });
+    },maintainDiseaseById:function(req,res){
+        client.query("SELECT  usuarios.name as name , module_maintains.id as maintain_id," +
+            " maintenances.name as maintenances_name,module_maintains.image_url as image_url," +
+            " module_maintains.reported_date_time as reported_datetime," +
+            " module_maintains.details as details, module_maintains.location as location " +
+            " from module_maintains,maintenances,usuarios where module_maintains.id='"+req.body.id+"' AND" +
+            " module_maintains.maintane_type=maintenances.id AND module_maintains.reportedby_user_id = usuarios.id",(err,resp)=>{
+            console.log(err,resp);
+        if(resp.rowCount>0){
+            res.send({
+                "status":200,
+                "data":resp.rows
+            });
+        }else{
+            res.send({
+                "status":204,
+                "message":"Some thing Wrong!"
+            });
+        }
+    });
     }
 }
 

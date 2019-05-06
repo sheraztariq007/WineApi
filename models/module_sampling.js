@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const module_sampling = sequelize.define('module_sampling', {
-    reportedBy_user_id: DataTypes.INTEGER,
+    reportedby_user_id: DataTypes.INTEGER,
     sample_name: DataTypes.TEXT,
     sample_type: DataTypes.TEXT,
     cluster_per_unit_edit: DataTypes.TEXT,

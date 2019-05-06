@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      reportedBy_user_id: {
+      reportedby_user_id: {
         type: Sequelize.INTEGER
       },
       sample_name: {

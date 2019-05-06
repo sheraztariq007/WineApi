@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const module_labor = sequelize.define('module_labor', {
-    reportedBy_user_id: DataTypes.INTEGER,
+    reportedby_user_id: DataTypes.INTEGER,
     company_id: DataTypes.INTEGER,
     field_id: DataTypes.INTEGER,
     labor: DataTypes.TEXT,
