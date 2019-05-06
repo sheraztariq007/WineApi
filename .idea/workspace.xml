@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9178e0ea-dc48-430b-aa2c-f1fc5c58c0a8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-    </list>
+    <list default="true" id="9178e0ea-dc48-430b-aa2c-f1fc5c58c0a8" name="Default" comment="" />
     <ignored path="wineapp.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -464,12 +461,12 @@
       <workItem from="1556819369608" duration="5867000" />
       <workItem from="1556864758136" duration="13851000" />
       <workItem from="1557070980422" duration="17045000" />
-      <workItem from="1557122743954" duration="25661000" />
+      <workItem from="1557122743954" duration="25757000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="319076000" />
+    <option name="totallyTimeSpent" value="319172000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
