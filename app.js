@@ -151,6 +151,10 @@ app.post('/api/samplingdetailbyid' ,function (req,res) {
     db_sql.samplingDetailById(req,res);
 });
 
+app.post('/api/savenotifications' ,function (req,res) {
+    db_helper.saveNotifications(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 

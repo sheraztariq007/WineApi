@@ -17,6 +17,7 @@ const  UserTasksFields = require('../models/user_tasks_fields');
 const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
 const  TasksLocations =  require('../models/tasks_locations');
+const  Notifications =  require('../models/notifications');
 const  constants = require('../config/constants.json')
 const  db_sql = require('./db_sql')
 const saltRounds = 10;
@@ -319,6 +320,19 @@ module.exports = {
             "status":204,
             "data":err
     });
+        });
+    },
+    saveNotifications:function(req,res){
+        const notifications = Notifications(seq.sequelize,seq.sequelize.Sequelize);
+        notifications.create({
+            n_title:req.body.n_title,n_message:req.body.n_message,
+            n_type:req.body.n_type,n_type_id:req.body.n_type_id,
+            user_id:req.body.user_id,action_screen:req.body.action_screen,
+            status:req.body.status
+        }).then(result=>{
+            console.log(result.dataValues);
+        }).catch(err=>{
+            console.log(err);
         });
     }
 }
