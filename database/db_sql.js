@@ -140,7 +140,7 @@ module.exports = {
             "(company_id,app_user_id,task_id,latitude,longitude,location,datetime) " +
             "values('"+req.body.company_id+"','"+req.body.user_id+"',"+req.body.task_id+", " +
             " '"+req.body.latitude+"','"+req.body.longitude+"' " +
-            ",ST_GeomFromText('POINT("+req.body.latitude+" "+req.body.longitude+")'), '"+time_date+"' )"
+            ",ST_GeomFromText('POINT("+req.body.longitude+" "+req.body.latitude+")'), '"+time_date+"' )"
             ,(err,resp)=>{
             console.log(err,resp);
     });
