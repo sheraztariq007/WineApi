@@ -109,7 +109,7 @@ app.post('/api/taskWithFields' ,function (req,res) {
 *  2 for status end
 * */
 app.post('/api/updatetaskstatus' ,function (req,res) {
-    db_sql.updatTaskStatus(req.body.task_id,req.body.user_id,req.body.status,res)
+    db_sql.updatTaskStatus(req.body.task_id,req.body.user_id,req.body.status,req.body.company_id,res)
 });
 app.post('/api/deletetasks' ,function (req,res) {
     db_sql.deletetasks(req.body.task_id,
@@ -155,9 +155,6 @@ app.post('/api/savenotifications' ,function (req,res) {
     db_helper.saveNotifications(req,res);
 });
 
-app.post('/api/sendtasknotifications' ,function (req,res) {
-    db_sql.sendTaskNotifications('3233',"3232","3232","3232","1","wewe","ewewe");
-});
 
 app.post('/api/getlatestusers' ,function (req,res) {
     db_sql.getlatestUsers(req,res);

@@ -62,11 +62,11 @@ module.exports = {
             res1.send({"status":200,"data":res.rows})
     });
     },
-    updatTaskStatus:function(task_id,user_id,status,resp){
+    updatTaskStatus:function(task_id,user_id,status,company_id,resp){
         if(status==1){
-            checkAlreadyTaskRunning(task_id,user_id,status,resp);
+            checkAlreadyTaskRunning(task_id,user_id,status,company_id,resp);
         }else{
-            endTask(task_id,user_id,status,resp);
+            endTask(task_id,user_id,status,company_id,resp);
         }
 
     },
@@ -316,7 +316,7 @@ module.exports = {
             console.log(err,resp);
         });
     },
-    sendTaskNotifications:function (title,message,type,id,user_id,screen_name) {
+    sendTaskNotifications:function (title,message,type,user_id,screen_name) {
         client.query("select  fcm_tokens.token from usuarios,fcm_tokens where " +
             " usuarios.id='"+user_id+"' AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
             console.log(err,res);
@@ -324,13 +324,12 @@ module.exports = {
                 var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
                     to: res.rows[0].token,
                     notification: {
-                        click_action: screen_name,
+                        click_asction: screen_name,
                         title: title,
-                        body: type+ " Uplaoded From Users"
+                        body: type+ " Assign From Manager"
                     },
                     data: {  //you can send only notification or only data(or include both)
                         type: type,
-                        id: id
                     }
                 };
                 fcm.send(message, function (err, response) {
@@ -358,7 +357,7 @@ module.exports = {
     }
 }
 
-function endTask(task_id,user_id,status,resp){
+function endTask(task_id,user_id,status,company_id,resp){
     var time_date =getDate()+"-"+getTime()
     client.query("update assign_tasks_users_lists  set status='"+status+"' , completion_date= '"+time_date+"'" +
         " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
@@ -368,6 +367,8 @@ function endTask(task_id,user_id,status,resp){
             "status":200,
             "message":"status updated"
         });
+        sendOtherNotifications("Update Task"," Status Updated","Task",company_id)
+
     }else{
         resp.send({
             "status":204,
@@ -377,7 +378,7 @@ function endTask(task_id,user_id,status,resp){
 });
 }
 
-function start_task(task_id,user_id,status,resp){
+function start_task(task_id,user_id,status,company_id,resp){
     var time_date =getDate()+"-"+getTime();
     client.query("update assign_tasks_users_lists  set status='"+status+"' , task_start_time='"+time_date+"'" +
         " where task_id='"+task_id+"' AND user_id='"+user_id+"'",(err,res)=>{
@@ -387,6 +388,7 @@ function start_task(task_id,user_id,status,resp){
             "status":200,
             "message":"status updated"
         });
+        sendOtherNotifications("Update Task"," Status Updated","Task",company_id)
     }else{
         resp.send({
             "status":204,
@@ -395,8 +397,9 @@ function start_task(task_id,user_id,status,resp){
     }
 });
 }
-function checkAlreadyTaskRunning(task_id,user_id,status,resp) {
-    client.query("select task_id from assign_tasks_users_lists where  user_id='" + user_id + "' AND status=1", (err, response) => {
+function checkAlreadyTaskRunning(task_id,user_id,status,company_id,resp) {
+    client.query("select task_id from assign_tasks_users_lists where  user_id='" + user_id + "'" +
+        " AND status=1", (err, response) => {
         console.log(response.rowCount);
     if (response.rowCount > 0) {
         resp.send({
@@ -404,7 +407,7 @@ function checkAlreadyTaskRunning(task_id,user_id,status,resp) {
             "message": "Please first finish your old job."
         });
     } else {
-        start_task(task_id,user_id,status,resp);
+        start_task(task_id,user_id,status,company_id,resp);
     }
 });
 }
@@ -425,7 +428,57 @@ function getDate() {
     return formatted;
 }
 
-function notifications(title,message,type,id,req){
+function sendOtherNotifications (title,message,type,company_id) {
+    client.query("select  fcm_tokens.token from usuarios,fcm_tokens " +
+        "where company='"+company_id+"' AND " +
+        "role_id=2 AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
+        if(res.rowCount>0) {
+        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+            to: res.rows[0].token,
+            notification: {
+                click_asction: 'main_activity',
+                title: title,
+                body: type+ " Status Updated. Please check Task details"
+            },
+            data: {  //you can send only notification or only data(or include both)
+                type: type,
+            }
+        };
+        fcm.send(message, function (err, response) {
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+    }
+});
+}
 
 
+function sendWorkingNotification (title,message,type,company_id) {
+    client.query("select  fcm_tokens.token from usuarios,fcm_tokens " +
+        "where company='"+company_id+"' AND " +
+        "role_id=2 AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
+        if(res.rowCount>0) {
+        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+            to: res.rows[0].token,
+            notification: {
+                click_asction: 'main_activity',
+                title: title,
+                body: type+ "status updated. Please Check Working Details"
+            },
+            data: {  //you can send only notification or only data(or include both)
+                type: type,
+            }
+        };
+        fcm.send(message, function (err, response) {
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+    }
+});
 }

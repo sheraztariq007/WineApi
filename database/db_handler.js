@@ -367,8 +367,11 @@ function saveUsersLists(usersdata,task_id){
             console.log(err);
     });
     }
+    for(var i=0;i<users.length;i++){
 
-
+        db_sql.sendTaskNotifications("New Task", "Congratulation New Task Assigned",
+            "Task", users[i],"main_activity");
+    }
 }
 
 function saveTasksFields(tasksdata,task_id){
@@ -382,6 +385,7 @@ function saveTasksFields(tasksdata,task_id){
             console.log(err);
     });
     }
+
 }
 function saveTasksDates(tasksDates,task_id){
     const dates = UserTasksDates(seq.sequelize,seq.sequelize.Sequelize);
