@@ -155,6 +155,14 @@ app.post('/api/savenotifications' ,function (req,res) {
     db_helper.saveNotifications(req,res);
 });
 
+app.post('/api/sendtasknotifications' ,function (req,res) {
+    db_sql.sendTaskNotifications('3233',"3232","3232","3232","1","wewe","ewewe");
+});
+
+app.post('/api/getlatestusers' ,function (req,res) {
+    db_sql.getlatestUsers(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 

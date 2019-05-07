@@ -315,6 +315,46 @@ module.exports = {
             "'"+req.body.user_id+"','"+req.body.action_screen+"',0)",(err,resp)=>{
             console.log(err,resp);
         });
+    },
+    sendTaskNotifications:function (title,message,type,id,user_id,screen_name) {
+        client.query("select  fcm_tokens.token from usuarios,fcm_tokens where " +
+            " usuarios.id='"+user_id+"' AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
+            console.log(err,res);
+        if(res.rowCount>0) {
+                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                    to: res.rows[0].token,
+                    notification: {
+                        click_action: screen_name,
+                        title: title,
+                        body: type+ " Uplaoded From Users"
+                    },
+                    data: {  //you can send only notification or only data(or include both)
+                        type: type,
+                        id: id
+                    }
+                };
+                fcm.send(message, function (err, response) {
+                    if (err) {
+                        console.log("Something has gone wrong!");
+                    } else {
+                        console.log("Successfully sent with response: ", response);
+                    }
+                });
+        }
+    });
+    }
+    ,getlatestUsers:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("select Distinct(app_user_id),usuarios.name, usuarios.surname,usuarios.email  from" +
+            " module_tasks_locations,usuarios  where datetime>'"+time_date+"' AND" +
+            "  module_tasks_locations.app_user_id=usuarios.id order by app_user_id ",(err,resp)=>{
+            console.log(err,resp.rows);
+        res.send({
+            "status":200,
+            "data":resp.rows
+        });
+        });
     }
 }
 
