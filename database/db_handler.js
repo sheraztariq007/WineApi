@@ -206,7 +206,7 @@ module.exports = {
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         users.findAll({
             where:{company:comapny_id},attributes:
-                ['id','email'],
+                ['id','email','name','surname'],
         }).then(result=>{
             res.send({
             'status':200,
@@ -368,7 +368,6 @@ function saveUsersLists(usersdata,task_id){
     });
     }
     for(var i=0;i<users.length;i++){
-
         db_sql.sendTaskNotifications("New Task", "Congratulation New Task Assigned",
             "Task", users[i],"main_activity");
     }

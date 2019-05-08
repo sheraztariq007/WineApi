@@ -168,29 +168,32 @@ module.exports = {
     });
     },
     getSingleUserLocation:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(1440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+
         client.query("SELECT *" +
             "FROM public.module_tasks_locations  where app_user_id="+req.body.user_id+" AND task_id="+req.body.task_id+" AND" +
-            " datetime  >= 'today' and datetime < 'tomorrow'", (err,resp)=>{
+            " datetime > '"+time_date+"' ", (err,resp)=>{
             console.log(err,resp);
         res.send({
             "status":200,
             "data":resp.rows
         });
-        });
+    });
     },
     savetoken:function(req,res){
         console.log(req.body.user_id+" "+req.body.token);
         client.query("SELECT *from fcm_tokens where user_id='"+req.body.user_id+"'",(err,resp)=>{
-        if(resp.rowCount>0){
+            if(resp.rowCount>0){
             client.query("update fcm_tokens set token='"+req.body.token+"' where user_id="+req.body.user_id+" ", (err,res1)=>{
                 console.log(err,res1);
-            });
+        });
         }else{
             client.query("insert into fcm_tokens(user_id,token) values('"+req.body.user_id+"','"+req.body.token+"') ", (err,res2)=>{
                 console.log(err,res2);
-            });
-        }
         });
+        }
+    });
     },
     sendNotifications:function (title,message,type,id,company_id,screen_name) {
         client.query("select  fcm_tokens.token from usuarios,fcm_tokens where company='"+company_id+"' AND " +
@@ -211,13 +214,13 @@ module.exports = {
                         id: id
                     }
                 };
-                  fcm.send(message, function (err, response) {
-                 if (err) {
-                 console.log("Something has gone wrong!");
-                 } else {
-                 console.log("Successfully sent with response: ", response);
-                 }
-                 });
+                fcm.send(message, function (err, response) {
+                    if (err) {
+                        console.log("Something has gone wrong!");
+                    } else {
+                        console.log("Successfully sent with response: ", response);
+                    }
+                });
             }
         }
     });
@@ -230,18 +233,18 @@ module.exports = {
             " from module_diseases,diseases,usuarios where module_diseases.id='"+req.body.id+"' AND" +
             " module_diseases.disease_type=diseases.id AND module_diseases.reportedby_user_id = usuarios.id",(err,resp)=>{
             console.log(err,resp);
-          if(resp.rowCount>0){
-              res.send({
-                  "status":200,
-                  "data":resp.rows
-              });
-          }else{
-              res.send({
-                 "status":204,
-                  "message":"Some thing Wrong!"
-              });
-          }
-        });
+        if(resp.rowCount>0){
+            res.send({
+                "status":200,
+                "data":resp.rows
+            });
+        }else{
+            res.send({
+                "status":204,
+                "message":"Some thing Wrong!"
+            });
+        }
+    });
     },maintainDiseaseById:function(req,res){
         client.query("SELECT  usuarios.name as name , module_maintains.id as maintain_id," +
             " maintenances.name as maintenances_name,module_maintains.image_url as image_url," +
@@ -314,31 +317,31 @@ module.exports = {
             "values('"+req.body.n_title+"','"+req.body.m_message+"','"+req.body.n_type+"','"+req.body.n_type_id+"'," +
             "'"+req.body.user_id+"','"+req.body.action_screen+"',0)",(err,resp)=>{
             console.log(err,resp);
-        });
+    });
     },
     sendTaskNotifications:function (title,message,type,user_id,screen_name) {
         client.query("select  fcm_tokens.token from usuarios,fcm_tokens where " +
             " usuarios.id='"+user_id+"' AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
             console.log(err,res);
         if(res.rowCount>0) {
-                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                    to: res.rows[0].token,
-                    notification: {
-                        click_asction: screen_name,
-                        title: title,
-                        body: type+ " Assign From Manager"
-                    },
-                    data: {  //you can send only notification or only data(or include both)
-                        type: type,
-                    }
-                };
-                fcm.send(message, function (err, response) {
-                    if (err) {
-                        console.log("Something has gone wrong!");
-                    } else {
-                        console.log("Successfully sent with response: ", response);
-                    }
-                });
+            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                to: res.rows[0].token,
+                notification: {
+                    click_asction: screen_name,
+                    title: title,
+                    body: type+ " Assign From Manager"
+                },
+                data: {  //you can send only notification or only data(or include both)
+                    type: type,
+                }
+            };
+            fcm.send(message, function (err, response) {
+                if (err) {
+                    console.log("Something has gone wrong!");
+                } else {
+                    console.log("Successfully sent with response: ", response);
+                }
+            });
         }
     });
     }
@@ -353,6 +356,32 @@ module.exports = {
             "status":200,
             "data":resp.rows
         });
+    });
+    },
+    workingNotificationHandle:function(req,res){
+        sendWorkingNotification ("Update Working ","Working ","Working",req)
+    }
+    ,
+    taskDetailsById:function(req,res){
+        client.query("select m_t.task_details,t.name as task_name, u.name as name," +
+            " u.surname as surname, u.email,u_t.status, " +
+            "u_t.completion_date as completion_date, " +
+            "u_t.task_start_time,m_t.createdat as createdat from module_tasks as m_t, " +
+            "tasks as t,assign_tasks_users_lists as u_t " +
+            ",usuarios as u where m_t.id='"+req.body.id+"' AND " +
+            " m_t.id=u_t.task_id AND m_t.task_id=t.id AND u_t.user_id=u.id",(err,resp)=>{
+            console.log(err,resp);
+        if(resp.rowCount>0){
+            res.send({
+               "status":200,
+                "data":resp.rows
+            });
+        }else{
+            res.send({
+                "status":204,
+                "message":"No Record Found"
+            });
+        }
         });
     }
 }
@@ -367,7 +396,7 @@ function endTask(task_id,user_id,status,company_id,resp){
             "status":200,
             "message":"status updated"
         });
-        sendOtherNotifications("Update Task"," Status Updated","Task",company_id)
+        sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
 
     }else{
         resp.send({
@@ -388,7 +417,7 @@ function start_task(task_id,user_id,status,company_id,resp){
             "status":200,
             "message":"status updated"
         });
-        sendOtherNotifications("Update Task"," Status Updated","Task",company_id)
+        sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
     }else{
         resp.send({
             "status":204,
@@ -428,7 +457,7 @@ function getDate() {
     return formatted;
 }
 
-function sendOtherNotifications (title,message,type,company_id) {
+function sendOtherNotifications (title,message,type,task_id,company_id) {
     client.query("select  fcm_tokens.token from usuarios,fcm_tokens " +
         "where company='"+company_id+"' AND " +
         "role_id=2 AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
@@ -436,12 +465,13 @@ function sendOtherNotifications (title,message,type,company_id) {
         var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
             to: res.rows[0].token,
             notification: {
-                click_asction: 'main_activity',
+                click_action: 'task_details',
                 title: title,
                 body: type+ " Status Updated. Please check Task details"
             },
             data: {  //you can send only notification or only data(or include both)
                 type: type,
+                id:task_id
             }
         };
         fcm.send(message, function (err, response) {
@@ -456,9 +486,9 @@ function sendOtherNotifications (title,message,type,company_id) {
 }
 
 
-function sendWorkingNotification (title,message,type,company_id) {
+function sendWorkingNotification (title,message,type,req) {
     client.query("select  fcm_tokens.token from usuarios,fcm_tokens " +
-        "where company='"+company_id+"' AND " +
+        "where company='"+req.body.company_id+"' AND " +
         "role_id=2 AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
         if(res.rowCount>0) {
         var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
@@ -466,7 +496,7 @@ function sendWorkingNotification (title,message,type,company_id) {
             notification: {
                 click_asction: 'main_activity',
                 title: title,
-                body: type+ "status updated. Please Check Working Details"
+                body: type+ " status updated. Please Check Working Details"
             },
             data: {  //you can send only notification or only data(or include both)
                 type: type,

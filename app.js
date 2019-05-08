@@ -159,6 +159,12 @@ app.post('/api/savenotifications' ,function (req,res) {
 app.post('/api/getlatestusers' ,function (req,res) {
     db_sql.getlatestUsers(req,res);
 });
+app.post('/api/workingnotificationhandle' ,function (req,res) {
+    db_sql.workingNotificationHandle(req,res);
+});
+app.post('/api/taskdetailsbyid' ,function (req,res) {
+    db_sql.taskDetailsById(req,res);
+});
 
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
