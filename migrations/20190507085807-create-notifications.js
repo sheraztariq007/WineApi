@@ -23,6 +23,9 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      task_id: {
+        type: Sequelize.INTEGER
+      },
       action_screen: {
         type: Sequelize.TEXT
       },

@@ -316,7 +316,7 @@ module.exports = {
         client.query("INSERT INTO notifications(n_title,n_message,n_type,n_type_id,user_id,action_screen,status) " +
             "values('"+req.body.n_title+"','"+req.body.m_message+"','"+req.body.n_type+"','"+req.body.n_type_id+"'," +
             "'"+req.body.user_id+"','"+req.body.action_screen+"',0)",(err,resp)=>{
-            console.log(err,resp);
+
     });
     },
     sendTaskNotifications:function (title,message,type,user_id,screen_name) {
@@ -496,7 +496,7 @@ function sendWorkingNotification (title,message,type,req) {
             notification: {
                 click_asction: 'main_activity',
                 title: title,
-                body: type+ " status updated. Please Check Working Details"
+                body: type+ " status updated. Please Check Map For  Details"
             },
             data: {  //you can send only notification or only data(or include both)
                 type: type,

@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     n_type: DataTypes.TEXT,
     n_type_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
+    task_id: DataTypes.INTEGER,
     action_screen: DataTypes.TEXT,
     status: DataTypes.INTEGER,
     datetime: DataTypes.DATE

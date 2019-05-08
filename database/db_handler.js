@@ -324,16 +324,28 @@ module.exports = {
     },
     saveNotifications:function(req,res){
         const notifications = Notifications(seq.sequelize,seq.sequelize.Sequelize);
-        notifications.create({
-            n_title:req.body.n_title,n_message:req.body.n_message,
-            n_type:req.body.n_type,n_type_id:req.body.n_type_id,
-            user_id:req.body.user_id,action_screen:req.body.action_screen,
-            status:req.body.status
-        }).then(result=>{
-            console.log(result.dataValues);
-        }).catch(err=>{
+        notifications.findAll({
+            where:{
+                "n_type_id":req.body.n_type_id,
+                "user_id":req.body.user_id
+            }
+        }).then(results=>{
+            if(results.length==0){
+                notifications.create({
+                    n_title:req.body.n_title,n_message:req.body.n_message,
+                    n_type:req.body.n_type,n_type_id:req.body.n_type_id,
+                    user_id:req.body.user_id,action_screen:req.body.action_screen,
+                    status:req.body.status
+                }).then(result=>{
+                    console.log(result.dataValues);
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }
+        }).catch (err=>{
             console.log(err);
         });
+
     }
 }
 /*Get Current Time*/
