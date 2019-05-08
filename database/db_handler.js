@@ -345,7 +345,19 @@ module.exports = {
         }).catch (err=>{
             console.log(err);
         });
-
+    },getMyNotifications:function(req,res) {
+        const notifications = Notifications(seq.sequelize, seq.sequelize.Sequelize);
+        notifications.findAll({
+            where: {user_id: req.body.user_id}
+        }).then(result=>{
+            res.send({
+                "status":200,
+                "data":result
+            })
+            console.log(result);
+        }).catch(err=>{
+            console.log(err);
+        });
     }
 }
 /*Get Current Time*/
@@ -381,7 +393,7 @@ function saveUsersLists(usersdata,task_id){
     }
     for(var i=0;i<users.length;i++){
         db_sql.sendTaskNotifications("New Task", "Congratulation New Task Assigned",
-            "Task", users[i],"main_activity");
+            "TaskAssigned", users[i],"main_activity");
     }
 }
 

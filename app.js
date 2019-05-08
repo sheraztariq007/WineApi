@@ -166,6 +166,10 @@ app.post('/api/taskdetailsbyid' ,function (req,res) {
     db_sql.taskDetailsById(req,res);
 });
 
+app.post('/api/getmynotifications' ,function (req,res) {
+    db_helper.getMyNotifications(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 
