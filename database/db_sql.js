@@ -327,7 +327,7 @@ module.exports = {
             var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
                 to: res.rows[0].token,
                 notification: {
-                    click_action:"main_activity",
+                    click_action:"task_details",
                     title: title,
                     body: type+ " Assign From Manager"
                 },
