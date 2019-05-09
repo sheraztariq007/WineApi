@@ -170,6 +170,10 @@ app.post('/api/getmynotifications' ,function (req,res) {
     db_helper.getMyNotifications(req,res);
 });
 
+app.post('/api/updatenotificationstatus' ,function (req,res) {
+    db_sql.updateNotificationStatus(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 

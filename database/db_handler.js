@@ -83,7 +83,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        db_sql.sendNotifications("New Disease","Disease uploaded from users","Disease",result.id,companyId,"disease_details")
+        db_sql.sendNotifications("Disease","Disease uploaded from users","Disease",result.id,companyId,"disease_details")
     }).catch (err=>{
             console.log(err);
     });
@@ -102,7 +102,7 @@ module.exports = {
             'message':'Successfully send'
         })
         console.log(req.body)
-        db_sql.sendNotifications("New Notebook","Notebook uploaded from users"
+        db_sql.sendNotifications("Notebook","Notebook uploaded from users"
             ,"NoteField",result.id,req.body.company_id,"notebook")
     }).catch(err=>{
             console.log(err);
@@ -124,7 +124,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        db_sql.sendNotifications("New Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
+        db_sql.sendNotifications("Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
     }).catch (err=>{
             console.log(err);
     });
@@ -148,7 +148,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        db_sql.sendNotifications("New Sample","Sample uploaded from users"
+        db_sql.sendNotifications("Sample","Sample uploaded from users"
             ,"Sample",result.id,req.body.company_id,"sample_field")
     }).catch (err=>{
             console.log(err);
@@ -327,7 +327,8 @@ module.exports = {
         notifications.findAll({
             where:{
                 "n_type_id":req.body.n_type_id,
-                "user_id":req.body.user_id
+                "user_id":req.body.user_id,
+                "n_type":req.body.n_type
             }
         }).then(results=>{
             if(results.length==0){
@@ -393,7 +394,7 @@ function saveUsersLists(usersdata,task_id){
     }
     for(var i=0;i<users.length;i++){
         db_sql.sendTaskNotifications("New Task", "Congratulation New Task Assigned",
-            "TaskAssigned", users[i],"main_activity");
+            "TaskAssigned", users[i],task_id,"main_activity");
     }
 }
 

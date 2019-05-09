@@ -319,7 +319,7 @@ module.exports = {
 
     });
     },
-    sendTaskNotifications:function (title,message,type,user_id,screen_name) {
+    sendTaskNotifications:function (title,message,type,user_id,task_id,screen_name) {
         client.query("select  fcm_tokens.token from usuarios,fcm_tokens where " +
             " usuarios.id='"+user_id+"' AND usuarios.id=fcm_tokens.user_id",(err,res)=>{
             console.log(err,res);
@@ -327,12 +327,13 @@ module.exports = {
             var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
                 to: res.rows[0].token,
                 notification: {
-                    click_asction: screen_name,
+                    click_action:"main_activity",
                     title: title,
                     body: type+ " Assign From Manager"
                 },
                 data: {  //you can send only notification or only data(or include both)
                     type: type,
+                    id:task_id
                 }
             };
             fcm.send(message, function (err, response) {
@@ -382,6 +383,22 @@ module.exports = {
                 "message":"No Record Found"
             });
         }
+        });
+    },updateNotificationStatus(req,res){
+        client.query("update notifications set status = '"+req.body.status+"' where id='"+req.body.id+"' ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "message":"update Successfully"
+                })
+            }
+            else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry Some Thing Wrong!"
+                })
+            }
         });
     }
 }
