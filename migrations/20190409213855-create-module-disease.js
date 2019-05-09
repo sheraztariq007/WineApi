@@ -23,6 +23,9 @@ module.exports = {
       image_url: {
         type: Sequelize.TEXT
       },
+      thumbnial: {
+        type: Sequelize.TEXT
+      },
       carto_image: {
         type: Sequelize.TEXT
       },

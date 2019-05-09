@@ -227,7 +227,7 @@ module.exports = {
     },
     detailDiseaseById:function(req,res){
         client.query("SELECT  usuarios.name as name , module_diseases.id as disease_id," +
-            " diseases.name as diseases_name,module_diseases.image_url as image_url," +
+            " diseases.name as diseases_name,module_diseases.image_url as image_url, module_diseases.thumbnial as thumbnial," +
             " module_diseases.reported_datetime as reported_datetime," +
             " module_diseases.maintenace as details, module_diseases.location as location " +
             " from module_diseases,diseases,usuarios where module_diseases.id='"+req.body.id+"' AND" +
@@ -247,7 +247,7 @@ module.exports = {
     });
     },maintainDiseaseById:function(req,res){
         client.query("SELECT  usuarios.name as name , module_maintains.id as maintain_id," +
-            " maintenances.name as maintenances_name,module_maintains.image_url as image_url," +
+            " maintenances.name as maintenances_name,module_maintains.image_url as image_url, module_maintains.thumbnial as thumbnial," +
             " module_maintains.reported_date_time as reported_datetime," +
             " module_maintains.details as details, module_maintains.location as location " +
             " from module_maintains,maintenances,usuarios where module_maintains.id='"+req.body.id+"' AND" +

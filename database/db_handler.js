@@ -23,7 +23,7 @@ const  db_sql = require('./db_sql')
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
-
+var thumbnail_folder="thumbnails/";
 module.exports = {
     /*
      * Get user Lists
@@ -75,6 +75,7 @@ module.exports = {
             reportedby_user_id:userid,disease_type:disease_type
             ,maintenace:details,
             image_url:imageUrl,
+            thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
             location:location,reported_datetime:getDate()+" "+getTime()
         }).then(result=>{
@@ -116,6 +117,7 @@ module.exports = {
             reportedby_user_id:userid,maintane_type:maintane_type
             ,details:details,
             image_url:imageUrl,
+            thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
             location:location,reported_date_time:getDate()+" "+getTime()
         }).then(result=>{
@@ -323,12 +325,13 @@ module.exports = {
         });
     },
     saveNotifications:function(req,res){
+        var time_date =new Date().toISOString().slice(0, 19).replace('T', ' ');
         const notifications = Notifications(seq.sequelize,seq.sequelize.Sequelize);
         notifications.findAll({
             where:{
                 "n_type_id":req.body.n_type_id,
                 "user_id":req.body.user_id,
-                "n_type":req.body.n_type
+                "n_type":req.body.n_type,
             }
         }).then(results=>{
             if(results.length==0){
@@ -336,7 +339,8 @@ module.exports = {
                     n_title:req.body.n_title,n_message:req.body.n_message,
                     n_type:req.body.n_type,n_type_id:req.body.n_type_id,
                     user_id:req.body.user_id,action_screen:req.body.action_screen,
-                    status:req.body.status
+                    status:req.body.status,
+                    datetime:time_date
                 }).then(result=>{
                     console.log(result.dataValues);
                 }).catch(err=>{
@@ -349,7 +353,8 @@ module.exports = {
     },getMyNotifications:function(req,res) {
         const notifications = Notifications(seq.sequelize, seq.sequelize.Sequelize);
         notifications.findAll({
-            where: {user_id: req.body.user_id}
+            where: {user_id: req.body.user_id,
+            status:0}
         }).then(result=>{
             res.send({
                 "status":200,

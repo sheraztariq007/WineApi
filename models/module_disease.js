@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     disease_type: DataTypes.INTEGER,
     maintenace: DataTypes.TEXT,
     image_url: DataTypes.TEXT,
+    thumbnial: DataTypes.TEXT,
     carto_image: DataTypes.TEXT,
     location: DataTypes.TEXT,
     reported_datetime: DataTypes.DATE

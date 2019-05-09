@@ -6,9 +6,17 @@ var bodyParser = require('body-parser')
 var md5 = require("md5")
 var fs = require('fs')
 var dateTime = require('node-datetime');
+var thumb = require('node-thumbnail').thumb;
 var time = new Date();
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
 
-//  setting Uploading Storage
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
@@ -43,6 +51,19 @@ app.post('/api/fieldnotebook',function (req,res) {
     db_helper.saveFieldNodeBook(req,res);
 });
 app.post('/api/disease', upload, function (req,res,next) {
+    console.log(req.protocol + req.file.path);
+
+    thumb({
+        source: req.file.path, // could be a filename: dest/path/image.jpg
+        destination: 'uploads/thumbnails/',
+        prefix: '',
+        suffix:'',
+        width:500,
+        concurrency: 4
+    }, function(files, err, stdout, stderr) {
+        console.log('All done!');
+    });
+
     var originalFileName = req.file.filename
    // console.log(req.body.name)
     db_helper.getDiseaseList(req.param('userId', null),
@@ -56,6 +77,16 @@ app.post('/api/disease', upload, function (req,res,next) {
 
 app.post('/api/maintaince', upload, function (req,res,next) {
     var originalFileName = req.file.filename
+    thumb({
+        source: req.file.path, // could be a filename: dest/path/image.jpg
+        destination: 'uploads/thumbnails/',
+        prefix: '',
+        suffix:'',
+        width:500,
+        concurrency: 4
+    }, function(files, err, stdout, stderr) {
+        console.log('All done!');
+    });
     db_helper.saveMaintaince(req.param('userId', null),
         req.param('maintane_type', null),
         req.param('details', null),
