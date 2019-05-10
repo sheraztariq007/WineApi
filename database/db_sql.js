@@ -6,6 +6,7 @@ const  constants = require('../config/constants.json')
 var FCM = require('fcm-node');
 var serverKey = constants.server_key; //put your server key here
 var fcm = new FCM(serverKey);
+var data = [];
 
 const client = new Client({
     connectionString:constants.database_url
@@ -180,6 +181,33 @@ module.exports = {
             "data":resp.rows
         });
     });
+    },
+    getMultiUserLocation:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(2440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+            client.query("SELECT *" +
+                "FROM public.module_tasks_locations" +
+                "  where app_user_id  IN (" + req.body.user_id+") AND task_id=" + req.body.task_id + " AND" +
+                " datetime > '" + time_date + "'", (err, resp)=> {
+                //console.log(err, resp);
+                if(resp.rowCount>0) {
+                    data = resp.rows
+                }
+                    client.query("SELECT DISTINCT(app_user_id) , count(app_user_id) as rows " +
+                        "FROM  module_tasks_locations" +
+                        "  where app_user_id  IN (" + req.body.user_id+") AND task_id=" + req.body.task_id + " AND" +
+                        " datetime > '" + time_date + "'  group by app_user_id ", (err, resp1)=> {
+                        console.log(err, resp1);
+                        res.send({
+                            "status": 200,
+                            "data": data,
+                            "rowcount":resp1.rows
+                        });
+
+                    });
+
+            });
+
     },
     savetoken:function(req,res){
         console.log(req.body.user_id+" "+req.body.token);

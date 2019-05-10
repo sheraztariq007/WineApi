@@ -205,6 +205,14 @@ app.post('/api/updatenotificationstatus' ,function (req,res) {
     db_sql.updateNotificationStatus(req,res);
 });
 
+app.post('/api/checkappversion' ,function (req,res) {
+    db_helper.checkAppVersion(req,res);
+});
+
+app.post('/api/getMultiUserLocation' ,function (req,res) {
+    db_sql.getMultiUserLocation(req,res);
+});
+
 app.get('/api/images/getimages' ,function (req,res) {
     fs.readdir("uploads", function(err, filenames) {
 

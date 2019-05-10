@@ -18,6 +18,7 @@ const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
 const  TasksLocations =  require('../models/tasks_locations');
 const  Notifications =  require('../models/notifications');
+const  AppVersion =  require('../models/app_version');
 const  constants = require('../config/constants.json')
 const  db_sql = require('./db_sql')
 const saltRounds = 10;
@@ -355,6 +356,20 @@ module.exports = {
         notifications.findAll({
             where: {user_id: req.body.user_id,
             status:0}
+        }).then(result=>{
+            res.send({
+                "status":200,
+                "data":result
+            })
+            console.log(result);
+        }).catch(err=>{
+            console.log(err);
+        });
+    },
+    checkAppVersion:function(req,res) {
+        const appVersion = AppVersion(seq.sequelize, seq.sequelize.Sequelize);
+        appVersion.findAll({
+            limit:1
         }).then(result=>{
             res.send({
                 "status":200,
