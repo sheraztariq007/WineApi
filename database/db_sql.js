@@ -149,7 +149,7 @@ module.exports = {
 
     getUsersLocations:function(req,res){
         var newDateObj = new Date();
-        var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        var time_date =new Date(newDateObj.getTime()-(3440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select  DISTINCT mtask.app_user_id," +
             "mtask.latitude as latitude , mtask.longitude as longitude, " +
             "usuarios.name as user_name,tasks.name as task_name " +
@@ -184,7 +184,7 @@ module.exports = {
     },
     getMultiUserLocation:function(req,res){
         var newDateObj = new Date();
-        var time_date =new Date(newDateObj.getTime()-(2440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        var time_date =new Date(newDateObj.getTime()-(3440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
             client.query("SELECT *" +
                 "FROM public.module_tasks_locations" +
                 "  where app_user_id  IN (" + req.body.user_id+") AND task_id=" + req.body.task_id + " AND" +
@@ -376,7 +376,7 @@ module.exports = {
     }
     ,getlatestUsers:function(req,res){
         var newDateObj = new Date();
-        var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        var time_date =new Date(newDateObj.getTime()-(40* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select Distinct(app_user_id),usuarios.name, usuarios.surname,usuarios.email  from" +
             " module_tasks_locations,usuarios  where datetime>'"+time_date+"' AND" +
             "  module_tasks_locations.app_user_id=usuarios.id order by app_user_id ",(err,resp)=>{
