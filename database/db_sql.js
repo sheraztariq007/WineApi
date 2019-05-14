@@ -17,7 +17,8 @@ module.exports = {
         client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , " +
             "task_details,assign_from_id,assign_tasks_users_lists.status as status,assign_tasks_users_lists.user_id, u.email" +
             " from module_tasks ,assign_tasks_users_lists, tasks, usuarios as u where assign_from_id='"+user_id+"'" +
-            " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND assign_tasks_users_lists.user_id=u.id" ,(err,res)=>{
+            " AND  module_tasks.id=assign_tasks_users_lists.task_id AND module_tasks.task_id=tasks.id AND " +
+            "assign_tasks_users_lists.user_id=u.id  ORDER BY tasks.name  " ,(err,res)=>{
             console.log(err,res);
         res1.send({"status":200,
             "data":res.rows})
@@ -50,7 +51,9 @@ module.exports = {
     },
     newTasks:function(user_id,res1){
         client.query("select  module_tasks.id,tasks.name as task_name,task_details,assign_from_id,assign_tasks_users_lists.status as status ,module_tasks.createdat from  assign_tasks_users_lists,module_tasks, tasks " +
-            "where  assign_tasks_users_lists.task_id=module_tasks.id AND module_tasks.task_id=tasks.id  AND assign_tasks_users_lists.user_id='"+user_id+"' " ,(err,res)=>{
+            "where  assign_tasks_users_lists.task_id=module_tasks.id " +
+            "AND module_tasks.task_id=tasks.id " +
+            " AND assign_tasks_users_lists.user_id='"+user_id+"' order by tasks.name " ,(err,res)=>{
             console.log(err,res);
         res1.send({"status":200,"data":res.rows})
     });
