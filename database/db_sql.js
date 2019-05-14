@@ -428,6 +428,23 @@ module.exports = {
                 })
             }
         });
+    },
+    readMyNotifications:function(req,res){
+        client.query("select *from notifications where user_id='"+req.body.user_id+"' AND   datetime > NOW() - INTERVAL '7 days' order by status ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                })
+            }
+            else{
+                res.send({
+                    "status":204,
+                    "message":"Empty Notifications"
+                })
+            }
+        });
     }
 }
 

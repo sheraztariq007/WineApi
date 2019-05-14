@@ -200,6 +200,9 @@ app.post('/api/taskdetailsbyid' ,function (req,res) {
 app.post('/api/getmynotifications' ,function (req,res) {
     db_helper.getMyNotifications(req,res);
 });
+app.post('/api/readmynotifications' ,function (req,res) {
+    db_sql.readMyNotifications(req,res);
+});
 
 app.post('/api/updatenotificationstatus' ,function (req,res) {
     db_sql.updateNotificationStatus(req,res);

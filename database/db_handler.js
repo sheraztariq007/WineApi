@@ -22,6 +22,7 @@ const  AppVersion =  require('../models/app_version');
 const  constants = require('../config/constants.json')
 const  db_sql = require('./db_sql')
 const saltRounds = 10;
+const Op =  seq.Sequelize.Op;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 var md5 = require("md5")
 var thumbnail_folder="thumbnails/";
@@ -354,8 +355,9 @@ module.exports = {
     },getMyNotifications:function(req,res) {
         const notifications = Notifications(seq.sequelize, seq.sequelize.Sequelize);
         notifications.findAll({
-            where: {user_id: req.body.user_id,
-            status:0}
+            where: {
+                user_id: req.body.user_id
+            }
         }).then(result=>{
             res.send({
                 "status":200,
