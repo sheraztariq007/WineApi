@@ -27,7 +27,24 @@ module.exports = {
                 role_id:'3',
                 name:'Tom',
                 surname:'jery'
-            }
+            },
+             {
+                email: 'albertoortega@valtravieso.com',
+                password:'e10adc3949ba59abbe56e057f20f883e',
+                company:'1',
+                role_id:'2',
+                name:'Alberto',
+                surname:'Ortega'
+             },
+             {
+                email: 'ricardovelasco@valtravieso.com',
+                password:'e10adc3949ba59abbe56e057f20f883e',
+                company:'1',
+                role_id:'2',
+                name:'Ricardo',
+                surname:'Velasco'
+             }
+
         ], {});
 },
 

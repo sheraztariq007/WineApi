@@ -445,6 +445,50 @@ module.exports = {
                 })
             }
         });
+    },
+    getAllGeoLocationUsers:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(1440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("SELECT *" +
+            "FROM public.module_tasks_locations" +
+            "  where datetime > '" + time_date + "'", (err, resp)=> {
+            //console.log(err, resp);
+            if(resp.rowCount>0) {
+                data = resp.rows
+            }
+            client.query("SELECT DISTINCT(app_user_id) , count(app_user_id) as rows " +
+                "FROM  module_tasks_locations" +
+                "  where datetime > '" + time_date + "'  group by app_user_id ", (err, resp1)=> {
+                console.log(err, resp1);
+                res.send({
+                    "status": 200,
+                    "data": data,
+                    "rowcount":resp1.rows
+                });
+
+            });
+
+        });
+
+    },getAllUsersLocations:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(1440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("select  DISTINCT mtask.app_user_id," +
+            "mtask.latitude as latitude , mtask.longitude as longitude, " +
+            "usuarios.name as user_name,tasks.name as task_name " +
+            ", mtask.datetime as datetime from module_tasks_locations as" +
+            " mtask, usuarios, tasks" +
+            " where  mtask.datetime >='"+time_date+"' AND " +
+            " mtask.app_user_id=usuarios.id AND tasks.id=mtask.task_id " +
+            " ORDER BY mtask.app_user_id   ",
+            (err,resp)=>{
+                console.log(err,resp);
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+
+            });
     }
 }
 

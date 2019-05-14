@@ -7,24 +7,65 @@ module.exports = {
       return queryInterface.bulkInsert('fields',[
           {
               name: 'Otros',
-              company_id:2
+              company_id:1
           },
           {
-              name: 'PDC 1',
-              company_id:2
+              name: 'La Atalaya',
+              company_id:1
 
           },
           {
-              name: 'PDC 2',
-              company_id:2
+              name: 'La Cotarra Alta',
+              company_id:1
           },
           {
-              name: 'PSTM 1',
+              name: 'El Lobón',
           },
           {
-              name: 'PSTM 2',
+              name: 'El Cotarro (Merlot)',
               company_id:1
           }
+          ,
+          {
+              name: 'El Cotarro (Tempranillo)',
+              company_id:1
+          }
+          ,
+          {
+              name: 'Valdelobas',
+              company_id:1
+          }
+          ,
+          {
+              name: 'La Asomada',
+              company_id:1
+          }
+          ,
+          {
+              name: 'El Barco de Teralbo',
+              company_id:1
+          }
+          ,
+          {
+              name: 'El Tajón',
+              company_id:1
+          }
+          ,
+          {
+              name: 'San Botero',
+              company_id:1
+          }
+          ,
+          {
+              name: 'El Molino',
+              company_id:1
+          }
+          ,
+          {
+              name: 'La Cabrera',
+              company_id:1
+          }
+
       ], {});
 },
 

@@ -8,20 +8,56 @@ module.exports = {
                 name: 'NONE'
             },
             {
-                name: 'ABONO ORGÁNICO'
+                name: 'Podar'
             },
 
             {
-                name: 'TRABAJO COLMENAS'
+                name: 'Tirar palos'
             },
             {
-                name: 'ARANCAR PLANTAS'
+                name: 'Sacar palos'
             },
             {
-                name: 'ATADO DE FORMACIÓN'
+                name: 'Replantar'
             },
             {
-                name: 'ATAR TUTORES'
+                name: 'Atar'
+            },
+            {
+                name: 'Bajar alambre'
+            },
+            {
+                name: 'Cortar bravo tijera'
+            },
+            {
+                name: 'Recoger piedra'
+            },
+            {
+                name: 'Acodar'
+            },
+            {
+                name: 'Poda verde'
+            },
+            {
+                name: 'Subir alambre'
+            },
+            {
+                name: 'Quitar malas hierbas'
+            },
+            {
+                name: 'Tratamientos fitosanitarios'
+            },
+            {
+                name: 'Despuntar'
+            },
+            {
+                name: 'Desnietar'
+            },
+            {
+                name: 'Deshojar'
+            },
+            {
+                name: 'Vendimiar'
             }
         ], {});
 },
