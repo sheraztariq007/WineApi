@@ -86,7 +86,7 @@ module.exports = {
             'status':200,
             'message':'Successfully send'
         })
-        db_sql.sendNotifications("Disease","Disease uploaded from users","Disease",result.id,companyId,"disease_details")
+        db_sql.sendNotifications("Plagas y Enfermedades","Disease uploaded from users","PlagasyEnfermedades",result.id,companyId,"disease_details")
     }).catch (err=>{
             console.log(err);
     });
@@ -105,8 +105,8 @@ module.exports = {
             'message':'Successfully send'
         })
         console.log(req.body)
-        db_sql.sendNotifications("Notebook","Notebook uploaded from users"
-            ,"NoteField",result.id,req.body.company_id,"notebook")
+        db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+            ,"Cuaderno",result.id,req.body.company_id,"notebook")
     }).catch(err=>{
             console.log(err);
     });
@@ -134,10 +134,11 @@ module.exports = {
     });
     },
     /*Save Sampling*/
-    saveSampling:function(req,res){
+    saveSampling:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
         sampling.create({
             reportedby_user_id:req.body.reportedby_user_id,sample_name:req.body.sample_name,
+            phenological_type:req.body.phenological_type,image_url:originalFileName,thumbnail_url:thumbnail_folder+originalFileName,
             sample_type:req.body.sample_type,cluster_per_unit_edit:req.body.cluster_per_unit_edit,
             boxes_per_field:req.body.boxes_per_field,
             kilogram_transport:req.body.kilogram_transport,machinery:req.body.machinery,
@@ -157,6 +158,31 @@ module.exports = {
     }).catch (err=>{
             console.log(err);
     });
+    },
+    saveSamplingWithImage:function(req,originalFileName,res){
+        const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        sampling.create({
+            reportedby_user_id:req.param('reportedby_user_id', null),sample_name:req.param('sample_name', null),
+            phenological_type:req.param('phenological_type', null),image_url:originalFileName,thumbnail_url:thumbnail_folder+originalFileName,
+            sample_type:req.param('sample_type', null),cluster_per_unit_edit:req.param('cluster_per_unit_edit', null),
+            boxes_per_field:req.param('boxes_per_field', null),
+            kilogram_transport:req.param('kilogram_transport', null),machinery:req.param('machinery', null),
+            field_type:req.param('field_type', null)
+            ,location:req.param('location', null),reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.param('sample_type_field_id', null),
+            sample_type_lning:req.param('sample_type_lning', null),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
+            weight_purning:req.param('weight_purning', null),drop_buds:req.param('drop_buds', null),number_of_buds:req.param('number_of_buds', null),
+            number_of_bunches:req.param('number_of_bunches', null),sample_type_date:req.param('sample_type_date', null)
+        }).then(result=>{
+            console.log("done");
+            res.send({
+                'status':200,
+                'message':'Successfully send'
+            })
+            db_sql.sendNotifications("Sample","Sample uploaded from users"
+                ,"Sample",result.id,req.body.company_id,"sample_field")
+        }).catch (err=>{
+            console.log(err);
+        });
     },
     /*Get Field Listss*/
     fieldlist:function(res){
@@ -415,8 +441,8 @@ function saveUsersLists(usersdata,task_id){
     });
     }
     for(var i=0;i<users.length;i++){
-        db_sql.sendTaskNotifications("New Task", "Congratulation New Task Assigned",
-            "TaskAssigned", users[i],task_id,"main_activity");
+        db_sql.sendTaskNotifications("Tarea Asignada", "Congratulation New Task Assigned",
+            "TareaAsignada", users[i],task_id,"main_activity");
     }
 }
 

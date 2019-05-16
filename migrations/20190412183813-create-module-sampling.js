@@ -14,6 +14,14 @@ module.exports = {
       sample_name: {
         type: Sequelize.TEXT
       },
+      phenological_type: {
+        type: Sequelize.TEXT
+      },
+      thumbnail_url: {
+        type: Sequelize.TEXT
+      },image_url: {
+        type: Sequelize.TEXT
+      },
       sample_type: {
         type: Sequelize.TEXT
       },

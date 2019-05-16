@@ -324,7 +324,8 @@ module.exports = {
     },
     samplingDetailById:function(req,res){
         client.query("SELECT " +
-            "m_s.sample_type_field_id as sample_type_field_name, m_s.field_type as field_type_name" +
+            "m_s.sample_type_field_id as sample_type_field_name,m_s.phenological_type as phenological_type, " +
+            "m_s.thumbnail_url as thumbnail_url,m_s.image_url as image_url, m_s.field_type as field_type_name" +
             ",m_s.sample_name as sample_name, m_s.sample_type as sample_type, m_s.cluster_per_unit_edit," +
             "m_s.boxes_per_field, m_s.kilogram_transport, m_s.machinery, " +
             "m_s.location,m_s.sample_type_date,m_s.sample_type_lning,m_s.sample_type_strain," +
