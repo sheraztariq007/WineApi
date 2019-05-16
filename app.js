@@ -96,18 +96,21 @@ app.post('/api/maintaince', upload, function (req,res,next) {
     console.log(originalFileName)
 });
 app.post('/api/sampling',upload ,function (req,res,next) {
-    thumb({
-        source: req.file.path, // could be a filename: dest/path/image.jpg
-        destination: 'uploads/thumbnails/',
-        prefix: '',
-        suffix:'',
-        width:500,
-        concurrency: 4
-    }, function(files, err, stdout, stderr) {
-        console.log('All done!');
-    });
-
-    var originalFileName = req.file.filename
+    if(req.file) {
+        thumb({
+            source: req.file.path, // could be a filename: dest/path/image.jpg
+            destination: 'uploads/thumbnails/',
+            prefix: '',
+            suffix: '',
+            width: 500,
+            concurrency: 4
+        }, function (files, err, stdout, stderr) {
+            console.log('All done!');
+        });
+        var originalFileName = req.file.filename
+    }else{
+        var originalFileName = "";
+    }
     db_helper.saveSamplingWithImage(req,originalFileName,res)
 });
 app.post('/api/fieldlist' ,function (req,res) {
