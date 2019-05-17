@@ -545,7 +545,8 @@ module.exports = {
             "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
             "from module_diseases as m_d,diseases as ds, usuarios " +
             "where m_d.company_id='"+req.body.company_id+"' AND m_d.disease_type=ds.id AND " +
-            "m_d.reportedby_user_id=usuarios.id",(err,resp)=>{
+            "m_d.reportedby_user_id=usuarios.id AND m_d.reported_datetime::date>='"+req.body.start_date+"'" +
+            "  AND m_d.reported_datetime::date<='"+req.body.end_date+"'",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
