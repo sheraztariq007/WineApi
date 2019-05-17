@@ -252,4 +252,8 @@ app.post('/api/getsamplinglocation' ,function (req,res) {
     db_sql.getSamplingLocation(req,res);
 });
 
+app.post('/api/getalllocationpins' ,function (req,res) {
+    db_sql.getAllLocationPins(req,res);
+});
+
 
