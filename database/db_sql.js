@@ -493,6 +493,88 @@ module.exports = {
                 });
 
             });
+    },getDiseaseLocations:function(req,res){
+        client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
+            " usuarios.name,ds.name as disease_name," +
+            "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
+            "from module_diseases as m_d,diseases as ds, usuarios " +
+            "where m_d.company_id='"+req.body.company_id+"' AND m_d.disease_type=ds.id AND " +
+            "m_d.reportedby_user_id=usuarios.id",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"sorry no report found"
+                })
+            }
+
+        });
+    },getMaintanceLocation:function (req,res) {
+        client.query("select mant.name as maintance_name,m_m.company_id,m_m.details," +
+            "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
+            "from module_maintains as m_m,maintenances as mant,usuarios" +
+            " where m_m.company_id='"+req.body.company_id+"' AND m_m.maintane_type=mant.id AND " +
+            "m_m.reportedby_user_id=usuarios.id",
+            (err,resp)=>{
+                console.log(err,resp);
+                if(resp.rowCount>0){
+                    res.send({
+                        "status":200,
+                        "data":resp.rows
+                    });
+                }else{
+                    res.send({
+                        "status":204,
+                        "message":"sorry no report found"
+                    })
+                }
+            });
+    },
+    getNoteFieldLocation:function (req,res) {
+        client.query("select usuarios.name as username,m_f.marchinar_id,m_f.start_date, m_f.end_date," +
+            "m_f.product,m_f.app_method,m_f.surface,m_f.location,m_f.reported_date_time," +
+            "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb, usuarios where " +
+            "m_f.company_id='"+req.body.company_id+"' AND  m_f.reportedby_user_id=usuarios.id AND " +
+            "m_f.labore_id=lb.id AND m_f.field_id=fb.id",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"sorry no report found"
+                });
+            }
+        });
+    },getSamplingLocation:function (req,res) {
+        client.query("select m_s.sample_name,m_s.phenological_type,m_s.thumbnail_url,m_s.image_url," +
+            "m_s.sample_type, m_s.cluster_per_unit_edit,m_s.boxes_per_field,m_s.kilogram_transport," +
+            "m_s.machinery,fb.name as field_name,m_s.sample_type_date,m_s.sample_type_lning," +
+            "m_s.sample_type_strain,m_s.sample_type_no_of_breaks,m_s.weight_purning," +
+            "m_s.drop_buds,m_s.number_of_buds,m_s.number_of_bunches,m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
+            "m_s.company_id='"+req.body.company_id+"' AND " +
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    'status':200,
+                    'data':resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"sorry no report found"
+                });
+            }
+        })
     }
 }
 

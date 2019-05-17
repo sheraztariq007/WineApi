@@ -11,6 +11,9 @@ module.exports = {
       reportedby_user_id: {
         type: Sequelize.INTEGER
       },
+      company_id: {
+        type: Sequelize.TEXT
+      },
       marchinar_id: {
         type: Sequelize.TEXT
       },

@@ -14,6 +14,9 @@ module.exports = {
       sample_name: {
         type: Sequelize.TEXT
       },
+      company_id: {
+        type: Sequelize.TEXT
+      },
       phenological_type: {
         type: Sequelize.TEXT
       },

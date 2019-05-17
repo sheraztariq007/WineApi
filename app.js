@@ -237,19 +237,19 @@ app.post('/api/getalluserlocation' ,function (req,res) {
     db_sql.getAllUsersLocations(req,res);
 });
 
-app.get('/api/images/getimages' ,function (req,res) {
-    fs.readdir("uploads", function(err, filenames) {
-
-        if (err) {
-            console.log(err)
-            return;
-        }
-        else{
-            res.send({
-               "images" : req.connection.remoteAddress
-            });
-        }
-
-    });
+app.post('/api/getdiseaselocations' ,function (req,res) {
+    db_sql.getDiseaseLocations(req,res);
 });
+
+app.post('/api/getmaintancelocation' ,function (req,res) {
+    db_sql.getMaintanceLocation(req,res);
+});
+
+app.post('/api/getnotefieldlocation' ,function (req,res) {
+    db_sql.getNoteFieldLocation(req,res);
+});
+app.post('/api/getsamplinglocation' ,function (req,res) {
+    db_sql.getSamplingLocation(req,res);
+});
+
 

@@ -74,8 +74,9 @@ module.exports = {
     getDiseaseList:function(userid,disease_type,details,imageUrl,location,companyId,res){
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
-            reportedby_user_id:userid,disease_type:disease_type
-            ,maintenace:details,
+            reportedby_user_id:userid,disease_type:disease_type,
+            maintenace:details,
+            company_id:companyId,
             image_url:imageUrl,
             thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
@@ -98,7 +99,7 @@ module.exports = {
             reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
             labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
             app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,location:req.body.location,
-            reported_date_time:getDate()+" "+getTime()
+            reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
         }).then(result=>{
             res.send({
             'status':200,
@@ -116,8 +117,9 @@ module.exports = {
     saveMaintaince:function(userid,maintane_type,details,imageUrl,location,companyId,res){
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
-            reportedby_user_id:userid,maintane_type:maintane_type
-            ,details:details,
+            reportedby_user_id:userid,maintane_type:maintane_type,
+            details:details,
+            company_id:companyId,
             image_url:imageUrl,
             thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
@@ -146,7 +148,8 @@ module.exports = {
             ,location:req.body.location,reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.body.sample_type_field_id,
             sample_type_lning:req.body.sample_type_lning,sample_type_strain:req.body.sample_type_strain,sample_type_no_of_breaks:req.body.sample_type_no_of_breaks,
             weight_purning:req.body.weight_purning,drop_buds:req.body.drop_buds,number_of_buds:req.body.number_of_buds,
-            number_of_bunches:req.body.number_of_bunches,sample_type_date:req.body.sample_type_date
+            number_of_bunches:req.body.number_of_bunches,sample_type_date:req.body.sample_type_date,
+            company_id:req.body.company_id
         }).then(result=>{
             console.log("done");
         res.send({
@@ -162,7 +165,8 @@ module.exports = {
     saveSamplingWithImage:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
         sampling.create({
-            reportedby_user_id:req.param('reportedby_user_id', null),sample_name:req.param('sample_name', null),
+            reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
+            sample_name:req.param('sample_name', null),
             phenological_type:req.param('phenological_type', null),image_url:originalFileName,thumbnail_url:thumbnail_folder+originalFileName,
             sample_type:req.param('sample_type', null),cluster_per_unit_edit:req.param('cluster_per_unit_edit', null),
             boxes_per_field:req.param('boxes_per_field', null),
@@ -170,7 +174,8 @@ module.exports = {
             ,location:req.param('location', null),reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.param('sample_type_field_id', null),
             sample_type_lning:req.param('sample_type_lning', null),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
             weight_purning:req.param('weight_purning', null),drop_buds:req.param('drop_buds', null),number_of_buds:req.param('number_of_buds', null),
-            number_of_bunches:req.param('number_of_bunches', null),sample_type_date:req.param('sample_type_date', null)
+            number_of_bunches:req.param('number_of_bunches', null),
+            sample_type_date:req.param('sample_type_date', null)
         }).then(result=>{
             console.log("done");
             res.send({
