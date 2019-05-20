@@ -563,11 +563,12 @@ module.exports = {
 
         });
     },getMaintanceLocation:function (req,res) {
-        client.query("select mant.name as maintance_name,m_m.company_id,m_m.details," +
+        client.query("select usuarios.name as username,mant.name as maintance_name,m_m.company_id,m_m.details," +
             "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
             "from module_maintains as m_m,maintenances as mant,usuarios" +
             " where m_m.company_id='"+req.body.company_id+"' AND m_m.maintane_type=mant.id AND " +
-            "m_m.reportedby_user_id=usuarios.id",
+            "m_m.reportedby_user_id=usuarios.id AND m_m.reported_date_time::date>='"+req.body.start_date+"'" +
+            "  AND m_m.reported_date_time::date<='"+req.body.end_date+"'",
             (err,resp)=>{
                 console.log(err,resp);
                 if(resp.rowCount>0){
@@ -588,7 +589,8 @@ module.exports = {
             "m_f.product,m_f.app_method,m_f.surface,m_f.location,m_f.reported_date_time," +
             "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb, usuarios where " +
             "m_f.company_id='"+req.body.company_id+"' AND  m_f.reportedby_user_id=usuarios.id AND " +
-            "m_f.labore_id=lb.id AND m_f.field_id=fb.id",(err,resp)=>{
+            "m_f.labore_id=lb.id AND m_f.field_id=fb.id AND m_f.reported_date_time::date>='"+req.body.start_date+"'" +
+            "  AND m_f.reported_date_time::date<='"+req.body.end_date+"'",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
@@ -602,14 +604,16 @@ module.exports = {
                 });
             }
         });
+
     },getSamplingLocation:function (req,res) {
-        client.query("select m_s.sample_name,m_s.phenological_type,m_s.thumbnail_url,m_s.image_url," +
+        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, m_s.phenological_type,m_s.thumbnail_url,m_s.image_url," +
             "m_s.sample_type, m_s.cluster_per_unit_edit,m_s.boxes_per_field,m_s.kilogram_transport," +
             "m_s.machinery,fb.name as field_name,m_s.sample_type_date,m_s.sample_type_lning," +
             "m_s.sample_type_strain,m_s.sample_type_no_of_breaks,m_s.weight_purning," +
             "m_s.drop_buds,m_s.number_of_buds,m_s.number_of_bunches,m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
             "m_s.company_id='"+req.body.company_id+"' AND " +
-            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp)=>{
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND m_s.reported_datetime::date>='"+req.body.start_date+"'" +
+            "  AND m_s.reported_datetime::date<='"+req.body.end_date+"'",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
