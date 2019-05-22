@@ -434,7 +434,8 @@ module.exports = {
         });
     },
     readMyNotifications:function(req,res){
-        client.query("select *from notifications where user_id='"+req.body.user_id+"' AND   datetime > NOW() - INTERVAL '7 days' order by status ",(err,resp)=>{
+        client.query("select *from notifications where user_id='"+req.body.user_id+"' AND  " +
+            " datetime > NOW() - INTERVAL '7 days' order by datetime ",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
