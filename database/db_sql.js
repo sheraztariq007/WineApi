@@ -607,11 +607,15 @@ module.exports = {
         });
 
     },getSamplingLocation:function (req,res) {
-        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, m_s.phenological_type,m_s.thumbnail_url,m_s.image_url," +
-            "m_s.sample_type, m_s.cluster_per_unit_edit,m_s.boxes_per_field,m_s.kilogram_transport," +
-            "m_s.machinery,fb.name as field_name,m_s.sample_type_date,m_s.sample_type_lning," +
-            "m_s.sample_type_strain,m_s.sample_type_no_of_breaks,m_s.weight_purning," +
-            "m_s.drop_buds,m_s.number_of_buds,m_s.number_of_bunches,m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
+        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, COALESCE(m_s.phenological_type,'') " +
+            "as phenological_type,m_s.thumbnail_url,m_s.image_url," +
+            "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
+            "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
+            "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
+            "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
+            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+            "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
+            "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ,m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
             "m_s.company_id='"+req.body.company_id+"' AND " +
             "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND m_s.reported_datetime::date>='"+req.body.start_date+"'" +
             "  AND m_s.reported_datetime::date<='"+req.body.end_date+"'",(err,resp)=>{
@@ -628,6 +632,52 @@ module.exports = {
                 });
             }
         })
+    },
+    getAllLocationPinsweb:function(req,res) {
+        var  disease;
+        var  maintain;
+        var  fieldnote;
+        client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
+            " usuarios.name,ds.name as disease_name," +
+            "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
+            "from module_diseases as m_d,diseases as ds, usuarios " +
+            "where m_d.company_id='" + req.params('company_id',null)+ "' AND m_d.disease_type=ds.id AND " +
+            "m_d.reportedby_user_id=usuarios.id", (err, resp)=> {
+            disease = resp.rows;
+
+            client.query("select  usuarios.name as username, mant.name as maintance_name,m_m.company_id,m_m.details," +
+                "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
+                "from module_maintains as m_m,maintenances as mant,usuarios" +
+                " where m_m.company_id='"+req.params('company_id',null)+"' AND m_m.maintane_type=mant.id AND " +
+                "m_m.reportedby_user_id=usuarios.id",
+                (err,resp_m)=> {
+                    maintain = resp_m.rows
+                    client.query("select usuarios.name as username,m_f.marchinar_id,m_f.start_date, m_f.end_date," +
+                        "m_f.product,m_f.app_method,m_f.surface,m_f.location,m_f.reported_date_time," +
+                        "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb, usuarios where " +
+                        "m_f.company_id='"+req.params('company_id',null)+"' AND  m_f.reportedby_user_id=usuarios.id AND " +
+                        "m_f.labore_id=lb.id AND m_f.field_id=fb.id",(err,resp_n)=>{
+                        console.log(err,resp_n);
+                        fieldnote = resp_n.rows
+                        client.query("select usuarios.name as username,m_s.sample_name,m_s.location, m_s.phenological_type,m_s.thumbnail_url,m_s.image_url," +
+                            "m_s.sample_type, m_s.cluster_per_unit_edit,m_s.boxes_per_field,m_s.kilogram_transport," +
+                            "m_s.machinery,fb.name as field_name,m_s.sample_type_date,m_s.sample_type_lning," +
+                            "m_s.sample_type_strain,m_s.sample_type_no_of_breaks,m_s.weight_purning," +
+                            "m_s.drop_buds,m_s.number_of_buds,m_s.number_of_bunches,m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
+                            "m_s.company_id='"+req.params('company_id',null)+"' AND " +
+                            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp_s)=>{
+
+                            res.send({
+                                "status": 200,
+                                "sampling":resp_s.rows,
+                                "feildsbook":fieldnote,
+                                "maintain":maintain,
+                                "disease": disease
+                            });
+                        });
+                    });
+                });
+        });
     }
 }
 

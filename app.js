@@ -256,4 +256,8 @@ app.post('/api/getalllocationpins' ,function (req,res) {
     db_sql.getAllLocationPins(req,res);
 });
 
+app.get('/api/getAllLocationPinsweb' ,function (req,res) {
+    db_sql.getAllLocationPins(req,res);
+});
+
 
