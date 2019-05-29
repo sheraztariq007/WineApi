@@ -392,7 +392,7 @@ module.exports = {
         });
     },
     workingNotificationHandle:function(req,res){
-        sendWorkingNotification ("Update Working ","Working ","Working",req)
+        //sendWorkingNotification ("Update Working ","Working ","Working",req)
     }
     ,
     taskDetailsById:function(req,res){
