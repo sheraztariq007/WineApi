@@ -497,12 +497,12 @@ module.exports = {
     },getAllUsersPinTasks:function(req,res){
         var newDateObj = new Date();
         var time_date =new Date(newDateObj.getTime()-(2440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
-        client.query("select  DISTINCT(mtask.app_user_id) as app_user_id ," +
+        client.query("select  mtask.app_user_id app_user_id ," +
             "mtask.latitude as latitude , mtask.longitude as longitude, " +
             "mtask.datetime as datetime from module_tasks_locations as" +
             " mtask" +
             " where  mtask.datetime >='"+time_date+"'"+
-            " GROUP BY mtask.app_user_id   ",
+            " GROUP BY mtask.app_user_id ,mtask.longitud,mtask.latitude,mtask.datetime ",
             (err,resp)=>{
                 console.log(err,resp);
                 res.send({
