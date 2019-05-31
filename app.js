@@ -260,4 +260,8 @@ app.get('/api/getAllLocationPinsweb' ,function (req,res) {
   //  db_sql.getAllLocationPins(req,res);
 });
 
+app.post('/api/getalluserspintasks' ,function (req,res) {
+   db_sql.getAllUsersPinTasks(req,res);
+});
+
 
