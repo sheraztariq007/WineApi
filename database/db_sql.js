@@ -485,7 +485,7 @@ module.exports = {
             " mtask, usuarios, tasks" +
             " where  mtask.datetime >='"+time_date+"' AND " +
             " mtask.app_user_id=usuarios.id AND tasks.id=mtask.task_id " +
-            " ORDER BY mtask.app_user_id   ",
+            " ORDER BY mtask.app_user_id  DESC  ",
             (err,resp)=>{
                 console.log(err,resp);
                 res.send({
@@ -497,12 +497,12 @@ module.exports = {
     },getAllUsersPinTasks:function(req,res){
         var newDateObj = new Date();
         var time_date =new Date(newDateObj.getTime()-(2440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
-        client.query("select Distinct  mtask.app_user_id ," +
+        client.query("select  DISTINCT  mtask.app_user_id," +
             "mtask.latitude as latitude , mtask.longitude as longitude, " +
             "mtask.datetime as datetime from module_tasks_locations as" +
             " mtask" +
             " where  mtask.datetime >='"+time_date+"'"+
-            " GROUP BY mtask.app_user_id ,mtask.longitude,mtask.latitude,mtask.datetime ",
+            " ORDER BY mtask.app_user_id   ",
             (err,resp)=>{
                 console.log(err,resp);
                 res.send({
