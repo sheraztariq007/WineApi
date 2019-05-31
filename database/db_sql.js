@@ -502,7 +502,7 @@ module.exports = {
             "mtask.datetime as datetime from module_tasks_locations as" +
             " mtask" +
             " where  mtask.datetime >='"+time_date+"'"+
-            " ORDER BY mtask.app_user_id   ",
+            " GROUP BY mtask.app_user_id   ",
             (err,resp)=>{
                 console.log(err,resp);
                 res.send({
