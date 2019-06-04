@@ -189,9 +189,11 @@ module.exports = {
         });
     },
     /*Get Field Listss*/
-    fieldlist:function(res){
+    fieldlist:function(res,$company_id){
         const fld =  Fields(seq.sequelize,seq.sequelize.Sequelize);
-        fld.findAll().then(result=>{
+        fld.findAll({
+            where:{company_id:$company_id}
+        }).then(result=>{
             res.send({
             'status':200,
             "data":result
