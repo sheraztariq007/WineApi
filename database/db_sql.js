@@ -169,7 +169,6 @@ module.exports = {
                     "status":200,
                     "data":resp.rows
                 });
-
             });
     },
     getSingleUserLocation:function(req,res){
@@ -505,7 +504,7 @@ module.exports = {
             "mtask.datetime as datetime from module_tasks_locations as " +
             " mtask" +
             " where  mtask.datetime >='"+time_date+"' "+
-            " ORDER BY mtask.app_user_id   ",
+            " ORDER BY mtask.app_user_id  ",
             (err,resp)=>{
                 console.log(err,resp);
                 res.send({

@@ -135,7 +135,7 @@ app.post('/api/gettasksLists' ,function (req,res) {
     db_helper.getTasksLists(req,res)
 });
 app.post('/api/taskslists' ,function (req,res) {
-    db_helper.getTasksNames(req,res)
+    db_helper.getTasksNames(req,res,req.param("company_id","0"))
 });
 app.post('/api/myuploadedtasks' ,function (req,res) {
     db_helper.myUploadTasks(req,res)

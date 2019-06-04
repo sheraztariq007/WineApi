@@ -295,9 +295,11 @@ module.exports = {
             console.log(err);
     });
     },
-    getTasksNames:function(req,res){
+    getTasksNames:function(req,res,$company_id){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
-        tasks.findAll().then(result=>{
+        tasks.findAll({
+            where:{company_id:$company_id}
+        }).then(result=>{
             res.send({
             "status":200,
             "data":result
