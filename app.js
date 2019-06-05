@@ -114,7 +114,7 @@ app.post('/api/sampling',upload ,function (req,res,next) {
     db_helper.saveSamplingWithImage(req,originalFileName,res)
 });
 app.post('/api/fieldlist' ,function (req,res) {
-    db_helper.fieldlist(res)
+    db_helper.fieldlist(res,req.param("company_id","0"))
 });
 app.post('/api/laborlist' ,function (req,res) {
     db_helper.laborlist(res)
