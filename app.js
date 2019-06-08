@@ -263,5 +263,7 @@ app.get('/api/getAllLocationPinsweb' ,function (req,res) {
 app.post('/api/getalluserspintasks' ,function (req,res) {
    db_sql.getAllUsersPinTasks(req,res);
 });
-
+app.get('/api/getallgeolocationuserstest' ,function (req,res) {
+    db_sql.getAllGeoLocationUsers(req,res);
+});
 
