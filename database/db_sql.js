@@ -485,7 +485,7 @@ module.exports = {
             "usuarios.name as user_name,tasks.name as task_name " +
             ", mtask.datetime as datetime from module_tasks_locations as" +
             " mtask, usuarios, tasks" +
-            " where  mtask.datetime >='"+time_date+"' AND " +
+            " where  mtask.datetime >='"+time_date+"' AND company_id='"+req.body.company_id+"' AND " +
             " mtask.app_user_id=usuarios.id AND tasks.id=mtask.task_id " +
             " ORDER BY mtask.app_user_id  DESC  ",
             (err,resp)=>{
