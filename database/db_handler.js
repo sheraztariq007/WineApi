@@ -300,7 +300,8 @@ module.exports = {
     getTasksNames:function(req,res,$company_id){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
         tasks.findAll({
-            where:{company_id:$company_id}
+            where:{company_id:$company_id},
+            order: [['id','ASC']]
         }).then(result=>{
             res.send({
             "status":200,
