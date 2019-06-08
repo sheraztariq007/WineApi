@@ -456,7 +456,7 @@ module.exports = {
         var time_date =new Date(newDateObj.getTime()-(1440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("SELECT *" +
             "FROM public.module_tasks_locations" +
-            "  where datetime > '" + time_date + "' company_id='"+req.body.company_id+"'", (err, resp)=> {
+            "  where datetime > '" + time_date + "' AND company_id='"+req.body.company_id+"'", (err, resp)=> {
             //console.log(err, resp);
             if(resp.rowCount>0) {
                 data = resp.rows
