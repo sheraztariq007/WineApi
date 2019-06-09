@@ -681,6 +681,31 @@ module.exports = {
                 });
 
             });
+    },
+    getAllGeoLocationUsersWeb:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(1440* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("SELECT *" +
+            "FROM public.module_tasks_locations" +
+            "  where datetime > '" + time_date + "'", (err, resp)=> {
+            //console.log(err, resp);
+            if(resp.rowCount>0) {
+                data = resp.rows
+            }
+            client.query("SELECT DISTINCT(app_user_id) , count(app_user_id) as rows " +
+                "FROM  module_tasks_locations" +
+                "  where datetime > '" + time_date + "'  group by app_user_id ", (err, resp1)=> {
+                console.log(err, resp1);
+                res.send({
+                    "status": 200,
+                    "data": data,
+                    "rowcount":resp1.rows
+                });
+
+            });
+
+        });
+
     }
 }
 

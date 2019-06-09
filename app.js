@@ -266,4 +266,7 @@ app.post('/api/getalluserspintasks' ,function (req,res) {
 app.post('/api/getallusersLocationsweb' ,function (req,res) {
     db_sql.getAllUsersLocationsWeb(req,res);
 });
+app.post('/api/getallgeolocationusersweb' ,function (req,res) {
+    db_sql.getAllGeoLocationUsersWeb(req,res);
+});
 
