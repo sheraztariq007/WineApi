@@ -38,12 +38,12 @@ module.exports = {
             " comp.module_sampling as comp_sampling," +
             " comp.module_disease as comp_disease, " +
             "comp.module_notefield as comp_notefield," +
-            "comp.module_tasks as comp_tasks, comp.name as company_name ," +
-            "comp.contactMail as contactMail, comp.contactPhone as contactPhone  "  +
+            "comp.module_tasks as comp_tasks, comp.name as company_name," +
+            "comp.contactmail as contactmail, comp.contactphone as contactphone  "  +
             "from usuarios,user_roles,companies as comp where" +
             " usuarios.email='"+email+"' AND usuarios.password='"+md5(password)+"' AND usuarios.role_id=user_roles.id " +
             "AND usuarios.company=comp.id LIMIT 1",(err,resp)=>{
-            // console.log(err,resp);
+            console.log(err,resp);
             if(resp.rows.length>0) {
                 res.send({"status":200,
                     "data": resp.rows})
