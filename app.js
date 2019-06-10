@@ -21,7 +21,7 @@ var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
 }).single('avatar');
-console.log(md5("pablo"))
+console.log(md5("123456"))
 var app = express();
 app.use(express.static("uploads"))
 app.use(express.json())
@@ -43,7 +43,7 @@ var server = app.listen(3000,function () {
     console.log('Server is running  on Http://%s:%s',host,port);
 });
 app.post('/api/login',function (req,res) {
-    console.log(req.body.email+req.body.password);
+    //console.log(req.body.email+req.body.password);
     db_sql.loginUser(req.body.email,req.body.password,res);
 });
 app.post('/api/fieldnotebook',function (req,res) {

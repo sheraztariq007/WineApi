@@ -29,16 +29,19 @@ module.exports = {
         // client.query("select *from usuarios",(err,res1)=>{
         //     console.log(err,res1);
         // });
-        console.log(md5(password))
-
         client.query("select usuarios.id,usuarios.email,usuarios.role_id,usuarios.company," +
             "usuarios.password,usuarios.name,usuarios.surname,usuarios.group," +
             "usuarios.phone,usuarios.last_login_date," +
             "usuarios.account_disabled,usuarios.module_task,usuarios.module_diseases," +
             "usuarios.module_maintenance,usuarios.module_gathering," +
-            "user_roles.role_name " +
-            "from usuarios,user_roles where" +
-            " usuarios.email='"+email+"' AND usuarios.password='"+md5(password)+"' AND usuarios.role_id=user_roles.id LIMIT 1",(err,resp)=>{
+            "user_roles.role_name, comp.module_disease as comp_disease, comp.module_mantain as comp_mantain," +
+            " comp.module_sampling as comp_sampling," +
+            " comp.module_disease as comp_disease, " +
+            "comp.module_notefield as comp_notefield," +
+            "comp.module_tasks as comp_tasks  "  +
+            "from usuarios,user_roles,companies as comp where" +
+            " usuarios.email='"+email+"' AND usuarios.password='"+md5(password)+"' AND usuarios.role_id=user_roles.id " +
+            "AND usuarios.company=comp.id LIMIT 1",(err,resp)=>{
             // console.log(err,resp);
             if(resp.rows.length>0) {
                 res.send({"status":200,
