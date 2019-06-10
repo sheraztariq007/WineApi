@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       contactPhone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       createDate: {
         type: Sequelize.DATE,

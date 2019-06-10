@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     module_mantain: DataTypes.BOOLEAN,
     module_sampling: DataTypes.BOOLEAN,
     module_notefield: DataTypes.BOOLEAN,
-    contactPhone: DataTypes.INTEGER,
+    contactPhone: DataTypes.TEXT,
     createDate: DataTypes.DATE
   }, {});
   Company.associate = function(models) {
