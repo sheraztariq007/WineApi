@@ -35,11 +35,11 @@ module.exports = {
             "usuarios.account_disabled,usuarios.module_task,usuarios.module_diseases," +
             "usuarios.module_maintenance,usuarios.module_gathering," +
             "user_roles.role_name," +
-            "COALESCE(comp.module_disease,false') as comp_disease, " +
+            "COALESCE(comp.module_disease,false) as comp_disease, " +
             "COALESCE(comp.module_mantain,false) as comp_mantain," +
             "COALESCE(comp.module_sampling,false) as comp_sampling," +
             "COALESCE(comp.module_notefield) as comp_notefield," +
-            "COALESCE(comp.module_tasks) as comp_tasks, COALESCE(comp.name,'') as company_name," +
+            "COALESCE(comp.module_tasks,false) as comp_tasks, COALESCE(comp.name,'') as company_name," +
             "COALESCE(comp.contactmail,'') as contactmail," +
             " COALESCE(comp.contactphone,'') as contactphone  "  +
             "from usuarios,user_roles,companies as comp where" +
