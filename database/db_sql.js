@@ -34,11 +34,12 @@ module.exports = {
             "usuarios.phone,usuarios.last_login_date," +
             "usuarios.account_disabled,usuarios.module_task,usuarios.module_diseases," +
             "usuarios.module_maintenance,usuarios.module_gathering," +
-            "user_roles.role_name, comp.module_disease as comp_disease, comp.module_mantain as comp_mantain," +
-            " comp.module_sampling as comp_sampling," +
-            " comp.module_disease as comp_disease, " +
-            "comp.module_notefield as comp_notefield," +
-            "comp.module_tasks as comp_tasks, comp.name as company_name," +
+            "user_roles.role_name," +
+            "COALESCE(comp.module_disease,false') as comp_disease, " +
+            "COALESCE(comp.module_mantain,false) as comp_mantain," +
+            "COALESCE(comp.module_sampling,false) as comp_sampling," +
+            "COALESCE(comp.module_notefield) as comp_notefield," +
+            "COALESCE(comp.module_tasks) as comp_tasks, COALESCE(comp.name,'') as company_name," +
             "COALESCE(comp.contactmail,'') as contactmail," +
             " COALESCE(comp.contactphone,'') as contactphone  "  +
             "from usuarios,user_roles,companies as comp where" +
