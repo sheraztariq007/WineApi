@@ -11,7 +11,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      contactMail: {
+      contactmail: {
         type: Sequelize.STRING
       },
       module_tasks:{
@@ -29,7 +29,7 @@ module.exports = {
       module_notefield:{
         type: Sequelize.BOOLEAN
       },
-      contactPhone: {
+      contactphone: {
         type: Sequelize.TEXT
       },
       createDate: {
