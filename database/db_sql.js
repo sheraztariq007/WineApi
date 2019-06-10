@@ -38,7 +38,7 @@ module.exports = {
             "COALESCE(comp.module_disease,false) as comp_disease, " +
             "COALESCE(comp.module_mantain,false) as comp_mantain," +
             "COALESCE(comp.module_sampling,false) as comp_sampling," +
-            "COALESCE(comp.module_notefield) as comp_notefield," +
+            "COALESCE(comp.module_notefield,false) as comp_notefield," +
             "COALESCE(comp.module_tasks,false) as comp_tasks, COALESCE(comp.name,'') as company_name," +
             "COALESCE(comp.contactmail,'') as contactmail," +
             " COALESCE(comp.contactphone,'') as contactphone  "  +
