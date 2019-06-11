@@ -310,6 +310,19 @@ module.exports = {
     }).catch(err=>{
             console.log(err);
     });
+    },
+    getTasksNamesWeb:function(req,res){
+        const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.findAll({
+            order: [['id','ASC']]
+        }).then(result=>{
+            res.send({
+                "status":200,
+                "data":result
+            });
+        }).catch(err=>{
+            console.log(err);
+        });
     }
     ,myUploadTasks:function(req,res){
         const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
