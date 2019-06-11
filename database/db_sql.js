@@ -712,6 +712,21 @@ module.exports = {
 
         });
 
+    },updatePermissions:function(req,res){
+        $id = req.param("company_id",0);
+        client.query("select *from companies where id='"+$id+"'",(err,result)=>{
+            if(result.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":result.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry Nothing Found"
+                });
+            }
+        });
     }
 }
 

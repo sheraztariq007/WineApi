@@ -270,3 +270,6 @@ app.post('/api/getallgeolocationusersweb' ,function (req,res) {
     db_sql.getAllGeoLocationUsersWeb(req,res);
 });
 
+app.post('/api/updatepermissions' ,function (req,res) {
+    db_sql.updatePermissions(req,res);
+});
