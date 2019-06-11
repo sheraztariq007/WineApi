@@ -273,3 +273,6 @@ app.post('/api/getallgeolocationusersweb' ,function (req,res) {
 app.post('/api/updatepermissions' ,function (req,res) {
     db_sql.updatePermissions(req,res);
 });
+app.post('/api/getAlllocationpinsweb' ,function (req,res) {
+    db_sql.getAllLocationPinsWeb(req,res);
+});
