@@ -280,3 +280,7 @@ app.post('/api/updatepermissions' ,function (req,res) {
 app.post('/api/getAlllocationpinsweb' ,function (req,res) {
     db_sql.getAllLocationPinsWeb(req,res);
 });
+
+app.post('/api/getnotefieldbooks' ,function (req,res) {
+    db_sql.getNoteFieldBooks(req,res);
+});

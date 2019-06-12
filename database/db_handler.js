@@ -158,7 +158,7 @@ module.exports = {
             field.create({
                 reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
                 trabajador:req.body.trabajador,
-                tipodeabonado:req.body.tipodeabonado,product:req.body.product,dosis:req.body.dosis,
+                tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
                 observaciones:req.body.observaciones,
                 form_type:req.body.form_type,location:req.body.location,
                 reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
