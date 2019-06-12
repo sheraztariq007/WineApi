@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     form_type: DataTypes.INTEGER,
     trabajador: DataTypes.TEXT,
     tratamiento: DataTypes.TEXT,
-    dosis: DataTypes.INTEGER,
-    horasderiego: DataTypes.INTEGER,
+    dosis: DataTypes.TEXT,
+    horasderiego: DataTypes.TEXT,
     observaciones: DataTypes.TEXT,
     tipodeabonado: DataTypes.TEXT,
     subparcela: DataTypes.TEXT

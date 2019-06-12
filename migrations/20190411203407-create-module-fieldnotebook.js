@@ -54,10 +54,10 @@ module.exports = {
         type:Sequelize.TEXT
       },
       dosis:{
-        type:Sequelize.INTEGER
+        type:Sequelize.TEXT
       },
       horasderiego:{
-        type:Sequelize.INTEGER
+        type:Sequelize.TEXT
       },
       observaciones:{
         type:Sequelize.TEXT
