@@ -48,6 +48,7 @@ app.post('/api/login',function (req,res) {
 });
 app.post('/api/fieldnotebook',function (req,res) {
   //  console.log(req.body.email+req.body.password);
+    console.log(req);
     db_helper.saveFieldNodeBook(req,res);
 });
 app.post('/api/disease', upload, function (req,res,next) {

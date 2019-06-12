@@ -354,7 +354,6 @@ module.exports = {
         client.query("INSERT INTO notifications(n_title,n_message,n_type,n_type_id,user_id,action_screen,status) " +
             "values('"+req.body.n_title+"','"+req.body.m_message+"','"+req.body.n_type+"','"+req.body.n_type_id+"'," +
             "'"+req.body.user_id+"','"+req.body.action_screen+"',0)",(err,resp)=>{
-
         });
     },
     sendTaskNotifications:function (title,message,type,user_id,task_id,screen_name) {

@@ -34,9 +34,9 @@ module.exports = {
         const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         users.findAll().then(result=>{
             console.log(result);
-    }).catch(err=>{
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
 
     /*  Login User APi*/
@@ -51,24 +51,24 @@ module.exports = {
             'password':"aadc03fecca9b5cc2fd64b333cb0875e"
         },include: [{model:role, as: 'role'}]}).then(result=> {
             if(result!=null)
-        {
-            res.send({
-                'status':200,
-                'data':result
+            {
+                res.send({
+                    'status':200,
+                    'data':result
+                })
+                console.log(result.email);
+            }
+            else
+            { res.send({
+                'status':204,
+                'message':'Sorry user not found'
             })
-            console.log(result.email);
-        }
-        else
-        { res.send({
-            'status':204,
-            'message':'Sorry user not found'
-        })
-            console.log("sorry");
+                console.log("sorry");
 
-        }
-    }).catch(err=>{
+            }
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
     /*save All Disease Requests*/
     getDiseaseList:function(userid,disease_type,details,imageUrl,location,companyId,res){
@@ -83,34 +83,117 @@ module.exports = {
             location:location,reported_datetime:getDate()+" "+getTime()
         }).then(result=>{
             console.log("done");
-        res.send({
-            'status':200,
-            'message':'Successfully send'
-        })
-        db_sql.sendNotifications("Plagas y Enfermedades","Disease uploaded from users","PlagasyEnfermedades",result.id,companyId,"disease_details")
-    }).catch (err=>{
+            res.send({
+                'status':200,
+                'message':'Successfully send'
+            })
+            db_sql.sendNotifications("Plagas y Enfermedades","Disease uploaded from users","PlagasyEnfermedades",result.id,companyId,"disease_details")
+        }).catch (err=>{
             console.log(err);
-    });
+        });
     },
     /*Save all Notebook Request*/
     saveFieldNodeBook:function (req,res) {
         const  field = Modulefieldnotebook(seq.sequelize,seq.sequelize.Sequelize);
-        field.create({
-            reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-            labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
-            app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,location:req.body.location,
-            reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-        }).then(result=>{
-            res.send({
-            'status':200,
-            'message':'Successfully send'
-        })
-        console.log(req.body)
-        db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-            ,"Cuaderno",result.id,req.body.company_id,"notebook")
-    }).catch(err=>{
-            console.log(err);
-    });
+        /* If Form type General*/
+        if(req.body.form_type==1){
+
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+                labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
+                app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+            }).catch(err=>{
+                console.log(err);
+            });
+        }else
+        if(req.body.form_type==4){
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,subparcela:req.body.subparcela,
+                horasderiego:req.body.horasderiego,dosis:req.body.dosis,observaciones:req.body.observaciones,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+            }).catch(err=>{
+                console.log(err);
+            });
+
+        }else  if(req.body.form_type==3){
+
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,trabajador:req.body.trabajador,
+                tipodeabonado:req.body.tipodeabonado,product:req.body.product,dosis:req.body.dosis,
+                observaciones:req.body.observaciones,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+            }).catch(err=>{
+                console.log(err);
+            });
+        }
+        else  if(req.body.form_type==2){
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+                trabajador:req.body.trabajador,
+                tipodeabonado:req.body.tipodeabonado,product:req.body.product,dosis:req.body.dosis,
+                observaciones:req.body.observaciones,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+            }).catch(err=>{
+                console.log(err);
+            });
+        }
+        /*
+         field.create({
+         reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+         labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
+         app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,
+         form_type:req.body.form_type,subparcela:req.body.subparcela,trabajador:req.body.trabajador,tratamiento:req.body.tratamiento,
+         dosis:req.body.dosis,horasderiego:req.body.horasderiego,observaciones:req.body.observaciones,
+         tipodeabonado:req.body.tipodeabonado,tipodeabonado:req.body.tipodeabonado, location:req.body.location,
+         reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+         }).then(result=>{
+         res.send({
+         'status':200,
+         'message':'Successfully send'
+         })
+         console.log(req.body)
+         db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+         ,"Cuaderno",result.id,req.body.company_id,"notebook")
+         }).catch(err=>{
+         console.log(err);
+         });*/
     },
     /*Save All Maintaince Request */
 
@@ -126,14 +209,14 @@ module.exports = {
             location:location,reported_date_time:getDate()+" "+getTime()
         }).then(result=>{
             console.log("done");
-        res.send({
-            'status':200,
-            'message':'Successfully send'
-        })
-        db_sql.sendNotifications("Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
-    }).catch (err=>{
+            res.send({
+                'status':200,
+                'message':'Successfully send'
+            })
+            db_sql.sendNotifications("Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
+        }).catch (err=>{
             console.log(err);
-    });
+        });
     },
     /*Save Sampling*/
     saveSampling:function(req,originalFileName,res){
@@ -152,15 +235,15 @@ module.exports = {
             company_id:req.body.company_id
         }).then(result=>{
             console.log("done");
-        res.send({
-            'status':200,
-            'message':'Successfully send'
-        })
-        db_sql.sendNotifications("Sample","Sample uploaded from users"
-            ,"Sample",result.id,req.body.company_id,"sample_field")
-    }).catch (err=>{
+            res.send({
+                'status':200,
+                'message':'Successfully send'
+            })
+            db_sql.sendNotifications("Sample","Sample uploaded from users"
+                ,"Sample",result.id,req.body.company_id,"sample_field")
+        }).catch (err=>{
             console.log(err);
-    });
+        });
     },
     saveSamplingWithImage:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
@@ -195,10 +278,10 @@ module.exports = {
             where:{company_id:$company_id}
         }).then(result=>{
             res.send({
-            'status':200,
-            "data":result
-        });
-    }).catch (err=>{
+                'status':200,
+                "data":result
+            });
+        }).catch (err=>{
 
         });
     },
@@ -206,10 +289,10 @@ module.exports = {
         const labor =  Labor(seq.sequelize,seq.sequelize.Sequelize);
         labor.findAll().then(result=>{
             res.send({
-            'status':200,
-            "data":result
-        });
-    }).catch (err=>{
+                'status':200,
+                "data":result
+            });
+        }).catch (err=>{
 
         });
     },
@@ -218,10 +301,10 @@ module.exports = {
         const maintenance =  Maintenance(seq.sequelize,seq.sequelize.Sequelize);
         maintenance.findAll().then(result=>{
             res.send({
-            'status':200,
-            "data":result
-        });
-    }).catch (err=>{
+                'status':200,
+                "data":result
+            });
+        }).catch (err=>{
 
         });
     },
@@ -230,10 +313,10 @@ module.exports = {
         const diseases =  Diseases(seq.sequelize,seq.sequelize.Sequelize);
         diseases.findAll().then(result=>{
             res.send({
-            'status':200,
-            "data":result
-        });
-    }).catch (err=>{
+                'status':200,
+                "data":result
+            });
+        }).catch (err=>{
 
         });
     },
@@ -245,19 +328,19 @@ module.exports = {
                 ['id','email','name','surname'],
         }).then(result=>{
             res.send({
-            'status':200,
-            "data":result
-        });
-    }).catch(err=>{
+                'status':200,
+                "data":result
+            });
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
     /*
      * Save Tasks
      * */
     addNewTasks:function(req,res){
         const tasks = Moduletasks(seq.sequelize,seq.sequelize.Sequelize);
-         console.log(req.body.users_lists);
+        console.log(req.body.users_lists);
         tasks.create({
             assign_from_id:req.body.assign_from_id,
             task_id:req.body.task_name,task_details:req.body.task_details
@@ -266,21 +349,21 @@ module.exports = {
         }).then(result=>{
 
             if(req.body.users_lists!="0")
-        {
-            saveUsersLists(req.body.users_lists, result.id);
-        }
-        if(req.body.fields_lists!="0"){
-            saveTasksFields(req.body.fields_lists, result.id);
-        }
-        if(req.body.repeate_date!="0") {
-            saveTasksDates(req.body.repeate_date,  result.id);
-        }
-        res.send({
-            'status':200,
-            "message":"tasks Successfully saved"
-        });
+            {
+                saveUsersLists(req.body.users_lists, result.id);
+            }
+            if(req.body.fields_lists!="0"){
+                saveTasksFields(req.body.fields_lists, result.id);
+            }
+            if(req.body.repeate_date!="0") {
+                saveTasksDates(req.body.repeate_date,  result.id);
+            }
+            res.send({
+                'status':200,
+                "message":"tasks Successfully saved"
+            });
 
-    }).catch(err=>{
+        }).catch(err=>{
 
         });
     },
@@ -290,12 +373,12 @@ module.exports = {
             "status":req.body.status},
             "is_enable":true}).then(result=>{
             res.send({
-            "status":200,
-            "data":result
-        });
-    }).catch(err=>{
+                "status":200,
+                "data":result
+            });
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
     getTasksNames:function(req,res,$company_id){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
@@ -304,12 +387,12 @@ module.exports = {
             order: [['id','ASC']]
         }).then(result=>{
             res.send({
-            "status":200,
-            "data":result
-        });
-    }).catch(err=>{
+                "status":200,
+                "data":result
+            });
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
     getTasksNamesWeb:function(req,res){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
@@ -330,13 +413,13 @@ module.exports = {
             where:{assign_from_id:req.body.user_id}
         }).then(result=>{
             res.send({
-            "status":200,
-            "data":result,
-            "users":getTasksUsers(req.body.user_id)
-        });
-    }).catch(err=>{
+                "status":200,
+                "data":result,
+                "users":getTasksUsers(req.body.user_id)
+            });
+        }).catch(err=>{
             console.log(err);
-    });
+        });
     },
     getListsOfDates:function(task_id,res){
         const dates = UserTasksDates(seq.sequelize,seq.sequelize.Sequelize);
@@ -346,10 +429,10 @@ module.exports = {
             }
         }).then(results=>{
             console.log(results);
-        res.send({
-            "status":200,
-            "data":results
-        });
+            res.send({
+                "status":200,
+                "data":results
+            });
 
         }).catch (err=>{
             console.log(err);
@@ -363,15 +446,15 @@ module.exports = {
             longitude:req.body.longitude
         }).then(result=>{
             res.send({
-            "status":200,
-            "data":result
-        });
+                "status":200,
+                "data":result
+            });
             console.log(result);
         }).catch(err=>{
             res.send({
-            "status":204,
-            "data":err
-    });
+                "status":204,
+                "data":err
+            });
         });
     },
     saveNotifications:function(req,res){
@@ -384,6 +467,8 @@ module.exports = {
                 "n_type":req.body.n_type,
             }
         }).then(results=>{
+            console.log("Notification Lists>>>>>>>>>>")
+            console.log(results);
             if(results.length==0){
                 notifications.create({
                     n_title:req.body.n_title,n_message:req.body.n_message,
@@ -392,12 +477,15 @@ module.exports = {
                     status:req.body.status,
                     datetime:time_date
                 }).then(result=>{
+                    console.log("Notification Success >>>>>>>>>>")
                     console.log(result.dataValues);
                 }).catch(err=>{
+                    console.log("Notification Fail >>>>>>>>>>")
                     console.log(err);
                 });
             }
         }).catch (err=>{
+            console.log("Notification Fail >>>>>>>>>>")
             console.log(err);
         });
     },getMyNotifications:function(req,res) {
@@ -460,7 +548,7 @@ function saveUsersLists(usersdata,task_id){
         ).then(result=>{
         }).catch (err=>{
             console.log(err);
-    });
+        });
     }
     for(var i=0;i<users.length;i++){
         db_sql.sendTaskNotifications("Tarea Asignada", "Congratulation New Task Assigned",
@@ -477,7 +565,7 @@ function saveTasksFields(tasksdata,task_id){
 
         }).catch (err=>{
             console.log(err);
-    });
+        });
     }
 
 }
@@ -489,7 +577,7 @@ function saveTasksDates(tasksDates,task_id){
 
         }).catch (err=>{
             console.log(err);
-    });
+        });
     }
 
 }
@@ -501,7 +589,7 @@ function getTasksUsers(task_id) {
             task_id:task_id
         }
     }).then(result=>{
-       console.log(result);
-});
+        console.log(result);
+    });
     return users;
 }

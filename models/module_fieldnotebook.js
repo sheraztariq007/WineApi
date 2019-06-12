@@ -12,7 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     field_id: DataTypes.INTEGER,
     surface: DataTypes.STRING,
     location: DataTypes.STRING,
-    reported_date_time: DataTypes.STRING
+    reported_date_time: DataTypes.STRING,
+    form_type: DataTypes.INTEGER,
+    trabajador: DataTypes.TEXT,
+    tratamiento: DataTypes.TEXT,
+    dosis: DataTypes.INTEGER,
+    horasderiego: DataTypes.INTEGER,
+    observaciones: DataTypes.TEXT,
+    tipodeabonado: DataTypes.TEXT,
+    subparcela: DataTypes.TEXT
+
   }, {});
   module_fieldnotebook.associate = function(models) {
     // associations can be defined here
