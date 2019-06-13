@@ -118,7 +118,8 @@ module.exports = {
         }else
         if(req.body.form_type==4){
             field.create({
-                reportedby_user_id:req.body.reportedby_user_id,subparcela:req.body.subparcela,
+                reportedby_user_id:req.body.reportedby_user_id,subparcela:req.body.subparcela,start_date:req.body.start_date,
+                field_id:req.body.field_id,
                 horasderiego:req.body.horasderiego,dosis:req.body.dosis,observaciones:req.body.observaciones,
                 form_type:req.body.form_type,location:req.body.location,
                 reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
@@ -137,7 +138,8 @@ module.exports = {
         }else  if(req.body.form_type==3){
 
             field.create({
-                reportedby_user_id:req.body.reportedby_user_id,trabajador:req.body.trabajador,
+                reportedby_user_id:req.body.reportedby_user_id,trabajador:req.body.trabajador,start_date:req.body.start_date,
+                field_id:req.body.field_id,
                 tipodeabonado:req.body.tipodeabonado,product:req.body.product,dosis:req.body.dosis,
                 observaciones:req.body.observaciones,
                 form_type:req.body.form_type,location:req.body.location,
@@ -157,7 +159,8 @@ module.exports = {
         else  if(req.body.form_type==2){
             field.create({
                 reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-                trabajador:req.body.trabajador,
+                trabajador:req.body.trabajador,start_date:req.body.start_date,
+                field_id:req.body.field_id,
                 tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
                 observaciones:req.body.observaciones,
                 form_type:req.body.form_type,location:req.body.location,
@@ -174,26 +177,7 @@ module.exports = {
                 console.log(err);
             });
         }
-        /*
-         field.create({
-         reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-         labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
-         app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,
-         form_type:req.body.form_type,subparcela:req.body.subparcela,trabajador:req.body.trabajador,tratamiento:req.body.tratamiento,
-         dosis:req.body.dosis,horasderiego:req.body.horasderiego,observaciones:req.body.observaciones,
-         tipodeabonado:req.body.tipodeabonado,tipodeabonado:req.body.tipodeabonado, location:req.body.location,
-         reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-         }).then(result=>{
-         res.send({
-         'status':200,
-         'message':'Successfully send'
-         })
-         console.log(req.body)
-         db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-         ,"Cuaderno",result.id,req.body.company_id,"notebook")
-         }).catch(err=>{
-         console.log(err);
-         });*/
+
     },
     /*Save All Maintaince Request */
 

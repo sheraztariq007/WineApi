@@ -796,11 +796,11 @@ module.exports = {
                 }
             });
         }else if (req.body.form_type == 2) {
-            client.query("select usuarios.name as username,m_f.marchinar_id,m_f.trabajador as trabajador," +
+            client.query("select usuarios.name as username,m_f.marchinar_id,m_f.start_date,m_f.trabajador as trabajador," +
                 "m_f.tratamiento as tratamiento,m_f.dosis,m_f.observaciones as observaciones," +
-                "m_f.product,m_f.location,m_f.reported_date_time" +
-                " from  module_fieldnotebooks as m_f,usuarios where " +
-                " m_f.reportedby_user_id=usuarios.id AND " +
+                "m_f.product,m_f.location,m_f.reported_date_time,fb.name as field_name " +
+                " from  module_fieldnotebooks as m_f,usuarios,fields as fb where " +
+                " m_f.reportedby_user_id=usuarios.id AND m_f.field_id=fb.id AND " +
                 "form_type='"+req.body.form_type+"' " +
                 "AND m_f.company_id='"+req.body.company_id+"'", (err, result)=> {
                 console.log(err,result);
@@ -819,11 +819,11 @@ module.exports = {
 
         }
         else if (req.body.form_type == 3) {
-            client.query("select usuarios.name as username,m_f.trabajador as trabajador," +
+            client.query("select usuarios.name as username,m_f.trabajador as trabajador,m_f.start_date," +
                 "m_f.tipodeabonado as tipodeabonado,m_f.dosis,m_f.observaciones as observaciones," +
-                "m_f.product,m_f.location,m_f.reported_date_time" +
-                " from  module_fieldnotebooks as m_f,usuarios where " +
-                " m_f.reportedby_user_id=usuarios.id AND " +
+                "m_f.product,m_f.location,m_f.reported_date_time,fb.name as field_name " +
+                " from  module_fieldnotebooks as m_f,usuarios,fields as fb where " +
+                " m_f.reportedby_user_id=usuarios.id AND m_f.field_id=fb.id AND " +
                 "form_type='"+req.body.form_type+"' " +
                 "AND m_f.company_id='"+req.body.company_id+"'", (err, result)=> {
                 console.log(err,result);
@@ -842,12 +842,12 @@ module.exports = {
 
         }
         else if (req.body.form_type == 4) {
-            client.query("select usuarios.name as username,m_f.subparcela as subparcela," +
+            client.query("select usuarios.name as username,m_f.start_date,m_f.subparcela as subparcela," +
                 "m_f.horasderiego as horasderiego," +
                 "m_f.dosis,m_f.observaciones as observaciones," +
-                "m_f.location,m_f.reported_date_time" +
-                " from  module_fieldnotebooks as m_f,usuarios where " +
-                " m_f.reportedby_user_id=usuarios.id AND " +
+                "m_f.location,m_f.reported_date_time,fb.name as field_name" +
+                " from  module_fieldnotebooks as m_f,usuarios,fields as fb  where " +
+                " m_f.reportedby_user_id=usuarios.id AND m_f.field_id=fb.id AND " +
                 "form_type='"+req.body.form_type+"' " +
                 "AND m_f.company_id='"+req.body.company_id+"'", (err, result)=> {
                 console.log(err,result);
