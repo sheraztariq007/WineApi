@@ -802,7 +802,9 @@ module.exports = {
                 "m_f.product,m_f.app_method,m_f.surface,m_f.location,m_f.reported_date_time," +
                 "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb, usuarios where " +
                 " m_f.reportedby_user_id=usuarios.id AND " +
-                "m_f.labore_id=lb.id AND m_f.field_id=fb.id AND m_f.form_type='"+req.body.form_type+"' AND m_f.company_id='"+req.body.company_id+"'", (err, result)=> {
+                "m_f.labore_id=lb.id AND m_f.field_id=fb.id AND" +
+                " m_f.form_type='"+req.body.form_type+"'" +
+                " AND m_f.company_id='"+req.body.company_id+"' order by reported_date_time", (err, result)=> {
                 console.log(result);
                 if(result.rowCount>0) {
                     res.send({
