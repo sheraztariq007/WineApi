@@ -209,6 +209,12 @@ app.post('/api/savenotifications' ,function (req,res) {
 app.post('/api/getlatestusers' ,function (req,res) {
     db_sql.getlatestUsers(req,res);
 });
+app.post('/api/getlatestUserslocationsmobile' ,function (req,res) {
+    db_sql.getlatestUserslocationsmobile(req,res);
+});
+app.post('/api/getlatestuserslocationweb' ,function (req,res) {
+    db_sql.getlatestUsersLocationWeb(req,res);
+});
 app.post('/api/getlatestusersweb' ,function (req,res) {
     db_sql.getlatestUsersWeb(req,res);
 });
