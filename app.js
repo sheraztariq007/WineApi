@@ -290,3 +290,12 @@ app.post('/api/getAlllocationpinsweb' ,function (req,res) {
 app.post('/api/getnotefieldbooks' ,function (req,res) {
     db_sql.getNoteFieldBooks(req,res);
 });
+app.post('/api/riegodetailsbyid' ,function (req,res) {
+    db_sql.RiegoDetailsById(req,res);
+});
+app.post('/api/abonadodetailsbyid' ,function (req,res) {
+    db_sql.AbonadoDetailsById(req,res);
+});
+app.post('/api/treatmentodetailsbyid' ,function (req,res) {
+    db_sql.treatmentoDetailsById(req,res);
+});

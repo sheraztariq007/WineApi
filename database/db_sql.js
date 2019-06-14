@@ -327,6 +327,81 @@ module.exports = {
                 });
             }
         });
+    },RiegoDetailsById:function(req,res){
+        client.query("Select module_fieldnotebooks.subparcela as subparcela ," +
+            " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.horasderiego as horasderiego," +
+            "module_fieldnotebooks.dosis as dosis," +
+            " module_fieldnotebooks.observaciones as observaciones," +
+            "module_fieldnotebooks.location as location, " +
+            "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name " +
+            " from usuarios,fields,module_fieldnotebooks where " +
+            " module_fieldnotebooks.id='"+req.body.id+"' " +
+            "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
+            "module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Some thing Wrong!"
+                });
+            }
+        });
+    },
+    AbonadoDetailsById:function(req,res){
+        client.query("Select module_fieldnotebooks.trabajador as trabajador ," +
+            " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tipodeabonado as tipodeabonado," +
+            "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
+            " module_fieldnotebooks.observaciones as observaciones," +
+            "module_fieldnotebooks.location as location, " +
+            "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name " +
+            " from usuarios,fields,module_fieldnotebooks where " +
+            " module_fieldnotebooks.id='"+req.body.id+"' " +
+            "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
+            "module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Some thing Wrong!"
+                });
+            }
+        });
+    },
+    treatmentoDetailsById:function(req,res){
+        client.query("Select module_fieldnotebooks.trabajador as trabajador," +
+            "module_fieldnotebooks.marchinar_id as marchinar_id," +
+            " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tratamiento as tratamiento," +
+            "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
+            " module_fieldnotebooks.observaciones as observaciones," +
+            "module_fieldnotebooks.location as location, " +
+            "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name " +
+            " from usuarios,fields,module_fieldnotebooks where " +
+            " module_fieldnotebooks.id='"+req.body.id+"' " +
+            "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
+            "module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Some thing Wrong!"
+                });
+            }
+        });
     },
     samplingDetailById:function(req,res){
         client.query("SELECT " +

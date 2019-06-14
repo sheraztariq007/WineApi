@@ -151,7 +151,7 @@ module.exports = {
                 })
                 console.log(req.body)
                 db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+                    ,"Cuaderno",result.id,req.body.company_id,"abonado")
             }).catch(err=>{
                 console.log(err);
             });
@@ -172,7 +172,7 @@ module.exports = {
                 })
                 console.log(req.body)
                 db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
+                    ,"Cuaderno",result.id,req.body.company_id,"treatmento")
             }).catch(err=>{
                 console.log(err);
             });
