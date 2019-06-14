@@ -388,7 +388,21 @@ module.exports = {
         var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select Distinct(app_user_id),usuarios.name, usuarios.surname,usuarios.email  from" +
             " module_tasks_locations,usuarios  where datetime>'"+time_date+"' AND" +
-            "  module_tasks_locations.app_user_id=usuarios.id order by app_user_id ",(err,resp)=>{
+            "  module_tasks_locations.app_user_id=usuarios.id " +
+            " AND module_tasks_locations.company_id='"+req.body.company_id+"'  order by app_user_id ",(err,resp)=>{
+            console.log(err,resp.rows);
+            res.send({
+                "status":200,
+                "data":resp.rows
+            });
+        });
+    },
+    getlatestUsersWeb:function(req,res){
+        var newDateObj = new Date();
+        var time_date =new Date(newDateObj.getTime()-(10* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+        client.query("select Distinct(app_user_id),usuarios.name, usuarios.surname,usuarios.email  from" +
+            " module_tasks_locations,usuarios  where datetime>'"+time_date+"' AND" +
+            "  module_tasks_locations.app_user_id=usuarios.id  order by app_user_id ",(err,resp)=>{
             console.log(err,resp.rows);
             res.send({
                 "status":200,

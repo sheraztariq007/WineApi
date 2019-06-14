@@ -209,6 +209,9 @@ app.post('/api/savenotifications' ,function (req,res) {
 app.post('/api/getlatestusers' ,function (req,res) {
     db_sql.getlatestUsers(req,res);
 });
+app.post('/api/getlatestusersweb' ,function (req,res) {
+    db_sql.getlatestUsersWeb(req,res);
+});
 app.post('/api/workingnotificationhandle' ,function (req,res) {
     db_sql.workingNotificationHandle(req,res);
 });

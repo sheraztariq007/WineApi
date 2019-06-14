@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       details: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       reported_date_time: {
         type: Sequelize.STRING
