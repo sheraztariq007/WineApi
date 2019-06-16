@@ -32,6 +32,12 @@ module.exports = {
       contactphone: {
         type: Sequelize.TEXT
       },
+      splash_image: {
+        type: Sequelize.TEXT
+      },
+      mainscreen_image: {
+        type: Sequelize.TEXT
+      },
       createDate: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
