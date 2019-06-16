@@ -642,6 +642,7 @@ module.exports = {
         var  disease;
         var  maintain;
         var  fieldnote;
+        var newDateObj = new Date();
         var time_date =new Date(newDateObj.getTime()-(20* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
             " usuarios.name,ds.name as disease_name," +
