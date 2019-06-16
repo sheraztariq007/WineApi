@@ -41,7 +41,7 @@ module.exports = {
             "COALESCE(comp.module_notefield,false) as comp_notefield," +
             "COALESCE(comp.module_tasks,false) as comp_tasks, COALESCE(comp.name,'') as company_name," +
             " COALESCE(comp.mainscreen_image,'') as main_image, COALESCE(comp.splash_image,'') as splash_image," +
-            "COALESCE(comp.contactmail,'') as contactmail," +
+            "COALESCE(comp.contactmail,'') as contactmail,COALESCE(splash_color,'') as splash_colors," +
             " COALESCE(comp.contactphone,'') as contactphone  "  +
             "from usuarios,user_roles,companies as comp where" +
             " usuarios.email='"+email+"' AND usuarios.password='"+md5(password)+"' AND usuarios.role_id=user_roles.id " +

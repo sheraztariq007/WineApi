@@ -38,6 +38,9 @@ module.exports = {
       mainscreen_image: {
         type: Sequelize.TEXT
       },
+      splash_color: {
+        type: Sequelize.TEXT
+      },
       createDate: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')

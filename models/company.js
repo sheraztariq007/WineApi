@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     contactphone: DataTypes.TEXT,
     splash_image: DataTypes.TEXT,
     mainscreen_image: DataTypes.TEXT,
+    splash_color: DataTypes.TEXT,
     createDate: DataTypes.DATE
   }, {});
   Company.associate = function(models) {
