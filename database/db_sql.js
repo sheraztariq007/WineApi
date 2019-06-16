@@ -639,24 +639,24 @@ module.exports = {
     },
 
     getAllLocationPins:function(req,res) {
+
         var  disease;
         var  maintain;
         var  fieldnote;
-        var newDateObj = new Date();
-        var time_date =new Date(newDateObj.getTime()-(20* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
+
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
             " usuarios.name,ds.name as disease_name," +
             "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
             "from module_diseases as m_d,diseases as ds, usuarios " +
             "where m_d.company_id='" + req.body.company_id + "' AND m_d.disease_type=ds.id AND " +
-            "m_d.reportedby_user_id=usuarios.id AND  m_d.reported_datetime>='"+time_date+"'", (err, resp)=> {
+            "m_d.reportedby_user_id=usuarios.id", (err, resp)=> {
             disease = resp.rows;
 
             client.query("select  usuarios.name as username, mant.name as maintance_name,m_m.company_id,m_m.details," +
                 "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
                 "from module_maintains as m_m,maintenances as mant,usuarios" +
                 " where m_m.company_id='"+req.body.company_id+"' AND m_m.maintane_type=mant.id AND " +
-                "m_m.reportedby_user_id=usuarios.id AND m_m.reported_date_time >='"+time_date+"'",
+                "m_m.reportedby_user_id=usuarios.id",
                 (err,resp_m)=> {
                     maintain = resp_m.rows
                     client.query("select m_s.sample_name,m_s.location,usuarios.name as username, COALESCE(m_s.phenological_type,'') " +
@@ -670,8 +670,7 @@ module.exports = {
                         "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
                         "m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
                         "m_s.company_id='"+req.body.company_id+"' AND " +
-                        "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id " +
-                        " AND m_s.reported_datetime >='"+time_date+"'",(err,resp_s)=>{
+                        "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp_s)=>{
                         res.send({
                             "status": 200,
                             "sampling":resp_s.rows,
