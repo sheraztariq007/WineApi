@@ -299,3 +299,6 @@ app.post('/api/abonadodetailsbyid' ,function (req,res) {
 app.post('/api/treatmentodetailsbyid' ,function (req,res) {
     db_sql.treatmentoDetailsById(req,res);
 });
+app.post('/api/getmaquinarialist' ,function (req,res) {
+    db_sql.getmaquinarialist(req,res);
+});

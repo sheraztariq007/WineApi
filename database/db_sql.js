@@ -304,17 +304,19 @@ module.exports = {
             }
         });
     },notebookDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.marchinar_id as marchinar_id ," +
+        client.query("Select module_fieldnotebooks.marchinar_id as marchinar_id,maquinaria.name as maquinaria_name," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.end_date as end_date," +
             "module_fieldnotebooks.product as product," +
             " module_fieldnotebooks.app_method as app_method, module_fieldnotebooks.surface as surface," +
             "module_fieldnotebooks.location as location, " +
             "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name, " +
             "labors.name as labors_name" +
-            " from usuarios,labors,fields,module_fieldnotebooks where " +
+            " from usuarios,labors,fields,module_fieldnotebooks,maquinaria where " +
             " module_fieldnotebooks.id='"+req.body.id+"' " +
             "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
-            " module_fieldnotebooks.labore_id=labors.id AND  module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            " module_fieldnotebooks.labore_id=labors.id AND  " +
+            "module_fieldnotebooks.field_id=fields.id AND " +
+            " maquinaria.id=module_fieldnotebooks.marchinar_id",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
@@ -379,17 +381,18 @@ module.exports = {
         });
     },
     treatmentoDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.trabajador as trabajador," +
+        client.query("Select module_fieldnotebooks.trabajador as trabajador,maquinaria.name as maquinaria_name," +
             "module_fieldnotebooks.marchinar_id as marchinar_id," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tratamiento as tratamiento," +
             "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
             " module_fieldnotebooks.observaciones as observaciones," +
             "module_fieldnotebooks.location as location, " +
             "module_fieldnotebooks.reported_date_time  as reported_date_time, fields.name as field_name " +
-            " from usuarios,fields,module_fieldnotebooks where " +
+            " from usuarios,fields,module_fieldnotebooks,maquinaria where " +
             " module_fieldnotebooks.id='"+req.body.id+"' " +
             "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
-            "module_fieldnotebooks.field_id=fields.id ",(err,resp)=>{
+            "module_fieldnotebooks.field_id=fields.id AND " +
+            " maquinaria.id=module_fieldnotebooks.marchinar_id ",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
@@ -552,6 +555,22 @@ module.exports = {
                     "message":"Sorry Some Thing Wrong!"
                 })
             }
+        });
+    },
+    getmaquinarialist(req,res){
+       client.query("select *from maquinaria where company_id='"+req.body.company_id+"'",(err,resp)=>{
+           console.log(err,resp);
+           if(resp.rowCount>0){
+               res.send({
+                   "status":200,
+                   "data":resp.rows
+               })
+           }else{
+               res.send({
+                   "status":204,
+                   "message":"Empty Notifications"
+               })
+           }
         });
     },
     readMyNotifications:function(req,res){
@@ -876,13 +895,15 @@ module.exports = {
         });
     }, getNoteFieldBooks:function(req,res) {
         if (req.body.form_type == 1) {
-            client.query("select usuarios.name as username,m_f.marchinar_id,m_f.start_date, m_f.end_date," +
+            client.query("select usuarios.name as username,m_f.marchinar_id,m_f.start_date, m_f.end_date,maquinaria.name as maquinaria_name," +
                 "m_f.product,m_f.app_method,m_f.surface,m_f.location,m_f.reported_date_time," +
-                "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb, usuarios where " +
+                "fb.name as field_name,lb.name as labor_name from  module_fieldnotebooks as m_f, labors as lb,fields as fb," +
+                " usuarios,maquinaria where " +
                 " m_f.reportedby_user_id=usuarios.id AND " +
                 "m_f.labore_id=lb.id AND m_f.field_id=fb.id AND" +
                 " m_f.form_type='"+req.body.form_type+"'" +
-                " AND m_f.company_id='"+req.body.company_id+"' order by reported_date_time", (err, result)=> {
+                " AND m_f.company_id='"+req.body.company_id+"'  AND " +
+                "maquinaria.id=m_f.marchinar_id  order by reported_date_time", (err, result)=> {
                 console.log(result);
                 if(result.rowCount>0) {
                     res.send({
