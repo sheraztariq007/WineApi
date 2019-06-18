@@ -364,16 +364,18 @@ module.exports = {
             console.log(err);
         });
     },
-    getTasksNames:function(req,res,$company_id){
+    getTasksNames:function(req,res,company_id){
         const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
         tasks.findAll({
-            where:{company_id:$company_id},
+            where:{company_id:company_id},
             order: [['id','ASC']]
         }).then(result=>{
+
             res.send({
                 "status":200,
                 "data":result
             });
+
         }).catch(err=>{
             console.log(err);
         });
@@ -501,7 +503,31 @@ module.exports = {
         }).catch(err=>{
             console.log(err);
         });
-    }
+    },getTasksNamesNewApi:function(req,res,company_id){
+        const tasks = Tasks(seq.sequelize,seq.sequelize.Sequelize);
+        tasks.findAll({
+            where:{company_id:company_id},
+            order: [['id','ASC']]
+        }).then(result=>{
+
+            tasks.findOne({
+                where:{id:1}
+            }).then(s_result=>{
+                res.send({
+                    "status":200,
+                    "data":result,
+                    "public":s_result
+                });
+            }).catch(err2=>{
+                console.log(err2);
+            });
+
+
+
+        }).catch(err=>{
+            console.log(err);
+        });
+    },
 }
 /*Get Current Time*/
 function getTime() {

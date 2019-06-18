@@ -302,3 +302,9 @@ app.post('/api/treatmentodetailsbyid' ,function (req,res) {
 app.post('/api/getmaquinarialist' ,function (req,res) {
     db_sql.getmaquinarialist(req,res);
 });
+app.post('/api/getnotefieldbooksweb' ,function (req,res) {
+    db_sql.getNoteFieldBooksWeb(req,res);
+});
+app.post('/api/gettasksnamesnewapi' ,function (req,res) {
+    db_helper.getTasksNamesNewApi(req,res,req.param("company_id","0"))
+});
