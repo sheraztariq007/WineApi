@@ -308,3 +308,21 @@ app.post('/api/getnotefieldbooksweb' ,function (req,res) {
 app.post('/api/gettasksnamesnewapi' ,function (req,res) {
     db_helper.getTasksNamesNewApi(req,res,req.param("company_id","0"))
 });
+app.post('/api/getallgereralform' ,function (req,res) {
+    db_sql.getAllGereralForm(req,res,req.param("company_id","0"))
+});
+app.post('/api/filerGeneralForm' ,function (req,res) {
+    db_sql.filerGeneralForm(req,res,req.param("company_id","0"))
+});
+app.post('/api/getalltreatmentoform' ,function (req,res) {
+    db_sql.getAllTreatmentoForm(req,res)
+});
+app.post('/api/fillterTreatmento' ,function (req,res) {
+    db_sql.fillterTreatmento(req,res)
+});
+app.post('/api/getallabonadoform' ,function (req,res) {
+    db_sql.getAllAbonadoForm(req,res)
+});
+app.post('/api/filterabonadoform' ,function (req,res) {
+    db_sql.filterAbonadoForm(req,res)
+});
