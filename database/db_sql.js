@@ -1212,6 +1212,49 @@ module.exports = {
                 });
             }
         });
+    },getAllRiegoForm:function(req,res){
+        client.query("select usuarios.name as username,m_f.start_date,m_f.subparcela as subparcela," +
+            "m_f.horasderiego as horasderiego," +
+            "m_f.dosis,m_f.observaciones as observaciones," +
+            "m_f.location,m_f.reported_date_time,fb.name as field_name" +
+            " from  module_fieldnotebooks as m_f,usuarios,fields as fb  where " +
+            " m_f.reportedby_user_id=usuarios.id AND m_f.field_id=fb.id AND " +
+            "form_type='"+req.body.form_type+"'", (err, result)=> {
+            console.log(err,result);
+            if(result.rowCount>0) {
+                res.send({
+                    "status": 200,
+                    "data": result.rows
+                });
+            }else{
+                res.send({
+                    "status": 204,
+                    "messgae": "Sorry Not Record Found"
+                });
+            }
+        });
+    },getFilterRiegoForm:function(req,res){
+        client.query("select usuarios.name as username,m_f.start_date,m_f.subparcela as subparcela," +
+            "m_f.horasderiego as horasderiego," +
+            "m_f.dosis,m_f.observaciones as observaciones," +
+            "m_f.location,m_f.reported_date_time,fb.name as field_name" +
+            " from  module_fieldnotebooks as m_f,usuarios,fields as fb  where " +
+            " m_f.reportedby_user_id=usuarios.id AND m_f.field_id=fb.id AND " +
+            "form_type='"+req.body.form_type+"' AND m_f.company_id='"+req.body.company_id+"' AND " +
+            "m_f.reported_date_time>='"+req.body.start_date+"' AND m_f.reported_date_time<='"+req.body.end_date+"'" , (err, result)=> {
+            console.log(err,result);
+            if(result.rowCount>0) {
+                res.send({
+                    "status": 200,
+                    "data": result.rows
+                });
+            }else{
+                res.send({
+                    "status": 204,
+                    "messgae": "Sorry Not Record Found"
+                });
+            }
+        });
     }
 }
 

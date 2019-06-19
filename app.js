@@ -326,3 +326,9 @@ app.post('/api/getallabonadoform' ,function (req,res) {
 app.post('/api/filterabonadoform' ,function (req,res) {
     db_sql.filterAbonadoForm(req,res)
 });
+app.post('/api/getallriegoform' ,function (req,res) {
+    db_sql.getAllRiegoForm(req,res)
+});
+app.post('/api/getfilterriegoform' ,function (req,res) {
+    db_sql.getFilterRiegoForm(req,res)
+});
