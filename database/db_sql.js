@@ -558,16 +558,16 @@ module.exports = {
         });
     },
     getmaquinarialist(req,res){
-       client.query("select *from maquinaria where company_id='"+req.body.company_id+"' AND id >1",(err,resp)=>{
-           console.log(err,resp);
+        client.query("select *from maquinaria where company_id='"+req.body.company_id+"' AND id >1",(err,resp)=>{
+            console.log(err,resp);
 
-              client.query("select *from maquinaria where id=1",(err,resp1)=>{
-                  res.send({
-                      "status":200,
-                      "data":resp.rows,
-                      "none":resp1.rows
-                  })
-              });
+            client.query("select *from maquinaria where id=1",(err,resp1)=>{
+                res.send({
+                    "status":200,
+                    "data":resp.rows,
+                    "none":resp1.rows
+                })
+            });
 
         });
     },
