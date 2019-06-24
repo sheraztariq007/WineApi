@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     valor_scholander:DataTypes.TEXT,
     ubicacion:DataTypes.TEXT,
     hora:DataTypes.TEXT,
+    cepa:DataTypes.TEXT,
     temparature:DataTypes.TEXT,
     humedad_ambiental:DataTypes.TEXT,
     observation:DataTypes.TEXT

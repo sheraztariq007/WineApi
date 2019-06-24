@@ -82,6 +82,9 @@ module.exports = {
       hora:{
         type: Sequelize.TEXT
       },
+      cepa:{
+        type: Sequelize.TEXT
+      },
       temparature:{
         type: Sequelize.TEXT
       },
