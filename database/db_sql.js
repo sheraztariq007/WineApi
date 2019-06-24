@@ -661,7 +661,6 @@ module.exports = {
 
         var  disease;
         var  maintain;
-        var  fieldnote;
 
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
             " usuarios.name,ds.name as disease_name," +
@@ -679,7 +678,10 @@ module.exports = {
                 (err,resp_m)=> {
                     maintain = resp_m.rows
                     client.query("select m_s.sample_name,m_s.location,usuarios.name as username, COALESCE(m_s.phenological_type,'') " +
-                        "as phenological_type,m_s.thumbnail_url,m_s.image_url," +
+                        "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+                        "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+                        "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+                        "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
                         "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
                         "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
                         "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
@@ -693,7 +695,6 @@ module.exports = {
                         res.send({
                             "status": 200,
                             "sampling":resp_s.rows,
-                            "feildsbook":fieldnote,
                             "maintain":maintain,
                             "disease": disease
                         });
@@ -873,7 +874,10 @@ module.exports = {
                 (err,resp_m)=> {
                     maintain = resp_m.rows
                     client.query("select m_s.sample_name,m_s.location,usuarios.name as username, COALESCE(m_s.phenological_type,'') " +
-                        "as phenological_type,m_s.thumbnail_url,m_s.image_url," +
+                        "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+                        "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+                        "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+                        "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
                         "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
                         "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
                         "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
