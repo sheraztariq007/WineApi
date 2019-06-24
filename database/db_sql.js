@@ -409,13 +409,16 @@ module.exports = {
     },
     samplingDetailById:function(req,res){
         client.query("SELECT " +
-            "m_s.sample_type_field_id as sample_type_field_name,m_s.phenological_type as phenological_type, " +
+            "m_s.sample_type_field_id as sample_type_field_name,fields.name as field_name ,m_s.phenological_type as phenological_type, " +
             "m_s.thumbnail_url as thumbnail_url,m_s.image_url as image_url, m_s.field_type as field_type_name" +
             ",m_s.sample_name as sample_name, m_s.sample_type as sample_type, m_s.cluster_per_unit_edit," +
             "m_s.boxes_per_field, m_s.kilogram_transport, m_s.machinery, " +
             "m_s.location,m_s.sample_type_date,m_s.sample_type_lning,m_s.sample_type_strain," +
-            "m_s.sample_type_no_of_breaks, m_s.weight_purning,m_s.drop_buds,m_s.number_of_buds," +
-            "m_s.number_of_bunches, m_s.reported_datetime from module_samplings as m_s where m_s.id = '"+req.body.id+"' ",(err,resp)=>{
+            "m_s.sample_type_no_of_breaks, m_s.weight_purning,m_s.drop_buds,m_s.number_of_buds,m_s.cepa," +
+            "m_s.valor_scholander,m_s.ubicacion,m_s.hora,m_s.temparature," +
+            "m_s.humedad_ambiental,m_s.observation," +
+            "m_s.number_of_bunches, m_s.reported_datetime from module_samplings as m_s, fields " +
+            " where m_s.id = '"+req.body.id+"' AND  m_s.sample_type_field_id=fields.id",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({

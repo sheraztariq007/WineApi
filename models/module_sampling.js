@@ -23,7 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     weight_purning:DataTypes.INTEGER,
     drop_buds:DataTypes.INTEGER,
     number_of_buds:DataTypes.INTEGER,
-    number_of_bunches:DataTypes.INTEGER
+    number_of_bunches:DataTypes.INTEGER,
+    valor_scholander:DataTypes.TEXT,
+    ubicacion:DataTypes.TEXT,
+    hora:DataTypes.TEXT,
+    temparature:DataTypes.TEXT,
+    humedad_ambiental:DataTypes.TEXT,
+    observation:DataTypes.TEXT
   }, {});
   module_sampling.associate = function(models) {
     // associations can be defined here

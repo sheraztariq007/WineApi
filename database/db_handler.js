@@ -239,10 +239,13 @@ module.exports = {
             boxes_per_field:req.param('boxes_per_field', null),
             kilogram_transport:req.param('kilogram_transport', null),machinery:req.param('machinery', null)
             ,location:req.param('location', null),reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.param('sample_type_field_id', null),
-            sample_type_lning:req.param('sample_type_lning', null),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
+            sample_type_lning:req.param('sample_type_lning', 0),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
             weight_purning:req.param('weight_purning', null),drop_buds:req.param('drop_buds', null),number_of_buds:req.param('number_of_buds', null),
             number_of_bunches:req.param('number_of_bunches', null),
-            sample_type_date:req.param('sample_type_date', null)
+            sample_type_date:req.param('sample_type_date', null),valor_scholander:req.param("valor_scholander",null),
+            ubicacion:req.param('ubicacion',null),hora:req.param('hora',null),temparature:req.param('temparature',null),
+            humedad_ambiental:req.param('humedad_ambiental',null),observation:req.param('observation',null)
+
         }).then(result=>{
             console.log("done");
             res.send({
