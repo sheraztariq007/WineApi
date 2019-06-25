@@ -363,7 +363,7 @@ app.get('/api/testing',function (req,res) {
         url: ' https://app.e-stratos.eu/api/v1/lands/',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': '0c9b131753a86b354d6e96293c5c3e7366d80f64',
+            'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
         },
         data: {
             user: '307',
@@ -372,8 +372,7 @@ app.get('/api/testing',function (req,res) {
     }).then(function (response) {
         // handle success
         console.log(response);
-    })
-        .catch(function (error) {
+    }).catch(function (error) {
             // handle error
             console.log(error);
         })

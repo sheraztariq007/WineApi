@@ -197,7 +197,7 @@ module.exports = {
                 'status':200,
                 'message':'Successfully send'
             })
-            db_sql.sendNotifications("Maintaince","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
+            db_sql.sendNotifications("Maintenance","Maintaince uploaded from users","Maintenance",result.id,companyId,"maintaince_details")
         }).catch (err=>{
             console.log(err);
         });
