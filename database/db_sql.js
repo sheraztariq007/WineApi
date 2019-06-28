@@ -7,6 +7,7 @@ var FCM = require('fcm-node');
 var serverKey = constants.server_key; //put your server key here
 var fcm = new FCM(serverKey);
 var data = [];
+var crypto = require('crypto');
 
 const client = new Client({
     connectionString:constants.database_url
@@ -1257,6 +1258,112 @@ module.exports = {
                 res.send({
                     "status": 204,
                     "messgae": "Sorry Not Record Found"
+                });
+            }
+        });
+    },
+    sendVerificaionCode:function(req,res){
+        constants.dashboard_url
+        client.query("select *from usuarios where email='"+req.body.email+"'",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                var token = crypto.randomBytes(64).toString('hex');
+                var code = crypto.randomBytes(8).toString('hex');
+                myObj = new Object()
+                myObj.user_id = resp.rows[0].id;
+                myObj.email = resp.rows[0].email;
+                myObj.token = token;
+                myObj.code = code;
+                client.query("insert into verification_codes(user_id, token, verification_code)" +
+                    " values('"+resp.rows[0].id+"','"+token+"','"+code+"')",(err,resp1)=>{
+
+                    axios.request({
+                        method: 'POST',
+                        url: 'https://app.e-stratos.eu/api/v1/login/',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: {
+                            username: 'pablo.aibar@smartrural.net',
+                            password: 'A9BBSZMB'
+                        },
+                    }).then(function (response) {
+                        // handle success
+                        console.log(response);
+                    }).catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                        .finally(function () {
+                            // always executed
+                        });
+                    /*   res.send({
+                     "status":200,
+                     "data":myObj,
+                     });*/
+                });
+
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry user not found"
+                });
+            }
+        });
+    },getDiseaseListAdminFilter:function(req,res) {
+        client.query("select m_d.id as id, m_d.reportedby_user_id as user_id, m_d.company_id,comp.name as company_name," +
+            " usuarios.name,ds.name as disease_name," +
+            "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
+            "from module_diseases as m_d,diseases as ds, companies as  comp, usuarios " +
+            "where m_d.disease_type=ds.id AND comp.id=m_d.company_id AND  " +
+            "m_d.reportedby_user_id=usuarios.id", (err, resp)=> {
+            console.log(err, resp);
+            if (resp.rowCount > 0) {
+                res.send({
+                    "status": 200,
+                    "data": resp.rows
+                });
+            } else {
+                res.send({
+                    "status": 204,
+                    "message": "sorry no report found"
+                })
+            }
+
+        });
+    },getDiseaseListSearch:function(req,res) {
+        client.query("select m_d.id as id, m_d.reportedby_user_id as user_id, m_d.company_id,comp.name as company_name," +
+            " usuarios.name,ds.name as disease_name," +
+            "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
+            "from module_diseases as m_d,diseases as ds,companies as  comp,  usuarios " +
+            "where m_d.disease_type=ds.id AND  comp.id=m_d.company_id AND  " +
+            "m_d.reportedby_user_id=usuarios.id AND m_d.reported_datetime::date>='" + req.body.start_date + "'" +
+            "  AND m_d.reported_datetime::date<='" + req.body.end_date + "'", (err, resp)=> {
+            console.log(err, resp);
+            if (resp.rowCount > 0) {
+                res.send({
+                    "status": 200,
+                    "data": resp.rows
+                });
+            } else {
+                res.send({
+                    "status": 204,
+                    "message": "sorry no report found"
+                })
+            }
+
+        });
+    },deleteDisease:function(req,res){
+        client.query("delete from module_diseases where id='"+req.body.id+"'",(err,resp)=>{
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "message":resp
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":resp
                 });
             }
         });

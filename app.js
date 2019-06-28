@@ -335,8 +335,20 @@ app.post('/api/getallriegoform' ,function (req,res) {
 app.post('/api/getfilterriegoform' ,function (req,res) {
     db_sql.getFilterRiegoForm(req,res)
 });
+app.post('/api/sendverificaioncode' ,function (req,res) {
+    db_sql.sendVerificaionCode(req,res)
+});
+app.post('/api/getdiseaselistadminfilter' ,function (req,res) {
+    db_sql.getDiseaseListAdminFilter(req,res)
+});
+app.post('/api/getdiseaselistsearch' ,function (req,res) {
+    db_sql.getDiseaseListSearch(req,res)
+});app.post('/api/deletedisease' ,function (req,res) {
+    db_sql.deleteDisease(req,res)
+});
 app.get('/api/testing',function (req,res) {
-   /*axios.request({
+
+/*   axios.request({
         method: 'POST',
         url: 'https://app.e-stratos.eu/api/v1/login/',
         headers: {
@@ -356,18 +368,20 @@ app.get('/api/testing',function (req,res) {
         })
         .finally(function () {
             // always executed
-        });
-*/
+        });*/
+
+
+
     axios.request({
         method: 'POST',
         url: ' https://app.e-stratos.eu/api/v1/lands/',
-        headers: {
+        headers:{
             'Content-Type': 'application/json',
             'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
         },
-        data: {
+        data:{
             user: '307',
-            where: 'PepsiCo'
+            where: 'PepsiCo',
         },
     }).then(function (response) {
         // handle success
