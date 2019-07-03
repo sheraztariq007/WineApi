@@ -67,7 +67,7 @@ app.post('/api/disease', upload, function (req,res,next) {
     });
 
     var originalFileName = req.file.filename
-   // console.log(req.body.name)
+  console.log(req)
     db_helper.getDiseaseList(req.param('userId', null),
         req.param('disease_type', null),
         req.param('details', null),
@@ -113,7 +113,7 @@ app.post('/api/sampling',upload ,function (req,res,next) {
     }else{
         var originalFileName = "";
     }
-    //console.log(req);
+    console.log(req);
 
    db_helper.saveSamplingWithImage(req,originalFileName,res)
 });
@@ -343,7 +343,11 @@ app.post('/api/getdiseaselistadminfilter' ,function (req,res) {
 });
 app.post('/api/getdiseaselistsearch' ,function (req,res) {
     db_sql.getDiseaseListSearch(req,res)
-});app.post('/api/deletedisease' ,function (req,res) {
+});
+app.post('/api/getmaintainadmin' ,function (req,res) {
+    db_sql.getMaintainAdmin(req,res)
+});
+app.post('/api/deletedisease' ,function (req,res) {
     db_sql.deleteDisease(req,res)
 });
 app.get('/api/testing',function (req,res) {

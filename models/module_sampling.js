@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const module_sampling = sequelize.define('module_sampling', {
     reportedby_user_id: DataTypes.INTEGER,
     sample_name: DataTypes.TEXT,
-    company_id: DataTypes.TEXT,
+    company_id: DataTypes.INTEGER,
     sample_type: DataTypes.TEXT,
     phenological_type: DataTypes.TEXT,
     image_url: DataTypes.TEXT,

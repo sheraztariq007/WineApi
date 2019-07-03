@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       company_id: {
-        type: Sequelize.TEXT
+        type: Sequelize.INTEGER
       },
       phenological_type: {
         type: Sequelize.TEXT

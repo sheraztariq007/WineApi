@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       company_id: {
-        type: Sequelize.TEXT
+        type: Sequelize.INTEGER
       },
       marchinar_id: {
         type: Sequelize.TEXT

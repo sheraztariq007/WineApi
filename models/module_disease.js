@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     image_url: DataTypes.TEXT,
     thumbnial: DataTypes.TEXT,
     carto_image: DataTypes.TEXT,
+    hora: DataTypes.TEXT,
+    fecha: DataTypes.TEXT,
+    temparature: DataTypes.TEXT,
+    humedad_ambiental: DataTypes.TEXT,
     location: DataTypes.TEXT,
     reported_datetime: DataTypes.DATE
   }, {});

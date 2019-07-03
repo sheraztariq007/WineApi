@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const module_fieldnotebook = sequelize.define('module_fieldnotebook', {
     reportedby_user_id: DataTypes.INTEGER,
-    company_id:DataTypes.TEXT,
+    company_id:DataTypes.INTEGER,
     marchinar_id: DataTypes.TEXT,
     labore_id: DataTypes.INTEGER,
     start_date: DataTypes.STRING,
