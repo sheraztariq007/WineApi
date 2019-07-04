@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     temparature: DataTypes.TEXT,
     humedad_ambiental: DataTypes.TEXT,
     location: DataTypes.TEXT,
-    reported_datetime: DataTypes.DATE
+    reported_datetime: DataTypes.TEXT
   }, {});
   module_disease.associate = function(models) {
     // associations can be defined here

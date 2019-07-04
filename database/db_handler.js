@@ -71,13 +71,14 @@ module.exports = {
         });
     },
     /*save All Disease Requests*/
-    getDiseaseList:function(userid,disease_type,details,imageUrl,location,companyId,res){
+    getDiseaseList:function(userid,disease_type,details,imageUrl,location,companyId,reported_date_time,res){
         const  disease = Moduledisease(seq.sequelize,seq.sequelize.Sequelize);
         disease.create({
             reportedby_user_id:userid,disease_type:disease_type,
             maintenace:details,
             company_id:companyId,
             image_url:imageUrl,
+            reported_datetime:reported_date_time,
             thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
             location:location,reported_datetime:getDate()+" "+getTime()
@@ -103,7 +104,7 @@ module.exports = {
                 labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
                 app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,
                 form_type:req.body.form_type,location:req.body.location,
-                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+                reported_date_time:req.body.reported_date_time,company_id:req.body.company_id
             }).then(result=>{
                 res.send({
                     'status':200,
@@ -181,13 +182,15 @@ module.exports = {
     },
     /*Save All Maintaince Request */
 
-    saveMaintaince:function(userid,maintane_type,details,imageUrl,location,companyId,res){
+    saveMaintaince:function(userid,maintane_type,details,imageUrl,location,
+                            companyId,reported_date_time,res){
         const  maintain = Modulemaintain(seq.sequelize,seq.sequelize.Sequelize);
         maintain.create({
             reportedby_user_id:userid,maintane_type:maintane_type,
             details:details,
             company_id:companyId,
             image_url:imageUrl,
+            reported_date_time:reported_date_time,
             thumbnial:thumbnail_folder+imageUrl,
             carto_image:constants.base_url+imageUrl,
             location:location,reported_date_time:getDate()+" "+getTime()
@@ -238,7 +241,7 @@ module.exports = {
             sample_type:req.param('sample_type', null),cluster_per_unit_edit:req.param('cluster_per_unit_edit', null),
             boxes_per_field:req.param('boxes_per_field', null),
             kilogram_transport:req.param('kilogram_transport', null),machinery:req.param('machinery', null)
-            ,location:req.param('location', null),reported_datetime:getDate()+" "+getTime(),sample_type_field_id:req.param('sample_type_field_id', null),
+            ,location:req.param('location', null),reported_datetime:req.param('reported_date_time',null),sample_type_field_id:req.param('sample_type_field_id', null),
             sample_type_lning:req.param('sample_type_lning', 0),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
             weight_purning:req.param('weight_purning', null),drop_buds:req.param('drop_buds', null),number_of_buds:req.param('number_of_buds', null),
             number_of_bunches:req.param('number_of_bunches', null),

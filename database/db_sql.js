@@ -877,7 +877,8 @@ module.exports = {
                 "m_m.reportedby_user_id=usuarios.id",
                 (err,resp_m)=> {
                     maintain = resp_m.rows
-                    client.query("select m_s.sample_name,m_s.location,usuarios.name as username,usuarios.surname as lastname, COALESCE(m_s.phenological_type,'') " +
+                    client.query("select m_s.sample_name,m_s.location,usuarios.name as username,usuarios.surname as lastname," +
+                        " COALESCE(m_s.phenological_type,'') " +
                         "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
                         "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
                         "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +

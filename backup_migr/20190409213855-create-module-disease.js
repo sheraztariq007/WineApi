@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       reported_datetime: {
-        type: Sequelize.DATE
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

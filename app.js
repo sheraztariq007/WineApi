@@ -73,7 +73,7 @@ app.post('/api/disease', upload, function (req,res,next) {
         req.param('details', null),
         originalFileName,
         req.param('location', null),
-        req.param('company_id', null),res)
+        req.param('company_id', null),req.param('reported_date_time', null),res)
     console.log(originalFileName)
 });
 
@@ -94,7 +94,8 @@ app.post('/api/maintaince', upload, function (req,res,next) {
         req.param('details', null),
         originalFileName,
         req.param('location', null),
-        req.param('company_id', null),res)
+        req.param('company_id', null),
+        req.param('reported_date_time', null),res)
     console.log(originalFileName)
 });
 app.post('/api/sampling',upload ,function (req,res,next) {
