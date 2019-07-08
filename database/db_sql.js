@@ -692,8 +692,9 @@ module.exports = {
                         "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
                         "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
                         "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
-                        "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
-                        "m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios where " +
+                        "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
+                        "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
+                        "m_s.reported_datetime from module_samplings as m_s,fields as fb,usuarios  where " +
                         "m_s.company_id='"+req.body.company_id+"' AND " +
                         "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp_s)=>{
                         res.send({
