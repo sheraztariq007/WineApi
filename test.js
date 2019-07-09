@@ -41,9 +41,9 @@ function runPlot() {
 }
 function downloadFile(fileName,url) {
 
-    download(url,fileName).then(data => {
-        fs.writeFileSync(fileName, data);
-        console.log(url);
+
+    download(url, fileName).then(() => {
+        console.log('done!=>'+url+"=>"+fileName);
     }).catch(function (error) {
         downloadFile(fileName,url);
     });;
@@ -67,16 +67,16 @@ function mapLists(plotid) {
             var rs = response.data;
             var reslt = rs.data;
             console.log(rs.data.length);
-
             for (var i = 0; i < reslt.length; i++) {
                 var dir = "maps/" + reslt[i].date;
-                console.log(reslt[i].url);
+                console.log(dir+"/"+reslt[i].url);
 
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                     downloadFile(dir, reslt[i].url);
+                }else{
+                    downloadFile(dir, reslt[i].url);
                 }
-                downloadFile(dir, reslt[i].url);
                 if(i==reslt.length){
                     console.log("complete all files");
                 }
