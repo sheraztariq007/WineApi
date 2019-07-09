@@ -5,9 +5,12 @@ var db_sql = require('./database/db_sql');
 var bodyParser = require('body-parser')
 var md5 = require("md5")
 var fs = require('fs')
+const download = require('download');
 const axios = require('axios');
 var dateTime = require('node-datetime');
 var thumb = require('node-thumbnail').thumb;
+var fs = require('fs');
+var mergeJSON = require("merge-json") ;
 var time = new Date();
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +20,7 @@ var storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 })
-
+runPlot();
 var upload = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './uploads');},
     filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now()+ '-'+ file.originalname)}})
@@ -31,12 +34,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-
-
 app.post('/', function (req,res) {
     console.log(req.body.name)
     res.send(req.param('name', null));
 });
+
 
 var server = app.listen(3000,function () {
     var host = server.address().address
@@ -352,19 +354,35 @@ app.post('/api/deletedisease' ,function (req,res) {
     db_sql.deleteDisease(req,res)
 });
 app.get('/api/testing',function (req,res) {
+    direcoorylists = getDirectories("maps");
+    for(var i=0;i<1;i++){
+        getFileLists("maps/"+direcoorylists[i]);
+    }
+});
+function runPlot() {
+    // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");
 
-/*   axios.request({
+    if (!fs.existsSync("maps")){
+        fs.mkdirSync("maps");
+    }
+
+    axios.request({
         method: 'POST',
-        url: 'https://app.e-stratos.eu/api/v1/login/',
-        headers: {
-            'Content-Type': 'application/json'
+        url: 'https://app.e-stratos.eu/api/v1/plots/',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
         },
         data: {
-            username: 'pablo.aibar@smartrural.net',
-            password: 'A9BBSZMB'
+            land_id: '81069bd8-91ab-4cf5-bb4f-6259e688aa08',
+            where: 'PepsiCo'
         },
     }).then(function (response) {
-        // handle success
+        var data = response.data;
+        data = data.data;
+        for (var i=0;data.length;i++){
+            mapLists(data[i].plot_id);
+        }
         console.log(response);
     })
         .catch(function (error) {
@@ -373,29 +391,82 @@ app.get('/api/testing',function (req,res) {
         })
         .finally(function () {
             // always executed
-        });*/
+        });
 
+}
+function downloadFile(fileName,url) {
 
-
-    axios.request({
-        method: 'POST',
-        url: ' https://app.e-stratos.eu/api/v1/lands/',
-        headers:{
-            'Content-Type': 'application/json',
-            'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
-        },
-        data:{
-            user: '307',
-            where: 'PepsiCo',
-        },
-    }).then(function (response) {
-        // handle success
-        console.log(response);
+    download(url,fileName).then(data => {
+        fs.writeFileSync(fileName, data);
+        console.log(url);
     }).catch(function (error) {
+        downloadFile(fileName,url);
+    });;
+
+}
+function mapLists(plotid) {
+    try {
+        axios.request({
+            method: 'POST',
+            url: 'https://app.e-stratos.eu/api/v1/maps/',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
+            },
+            data: {
+                plot_id: plotid,
+                where: 'PepsiCo',
+            },
+        }).then(function (response) {
+            // handle success
+            var rs = response.data;
+            var reslt = rs.data;
+            console.log(rs.data.length);
+
+            for (var i = 0; i < reslt.length; i++) {
+                var dir = "maps/" + reslt[i].date;
+                console.log(reslt[i].url);
+
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                    downloadFile(dir, reslt[i].url);
+                }
+                downloadFile(dir, reslt[i].url);
+                if(i==reslt.length){
+                    console.log("complete all files");
+                }
+            }
+
+        }).catch(function (error) {
             // handle error
             console.log(error);
         })
-        .finally(function () {
-            // always executed
-        });
-});
+            .finally(function () {
+                // always executed
+            });
+    }catch(e){
+        console.log(e);
+    }
+
+}
+function getDirectories(path) {
+    return fs.readdirSync(path).filter(function (file) {
+        return fs.statSync(path+'/'+file).isDirectory();
+    });
+}
+
+function readAndMergeFiles(filename) {
+
+    let data1 = fs.readFileSync(filename);
+    console.log(JSON.parse(data1));
+   /* let data = JSON.parse(JSON.stringify(data1));
+   // var result=+mergeJSON.merge(data.feature, obj2);
+   console.log(data);*/
+}
+
+function getFileLists(dir) {
+    fs.readdirSync(dir).forEach(file => {
+        console.log(file);
+        readAndMergeFiles(dir+"/"+"19.CS.ECA.NS.VR.PIVOT8-Map20190330.geojson");
+    });
+}
