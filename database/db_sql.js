@@ -265,7 +265,7 @@ module.exports = {
         });
     },
     detailDiseaseById:function(req,res){
-        client.query("SELECT  usuarios.name as name , module_diseases.id as disease_id," +
+        client.query("SELECT  usuarios.name as name, usuarios.surname as  lastname, usuarios.email as email, module_diseases.id as disease_id," +
             " diseases.name as diseases_name,module_diseases.image_url as image_url, module_diseases.thumbnial as thumbnial," +
             " module_diseases.reported_datetime as reported_datetime," +
             " module_diseases.maintenace as details, module_diseases.location as location " +
@@ -285,7 +285,7 @@ module.exports = {
             }
         });
     },maintainDiseaseById:function(req,res){
-        client.query("SELECT  usuarios.name as name , module_maintains.id as maintain_id," +
+        client.query("SELECT  usuarios.name as name, usuarios.surname as  lastname, usuarios.email as email, module_maintains.id as maintain_id," +
             " maintenances.name as maintenances_name,module_maintains.image_url as image_url, module_maintains.thumbnial as thumbnial," +
             " module_maintains.reported_date_time as reported_datetime," +
             " module_maintains.details as details, module_maintains.location as location " +
@@ -305,7 +305,7 @@ module.exports = {
             }
         });
     },notebookDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.marchinar_id as marchinar_id,maquinaria.name as maquinaria_name," +
+        client.query("Select usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email,  module_fieldnotebooks.marchinar_id as marchinar_id,maquinaria.name as maquinaria_name," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.end_date as end_date," +
             "module_fieldnotebooks.product as product," +
             " module_fieldnotebooks.app_method as app_method, module_fieldnotebooks.surface as surface," +
@@ -332,7 +332,7 @@ module.exports = {
             }
         });
     },RiegoDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.subparcela as subparcela ," +
+        client.query("Select usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email, module_fieldnotebooks.subparcela as subparcela ," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.horasderiego as horasderiego," +
             "module_fieldnotebooks.dosis as dosis," +
             " module_fieldnotebooks.observaciones as observaciones," +
@@ -357,7 +357,7 @@ module.exports = {
         });
     },
     AbonadoDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.trabajador as trabajador ," +
+        client.query("Select usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email, module_fieldnotebooks.trabajador as trabajador ," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tipodeabonado as tipodeabonado," +
             "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
             " module_fieldnotebooks.observaciones as observaciones," +
@@ -382,7 +382,7 @@ module.exports = {
         });
     },
     treatmentoDetailsById:function(req,res){
-        client.query("Select module_fieldnotebooks.trabajador as trabajador,maquinaria.name as maquinaria_name," +
+        client.query("Select usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email, module_fieldnotebooks.trabajador as trabajador,maquinaria.name as maquinaria_name," +
             "module_fieldnotebooks.marchinar_id as marchinar_id," +
             " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tratamiento as tratamiento," +
             "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
@@ -409,7 +409,7 @@ module.exports = {
         });
     },
     samplingDetailById:function(req,res){
-        client.query("SELECT " +
+        client.query("SELECT  usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email, " +
             "m_s.sample_type_field_id as sample_type_field_name,fields.name as field_name ,m_s.phenological_type as phenological_type, " +
             "m_s.thumbnail_url as thumbnail_url,m_s.image_url as image_url, m_s.field_type as field_type_name" +
             ",m_s.sample_name as sample_name, m_s.sample_type as sample_type, m_s.cluster_per_unit_edit," +
@@ -418,8 +418,8 @@ module.exports = {
             "m_s.sample_type_no_of_breaks, m_s.weight_purning,m_s.drop_buds,m_s.number_of_buds,m_s.cepa," +
             "m_s.valor_scholander,m_s.ubicacion,m_s.hora,m_s.temparature," +
             "m_s.humedad_ambiental,m_s.observation," +
-            "m_s.number_of_bunches, m_s.reported_datetime from module_samplings as m_s, fields " +
-            " where m_s.id = '"+req.body.id+"' AND  m_s.sample_type_field_id=fields.id",(err,resp)=>{
+            "m_s.number_of_bunches, m_s.reported_datetime from module_samplings as m_s, fields,usuarios  " +
+            " where m_s.id = '"+req.body.id+"' AND  m_s.sample_type_field_id=fields.id AND m_s.reportedby_user_id=usuarios.id",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
