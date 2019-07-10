@@ -864,21 +864,22 @@ module.exports = {
         var  disease;
         var  maintain;
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
-            " usuarios.name as name,usuarios.surname as lastname,ds.name as disease_name," +
+            " usuarios.name as name,usuarios.surname as lastname,usuarios.email as email,ds.name as disease_name," +
             "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
             "from module_diseases as m_d,diseases as ds, usuarios " +
             "where m_d.disease_type=ds.id AND " +
             "m_d.reportedby_user_id=usuarios.id", (err, resp)=> {
             disease = resp.rows;
 
-            client.query("select  usuarios.name as username,usuarios.surname as lastname, mant.name as maintance_name,m_m.company_id,m_m.details," +
+            client.query("select  usuarios.name as username,usuarios.surname as lastname,usuarios.email as email,mant.name as maintance_name,m_m.company_id,m_m.details," +
                 "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
                 "from module_maintains as m_m,maintenances as mant,usuarios" +
                 " where  m_m.maintane_type=mant.id AND " +
                 "m_m.reportedby_user_id=usuarios.id",
                 (err,resp_m)=> {
                     maintain = resp_m.rows
-                    client.query("select m_s.sample_name,m_s.location,usuarios.name as username,usuarios.surname as lastname," +
+                    client.query("select m_s.sample_name,m_s.location,usuarios.name as username,usuarios.surname as lastname" +
+                        ",usuarios.email as email," +
                         " COALESCE(m_s.phenological_type,'') " +
                         "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
                         "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
