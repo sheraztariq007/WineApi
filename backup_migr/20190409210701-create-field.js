@@ -17,6 +17,9 @@ module.exports = {
       area: {
         type: Sequelize.INTEGER
       },
+      geo_json: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

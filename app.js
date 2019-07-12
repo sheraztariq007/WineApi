@@ -352,12 +352,20 @@ app.post('/api/getmaintainadmin' ,function (req,res) {
 app.post('/api/deletedisease' ,function (req,res) {
     db_sql.deleteDisease(req,res)
 });
+
+app.post('/api/getdiseaselists' ,function (req,res) {
+    db_sql.getDiseaseLists(req,res)
+});
+
+
 app.get('/api/testing',function (req,res) {
     direcoorylists = getDirectories("maps");
     for(var i=0;i<1;i++){
         getFileLists("maps/"+direcoorylists[i]);
     }
 });
+
+
 function runPlot() {
     // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");
 

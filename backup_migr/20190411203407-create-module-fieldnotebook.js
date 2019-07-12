@@ -68,6 +68,9 @@ module.exports = {
       subparcela:{
         type:Sequelize.TEXT
       },
+      module_diseases_id:{
+        type:Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

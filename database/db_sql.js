@@ -1393,7 +1393,29 @@ module.exports = {
                 });
             }
         });
+    },getDiseaseLists:function(req,res) {
+        client.query("select usuarios.name as firstname, usuarios.surname as lastname, usuarios.email," +
+            "md.id,diseases.name as disease_name," +
+            " md.maintenace as details,md.image_url," +
+            "md.thumbnial,md.location, md.reported_datetime  " +
+            "from module_diseases as md,usuarios,diseases where md.company_id='"+req.body.company_id+"' AND " +
+            " usuarios.id = md.reportedby_user_id AND" +
+            " diseases.id=md.disease_type",(err,result)=>{
+            console.log(err,result);
+            if(result.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":result.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "data":"No result found"
+                });
+            }
+        });
     }
+
 }
 
 function endTask(task_id,user_id,status,company_id,resp){

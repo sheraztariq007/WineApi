@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     horasderiego: DataTypes.TEXT,
     observaciones: DataTypes.TEXT,
     tipodeabonado: DataTypes.TEXT,
-    subparcela: DataTypes.TEXT
-
+    subparcela: DataTypes.TEXT,
+    module_diseases_id:DataTypes.INTEGER
   }, {});
   module_fieldnotebook.associate = function(models) {
     // associations can be defined here
