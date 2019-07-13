@@ -158,6 +158,9 @@ app.post('/api/newTasks' ,function (req,res) {
 app.post('/api/taskWithFields' ,function (req,res) {
     db_sql.taskWithFields(req.body.task_id,res)
 });
+app.post('/api/assigntreatment' ,function (req,res) {
+    db_helper.assignTreatment(req,res)
+});
 /*
 *  0 for new status
 *  1 for status in inprogres
