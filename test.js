@@ -3,12 +3,49 @@ const download = require('download');
 const axios = require('axios');
 var mergeJSON = require("merge-json") ;
 
+var main_folder = "maps/"
 
-runPlot();
+getCompanies();
 
-function runPlot() {
-    if (!fs.existsSync("maps")){
-        fs.mkdirSync("maps");
+
+
+function getCompanies() {
+    if (!fs.existsSync(main_folder)){
+        fs.mkdirSync(main_folder);
+    }
+    axios.request({
+        method: 'POST',
+        url: 'https://app.e-stratos.eu/api/v1/lands/',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
+        },
+        data: {
+            user: '307',
+            where: 'PepsiCo'
+        },
+    }).then(function (response) {
+        var data = response.data;
+        console.log(data);
+        data = data.data;
+        for (var i=0;data.length;i++){
+            runPlot(data[i].land_name,data[i].land_id);
+        }
+        console.log(response);
+    })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+}
+
+
+function runPlot(company,land_id) {
+    if (!fs.existsSync(main_folder+company)){
+        fs.mkdirSync(main_folder+company);
     }
     axios.request({
         method: 'POST',
@@ -18,14 +55,15 @@ function runPlot() {
             'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
         },
         data: {
-            land_id: '81069bd8-91ab-4cf5-bb4f-6259e688aa08',
-            where: 'PepsiCo'
+            land_id: land_id,
+            where: company
         },
     }).then(function (response) {
         var data = response.data;
+        console.log(data);
         data = data.data;
         for (var i=0;data.length;i++){
-            mapLists(data[i].plot_id);
+           mapLists(data[i].plot_id,main_folder+company,company);
         }
         console.log(response);
     })
@@ -48,7 +86,7 @@ function downloadFile(fileName,url) {
     });;
 
 }
-function mapLists(plotid) {
+function mapLists(plotid,folderName,company) {
     try {
         axios.request({
             method: 'POST',
@@ -59,7 +97,9 @@ function mapLists(plotid) {
             },
             data: {
                 plot_id: plotid,
-                where: 'PepsiCo',
+                where: company,
+               // start_date: '2019-06-25',
+              //  end_date: '2019-07-14',
             },
         }).then(function (response) {
             // handle success
@@ -67,7 +107,7 @@ function mapLists(plotid) {
             var reslt = rs.data;
             console.log(rs.data.length);
             for (var i = 0; i < reslt.length; i++) {
-                var dir = "maps/" + reslt[i].date;
+                var dir = folderName+"/" + reslt[i].date;
                 console.log(dir+"/"+reslt[i].url);
 
                 if (!fs.existsSync(dir)) {
@@ -123,7 +163,7 @@ function getFileLists(dir) {
 
     fs.readdirSync(dir).forEach(file => {
       //  console.log(file);
-     readAndMergeFiles(dir+"/"+file);
+     //readAndMergeFiles(dir+"/"+file);
     });
 }
 function readFiles() {
