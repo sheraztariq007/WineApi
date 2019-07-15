@@ -1,16 +1,15 @@
 var fs = require('fs')
 const download = require('download');
 const axios = require('axios');
+var mergeJSON = require("merge-json") ;
+
 
 runPlot();
 
 function runPlot() {
-    // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");
-
     if (!fs.existsSync("maps")){
         fs.mkdirSync("maps");
     }
-
     axios.request({
         method: 'POST',
         url: 'https://app.e-stratos.eu/api/v1/plots/',
@@ -100,18 +99,37 @@ function getDirectories(path) {
     });
 }
 
-function readAndMergeFiles(filename) {
+function  readAndMergeFiles(filename) {
+    var arr1= [];
+    var old = "";
+     arr1.push(filename);
+    let first = fs.readFileSync(arr1[0]);
+    first1 = JSON.parse(first);
+    old = first1.features;
+     for(var i=1;i<arr1.length;i++){
+        let data1 = fs.readFileSync(arr1[i]);
 
-    let data1 = fs.readFileSync(filename);
-    console.log(JSON.parse(data1));
-    /* let data = JSON.parse(JSON.stringify(data1));
-     // var result=+mergeJSON.merge(data.feature, obj2);
-     console.log(data);*/
-}
+        data = JSON.parse(data1);
+      //  console.log(data);
+        old = old.push(data.features);
+    }
+   var jsonContent = JSON.stringify(old);
+    //console.log("Session: %j", jsonContent);
+   fs.writeFile('maps/love.json', jsonContent, 'utf8', function (err,data) {
+    });
+ }
 
 function getFileLists(dir) {
+
     fs.readdirSync(dir).forEach(file => {
-        console.log(file);
-        readAndMergeFiles(dir+"/"+"19.CS.ECA.NS.VR.PIVOT8-Map20190330.geojson");
+      //  console.log(file);
+     readAndMergeFiles(dir+"/"+file);
     });
+}
+function readFiles() {
+    direcoorylists = getDirectories("maps");
+   // for(var i=0;i<1;i++){
+    console.log("maps/"+direcoorylists[0]);
+        getFileLists("maps/"+direcoorylists[0]);
+    //}
 }
