@@ -20,6 +20,9 @@ module.exports = {
       geo_json: {
         type: Sequelize.TEXT
       },
+      shape_type: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

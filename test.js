@@ -2,10 +2,11 @@ var fs = require('fs')
 const download = require('download');
 const axios = require('axios');
 var mergeJSON = require("merge-json") ;
-
+var db_sql = require('./database/db_sql');
 var main_folder = "maps/"
 
-getCompanies();
+db_sql.updateSampling();
+//getCompanies();
 
 
 

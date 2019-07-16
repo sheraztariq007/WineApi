@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     company_id: DataTypes.INTEGER,
     name: DataTypes.TEXT,
     area: DataTypes.INTEGER,
-    geo_json: DataTypes.TEXT
+    geo_json: DataTypes.TEXT,
+    shape_type: DataTypes.TEXT
   }, {});
   Field.associate = function(models) {
     // associations can be defined here

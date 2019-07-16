@@ -1436,6 +1436,28 @@ module.exports = {
                 });
             }
         });
+    },updateSampling:function () {
+        client.query("UPDATE public.module_samplings  SET  sample_type='1' " +
+            "where sample_type='QWZvcm8=\n'",(err,result)=>{
+            console.log(err,result);
+        });
+        client.query("UPDATE public.module_samplings  SET  sample_type='2' " +
+            "where sample_type='UmVjb2xlY2Npw7Nu\n'",(err,result)=>{
+            console.log(err,result);
+        });
+        client.query("UPDATE public.module_samplings  SET  sample_type='3' " +
+            "where sample_type='UGVzbyBkZSBQb2Rh\n'",(err,result)=>{
+            console.log(err,result);
+        });
+        client.query("UPDATE public.module_samplings  SET  sample_type='4' " +
+            "where sample_type='RXN0YWRvIGZlbm9sb2dpY28=\n'",(err,result)=>{
+            console.log(err,result);
+        });
+        client.query("UPDATE public.module_samplings  SET  sample_type='5' " +
+            "where sample_type='RXN0csOpcyBIw61kcmljbw==\n'",(err,result)=>{
+            console.log(err,result);
+        });
+
     }
 
 }
