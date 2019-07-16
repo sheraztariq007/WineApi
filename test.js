@@ -9,6 +9,76 @@ getCompanies();
 
 
 
+
+
+
+
+
+
+
+function runPlot1() {
+
+    axios.request({
+        method: 'POST',
+        url: 'https://app.e-stratos.eu/api/v1/plots/',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
+        },
+        data: {
+            land_id: "81069bd8-91ab-4cf5-bb4f-6259e688aa08",
+            where: "PepsiCo"
+        },
+    }).then(function (response) {
+        var data = response.data;
+        console.log(data);
+    })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+
+}
+
+
+function mapLists1() {
+    try {
+        axios.request({
+            method: 'POST',
+            url: 'https://app.e-stratos.eu/api/v1/maps/',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token 0c9b131753a86b354d6e96293c5c3e7366d80f64',
+            },
+            data: {
+                plot_id: "0449aeca-2cef-42d3-8f2d-fd82258ea63c",
+                where: "PepsiCo",
+                start_date: '2019-07-8',
+                end_date: '2019-07-14',
+            },
+        }).then(function (response) {
+            // handle success
+            var data = response.data;
+            console.log(data);
+
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+            .finally(function () {
+                // always executed
+            });
+    }catch(e){
+        console.log(e);
+    }
+
+}
+
+
+
 function getCompanies() {
     if (!fs.existsSync(main_folder)){
         fs.mkdirSync(main_folder);
@@ -98,8 +168,8 @@ function mapLists(plotid,folderName,company) {
             data: {
                 plot_id: plotid,
                 where: company,
-               // start_date: '2019-06-25',
-              //  end_date: '2019-07-14',
+                start_date: '2019-07-8',
+                end_date: '2019-07-14',
             },
         }).then(function (response) {
             // handle success
