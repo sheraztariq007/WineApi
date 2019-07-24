@@ -1458,6 +1458,31 @@ module.exports = {
             console.log(err,result);
         });
 
+    },countWorkingHours:function(req,res){
+        client.query("select ml.app_user_id,datetime,usuarios.name as firstname," +
+            "usuarios.surname as lastname  " +
+            " from usuarios  INNER  JOIN module_tasks_locations as ml ON  usuarios.id=ml.app_user_id" +
+            "  where company_id='"+req.body.company_id+"' " +
+            "limit '"+req.body.end_index+"'",(err,result)=>{
+            client.query("select DISTINCT(app_user_id), count(app_user_id) from module_tasks_locations  group by app_user_id ",(err,result1)=>{
+                console.log(err,result1);
+                res.send({
+                    "data":result.rows,
+                    "users":result1.rows
+                });
+            });
+        });
+    },trackTimeRecord:function(req,res){
+        client.query("insert into module_tasks_trackwork(user_id,company_id,work_time,status,work_date) " +
+            "values('"+req.body.user_id+"'," +
+            "'"+req.body.company_id+"'," +
+            "'"+req.body.work_time+"'," +
+            "'"+req.body.status+"'," +
+            "'"+req.body.work_date+"')",(err,result)=>{
+            if(result.rowCount>0){
+
+            }
+        });
     }
 
 }
@@ -1473,7 +1498,6 @@ function endTask(task_id,user_id,status,company_id,resp){
                 "message":"status updated"
             });
             sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
-
         }else{
             resp.send({
                 "status":204,

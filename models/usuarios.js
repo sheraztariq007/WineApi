@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     module_gathering: DataTypes.BOOLEAN
   }, {});
   Usuarios.associate = function(models) {
-    // associations can be defined here
   };
   return Usuarios;
 };

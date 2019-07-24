@@ -12,6 +12,8 @@ const  Maintenance = require('../models/maintenance');
 const  Diseases = require('../models/disease');
 const  Moduletasks = require('../models/module_task');
 const  AssignTasksUsersLists = require('../models/assign_tasks_users_lists');
+const  ModuleTasksTrackWorks = require('../models/module_tasks_trackwork');
+const  ModuleTasksTrackHours = require('../models/module_tasks_trackhours');
 const  UserTasksDates = require('../models/user_tasks_date');
 const  UserTasksFields = require('../models/user_tasks_fields');
 const  Tasks = require('../models/tasks');
@@ -158,25 +160,25 @@ module.exports = {
             });
         }
         else  if(req.body.form_type==2){
-                field.create({
-                    reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-                    trabajador:req.body.trabajador,start_date:req.body.start_date,
-                    field_id:req.body.field_id,
-                    tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
-                    observaciones:req.body.observaciones,
-                    form_type:req.body.form_type,location:req.body.location,
-                    reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-                }).then(result=>{
-                    res.send({
-                        'status':200,
-                        'message':'Successfully send'
-                    })
-                    console.log(req.body)
-                    db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                        ,"Cuaderno",result.id,req.body.company_id,"treatmento")
-                }).catch(err=>{
-                    console.log(err);
-                });
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+                trabajador:req.body.trabajador,start_date:req.body.start_date,
+                field_id:req.body.field_id,
+                tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
+                observaciones:req.body.observaciones,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"treatmento")
+            }).catch(err=>{
+                console.log(err);
+            });
         }
 
     },
@@ -534,29 +536,102 @@ module.exports = {
         }).catch(err=>{
             console.log(err);
         });
-},assignTreatment:function(req,res){
+    },assignTreatment:function(req,res){
         const  field = Modulefieldnotebook(seq.sequelize,seq.sequelize.Sequelize);
         field.create({
-                reportedby_user_id: req.body.reportedby_user_id, marchinar_id: req.body.marchinar_id,
-                trabajador: req.body.trabajador, start_date: req.body.start_date,
-                field_id: req.body.field_id,
-                tratamiento: req.body.tratamiento, product: req.body.product, dosis: req.body.dosis,
-                observaciones: req.body.observaciones,
-                form_type: req.body.form_type,module_diseases_id:req.body.module_diseases_id,
-                location: req.body.location,
-                reported_date_time: getDate() + " " + getTime(), company_id: req.body.company_id
+            reportedby_user_id: req.body.reportedby_user_id, marchinar_id: req.body.marchinar_id,
+            trabajador: req.body.trabajador, start_date: req.body.start_date,
+            field_id: req.body.field_id,
+            tratamiento: req.body.tratamiento, product: req.body.product, dosis: req.body.dosis,
+            observaciones: req.body.observaciones,
+            form_type: req.body.form_type,module_diseases_id:req.body.module_diseases_id,
+            location: req.body.location,
+            reported_date_time: getDate() + " " + getTime(), company_id: req.body.company_id
+        }).then(result=> {
+            res.send({
+                'status': 200,
+                'message': 'Successfully send'
+            })
+            console.log(req.body)
+            db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
+                , "Cuaderno", result.id, req.body.company_id, "treatmento")
+        }).catch(err=> {
+            console.log(err);
+        });
+    },trackUserWork:function(req,res){
+        const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
+        const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
+
+        /*Save and Track Work time*/
+
+        trackWork.findOne({
+            where:{ user_id:req.body.user_id,
+                company_id:req.body.company_id,
+                work_time:req.body.work_time,
+                status:req.body.status,
+                work_date:req.body.work_date}
+        }).then(result1=>{
+            if(result1==null){
+                trackWork.create({
+                    user_id:req.body.user_id,
+                    company_id:req.body.company_id,
+                    work_time:req.body.work_time,
+                    status:req.body.status,
+                    work_date:req.body.work_date
+                }).then(result=>{
+                    // console.log(result);
+                }).catch(err=>{
+                    //console.log(err);
+                });
+            }
+
+        }).catch(err=>{
+
+        });
+
+        /*Track Hours Add and Update In hours*/
+        if(req.body.status==1) {
+
+            trackHours.findOne({
+                where: {
+                    user_id: req.body.user_id,
+                    company_id: req.body.company_id
+                }
             }).then(result=> {
-                res.send({
-                    'status': 200,
-                    'message': 'Successfully send'
-                })
-                console.log(req.body)
-                db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
-                    , "Cuaderno", result.id, req.body.company_id, "treatmento")
+
+                if (result != null) {
+
+                    trackHours.update({
+                            total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
+                        },
+                        {
+                            where: {
+                                user_id: req.body.user_id,
+                                date: req.body.work_date
+                            }
+                        }).then(result=> {
+                        console.log(result);
+                    }).catch(err=> {
+                        console.log(err);
+                    });
+                }
+                else {
+                    trackHours.create({
+                        user_id: req.body.user_id,
+                        company_id: req.body.company_id,
+                        total_hours: req.body.total_hours,
+                        date: req.body.work_date,
+                    }).then(result=> {
+                        console.log(result);
+                    }).catch(err=> {
+                        console.log(err);
+                    });
+                }
             }).catch(err=> {
                 console.log(err);
-            });
-    }
+            })
+        }
+    },
 }
 /*Get Current Time*/
 function getTime() {

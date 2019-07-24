@@ -131,6 +131,7 @@ app.post('/api/maintenancelist' ,function (req,res) {
 app.post('/api/diseaseslist' ,function (req,res) {
     db_helper.diseaseslist(res)
 });
+
 app.post('/api/searchuserbyfield' ,function (req,res) {
     db_helper.searchUserByField(req.body.company_id,res)
 });
@@ -363,6 +364,11 @@ app.post('/api/getdiseaselists' ,function (req,res) {
     db_sql.getDiseaseLists(req,res)
 });
 
+app.post('/api/countWorkingHours' ,function (req,res) {
+    //console.log(req);
+      db_sql.countWorkingHours(req,res)
+});
+
 
 app.get('/api/testing',function (req,res) {
     direcoorylists = getDirectories("maps");
@@ -371,7 +377,9 @@ app.get('/api/testing',function (req,res) {
     }
 });
 
-
+app.post('/api/trackusertime' ,function (req,res) {
+    db_helper.trackUserWork(req,res)
+});
 function runPlot() {
     // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");
 
