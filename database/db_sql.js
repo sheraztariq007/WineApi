@@ -1472,15 +1472,24 @@ module.exports = {
                 });
             });
         });
-    },trackTimeRecord:function(req,res){
-        client.query("insert into module_tasks_trackwork(user_id,company_id,work_time,status,work_date) " +
-            "values('"+req.body.user_id+"'," +
-            "'"+req.body.company_id+"'," +
-            "'"+req.body.work_time+"'," +
-            "'"+req.body.status+"'," +
-            "'"+req.body.work_date+"')",(err,result)=>{
-            if(result.rowCount>0){
-
+    },getTimeRecord:function(req,res){
+        users = [];
+        data = [];
+        client.query("select *from  module_tasks_trackhours where " +
+            "company_id='"+req.body.company_id+"'",(err,results)=>{
+            console.log(err,results);
+            if(results.rowCount>0){
+                client.query("select usuarios.name as firstname,usuarios.surname as lastname," +
+                    "mt.id , mt.user_id, mt.work_time,mt.work_date,mt.status" +
+                    " from  module_tasks_trackworks as mt,usuarios where " +
+                    "mt.company_id='"+req.body.company_id+"' AND usuarios.id = mt.user_id ",(err,resp)=>{
+                    if(resp.rowCount>0) {
+                        res.send({
+                            "hours": results.rows,
+                            "data":resp.rows
+                        })
+                    }
+                });
             }
         });
     }
