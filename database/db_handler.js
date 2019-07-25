@@ -590,12 +590,13 @@ module.exports = {
         });
 
         /*Track Hours Add and Update In hours*/
-        if(req.body.status==1) {
+      //  if(req.body.status==1) {
 
             trackHours.findOne({
                 where: {
                     user_id: req.body.user_id,
-                    company_id: req.body.company_id
+                    company_id: req.body.company_id,
+                    date: req.body.work_date,
                 }
             }).then(result=> {
 
@@ -630,7 +631,7 @@ module.exports = {
             }).catch(err=> {
                 console.log(err);
             })
-        }
+      //  }
     },
 }
 /*Get Current Time*/

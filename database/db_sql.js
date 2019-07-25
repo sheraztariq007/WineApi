@@ -1475,19 +1475,38 @@ module.exports = {
     },getTimeRecord:function(req,res){
         users = [];
         data = [];
-        client.query("select *from  module_tasks_trackhours where " +
-            "company_id='"+req.body.company_id+"'",(err,results)=>{
+        client.query("select usuarios.name as firstname,usuarios.surname as lastname," +
+            "mt.id, mt.user_id,mt.company_id,mt.total_hours,mt.date " +
+            "from  module_tasks_trackhours as mt, usuarios where " +
+            "company_id='"+req.body.company_id+"'AND mt.user_id= usuarios.id order by user_id,date",(err,results)=>{
             console.log(err,results);
             if(results.rowCount>0){
-                client.query("select usuarios.name as firstname,usuarios.surname as lastname," +
-                    "mt.id , mt.user_id, mt.work_time,mt.work_date,mt.status" +
-                    " from  module_tasks_trackworks as mt,usuarios where " +
-                    "mt.company_id='"+req.body.company_id+"' AND usuarios.id = mt.user_id ",(err,resp)=>{
+                client.query("select  usuarios.name as firstname,usuarios.surname as lastname," +
+                    "mt.id , mt.user_id, mt.work_time,mt.work_date,mt.status," +
+                    "module_tasks_trackhours.total_hours " +
+                    " from  module_tasks_trackworks as mt,usuarios,module_tasks_trackhours where  " +
+                    "mt.company_id='"+req.body.company_id+"' AND usuarios.id = mt.user_id" +
+                    " AND module_tasks_trackhours.date=mt.work_date AND " +
+                    "module_tasks_trackhours.user_id=mt.user_id    order by user_id,date",(err,resp)=>{
+                    console.log(err);
                     if(resp.rowCount>0) {
-                        res.send({
-                            "hours": results.rows,
-                            "data":resp.rows
-                        })
+                        client.query("select distinct(work_date) from module_tasks_trackworks where " +
+                            "company_id='"+req.body.company_id+"'",(err,result2)=>{
+                            if(result2.rowCount>0){
+                                client.query("select distinct(user_id) as user_id from module_tasks_trackworks" +
+                                    " where company_id='"+req.body.company_id+"' group by user_id ",(err3,result3)=>{
+                                    console.log(err3,result3);
+
+                                    res.send({
+                                        "hours": results.rows,
+                                        "data":resp.rows,
+                                        "dates_group":result2.rows,
+                                        "user_count":result3.rows,
+                                    });
+                                });
+                            }
+                        });
+
                     }
                 });
             }
