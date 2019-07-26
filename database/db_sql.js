@@ -407,6 +407,32 @@ module.exports = {
                 });
             }
         });
+    },multiTreatmentoDetailsById:function(req,res){
+        client.query("Select usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email," +
+            " module_fieldnotebooks.trabajador as trabajador,maquinaria.name as maquinaria_name," +
+            "module_fieldnotebooks.marchinar_id as marchinar_id," +
+            " module_fieldnotebooks.start_date as start_date, module_fieldnotebooks.tratamiento as tratamiento," +
+            "module_fieldnotebooks.dosis as dosis,module_fieldnotebooks.product as product," +
+            " module_fieldnotebooks.observaciones as observaciones," +
+            "module_fieldnotebooks.location as location, " +
+            "module_fieldnotebooks.reported_date_time  as reported_date_time " +
+            " from usuarios,module_fieldnotebooks,maquinaria where " +
+            " module_fieldnotebooks.id='"+req.body.id+"' " +
+            "AND module_fieldnotebooks.reportedby_user_id=usuarios.id AND " +
+            " maquinaria.id=module_fieldnotebooks.marchinar_id ",(err,resp)=>{
+            console.log(err,resp);
+            if(resp.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":resp.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Some thing Wrong!"
+                });
+            }
+        });
     },
     samplingDetailById:function(req,res){
         client.query("SELECT  usuarios.name as  name,usuarios.surname as  lastname, usuarios.email as email, " +
@@ -479,7 +505,25 @@ module.exports = {
                 "data":resp.rows
             });
         });
-    },getlatestUserslocationsmobile:function(req,res){
+    },searchTreatmentFields:function (req,res) {
+        client.query("select fields.name as field_name from treatment_joins_fields as tm,fields " +
+            " where tm.treatment_id='"+req.body.treatment_id+"' " +
+            " AND tm.field_id=fields.id",(err,result)=>{
+            console.log(err,result);
+            if(result.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":result.rows
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry no Result Found"
+                });
+            }
+        });
+    }
+    ,getlatestUserslocationsmobile:function(req,res){
         var newDateObj = new Date();
         var time_date =new Date(newDateObj.getTime()-(20* 60 * 1000)).toISOString().slice(0, 19).replace('T', ' ');
         client.query("select Distinct(app_user_id),usuarios.name, usuarios.surname,usuarios.email  from" +

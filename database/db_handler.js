@@ -16,6 +16,7 @@ const  ModuleTasksTrackWorks = require('../models/module_tasks_trackwork');
 const  ModuleTasksTrackHours = require('../models/module_tasks_trackhours');
 const  UserTasksDates = require('../models/user_tasks_date');
 const  UserTasksFields = require('../models/user_tasks_fields');
+const  TreatmentJoinsField = require('../models/treatment_joins_field');
 const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
 const  TasksLocations =  require('../models/tasks_locations');
@@ -163,12 +164,12 @@ module.exports = {
             field.create({
                 reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
                 trabajador:req.body.trabajador,start_date:req.body.start_date,
-                field_id:req.body.field_id,
                 tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
                 observaciones:req.body.observaciones,
                 form_type:req.body.form_type,location:req.body.location,
                 reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
             }).then(result=>{
+                saveTreatmetoField(req.body.field_id,result.id);
                 res.send({
                     'status':200,
                     'message':'Successfully send'
@@ -680,6 +681,23 @@ function saveTasksFields(tasksdata,task_id){
     for(var i=0;i<tasks.length;i++){
         taskfields.create({
             task_id:task_id,field_id:tasks[i]}).then(result=>{
+
+        }).catch (err=>{
+            console.log(err);
+        });
+    }
+
+}
+
+function saveTreatmetoField(fieldData,treatmentId){
+    //console.log(fieldData+"===================================");
+    const reatmentJoinsField = TreatmentJoinsField(seq.sequelize,seq.sequelize.Sequelize);
+    var fieldsID = fieldData.split(",");
+    for(var i=0;i<fieldsID.length;i++){
+        reatmentJoinsField.create({
+            treatment_id:treatmentId,
+            field_id:fieldsID[i]
+        }).then(result=>{
 
         }).catch (err=>{
             console.log(err);
