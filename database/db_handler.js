@@ -268,7 +268,8 @@ module.exports = {
     fieldlist:function(res,$company_id){
         const fld =  Fields(seq.sequelize,seq.sequelize.Sequelize);
         fld.findAll({
-            where:{company_id:$company_id}
+            where:{company_id:$company_id},
+            order: [['name','ASC']]
         }).then(result=>{
             res.send({
                 'status':200,
@@ -611,7 +612,9 @@ module.exports = {
                                 date: req.body.work_date
                             }
                         }).then(result=> {
-                        console.log(result);
+                        res.send({
+                            "response":"History Saved"
+                        });
                     }).catch(err=> {
                         console.log(err);
                     });

@@ -1475,7 +1475,7 @@ module.exports = {
     },getTimeRecord:function(req,res){
         users = [];
         data = [];
-        client.query("select usuarios.name as firstname,usuarios.surname as lastname," +
+        client.query("select usuarios.name as firstname,usuarios.surname as lastname,usuarios.email as email," +
             "mt.id, mt.user_id,mt.company_id,mt.total_hours,mt.date " +
             "from  module_tasks_trackhours as mt, usuarios where " +
             "company_id='"+req.body.company_id+"'AND mt.user_id= usuarios.id order by user_id,date",(err,results)=>{
