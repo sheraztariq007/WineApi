@@ -176,6 +176,26 @@ module.exports = {
                 })
                 console.log(req.body)
                 db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                    ,"Cuaderno",result.id,req.body.company_id,"treatmento22")
+            }).catch(err=>{
+                console.log(err);
+            });
+        }
+        else  if(req.body.form_type==22){
+            field.create({
+                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+                trabajador:req.body.trabajador,start_date:req.body.start_date,field_id:req.body.field_id,
+                tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
+                observaciones:req.body.observaciones,
+                form_type:req.body.form_type,location:req.body.location,
+                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
+            }).then(result=>{
+                res.send({
+                    'status':200,
+                    'message':'Successfully send'
+                })
+                console.log(req.body)
+                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
                     ,"Cuaderno",result.id,req.body.company_id,"treatmento")
             }).catch(err=>{
                 console.log(err);
@@ -543,20 +563,20 @@ module.exports = {
         field.create({
             reportedby_user_id: req.body.reportedby_user_id, marchinar_id: req.body.marchinar_id,
             trabajador: req.body.trabajador, start_date: req.body.start_date,
-            field_id: req.body.field_id,
             tratamiento: req.body.tratamiento, product: req.body.product, dosis: req.body.dosis,
             observaciones: req.body.observaciones,
             form_type: req.body.form_type,module_diseases_id:req.body.module_diseases_id,
             location: req.body.location,
             reported_date_time: getDate() + " " + getTime(), company_id: req.body.company_id
         }).then(result=> {
+            saveTreatmetoField(req.body.field_id,result.id);
             res.send({
                 'status': 200,
                 'message': 'Successfully send'
             })
             console.log(req.body)
             db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
-                , "Cuaderno", result.id, req.body.company_id, "treatmento")
+                , "Cuaderno", result.id, req.body.company_id, "treatmento22")
         }).catch(err=> {
             console.log(err);
         });

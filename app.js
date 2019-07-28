@@ -297,10 +297,12 @@ app.post('/api/getAlllocationpinsweb' ,function (req,res) {
 });
 
 app.post('/api/getnotefieldbooks' ,function (req,res) {
+    console.log(req);
     db_sql.getNoteFieldBooks(req,res);
 });
 app.post('/api/searchassigntreatmento' ,function (req,res) {
-    db_sql.searchAssignTreatmento(req,res);
+    console.log(req);
+   db_sql.searchAssignTreatmento(req,res);
 });
 app.post('/api/riegodetailsbyid' ,function (req,res) {
     db_sql.RiegoDetailsById(req,res);
@@ -315,6 +317,7 @@ app.post('/api/multitreatmentodetailsbyid' ,function (req,res) {
     db_sql.multiTreatmentoDetailsById(req,res);
 });
 app.post('/api/searchtreatmentfields' ,function (req,res) {
+    console.log(req);
     db_sql.searchTreatmentFields(req,res);
 });
 app.post('/api/getmaquinarialist' ,function (req,res) {
