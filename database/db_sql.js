@@ -1567,17 +1567,41 @@ module.exports = {
                                     " where company_id='"+req.body.company_id+"' group by user_id ",(err3,result3)=>{
                                     console.log(err3,result3);
 
-                                    res.send({
-                                        "hours": results.rows,
-                                        "data":resp.rows,
-                                        "dates_group":result2.rows,
-                                        "user_count":result3.rows,
-                                    });
+                                    if(result3.rowCount>0) {
+                                        res.send({
+                                            "status":200,
+                                            "hours": results.rows,
+                                            "data": resp.rows,
+                                            "dates_group": result2.rows,
+                                            "user_count": result3.rows,
+                                        });
+                                    }else{
+                                        res.send({
+                                            "status":204,
+                                            "message":"Sorry not result found",
+                                        });
+                                    }
+                                });
+                            }
+                            else{
+                                res.send({
+                                    "status":204,
+                                    "message":"Sorry not result found",
                                 });
                             }
                         });
 
+                    }else{
+                        res.send({
+                            "status":204,
+                            "message":"Sorry not result found",
+                        });
                     }
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry not result found",
                 });
             }
         });
