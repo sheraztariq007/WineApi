@@ -724,7 +724,7 @@ module.exports = {
                 "m_m.reportedby_user_id=usuarios.id",
                 (err,resp_m)=> {
                     maintain = resp_m.rows
-                    client.query("select m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
+                    client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
                         "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
                         "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
                         "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
@@ -1506,7 +1506,8 @@ module.exports = {
                 });
             }
         });
-    },updateSampling:function () {
+    },
+    updateSampling:function () {
         client.query("UPDATE public.module_samplings  SET  sample_type='1' " +
             "where sample_type='QWZvcm8=\n'",(err,result)=>{
             console.log(err,result);
