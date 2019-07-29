@@ -101,11 +101,14 @@ module.exports = {
         const  field = Modulefieldnotebook(seq.sequelize,seq.sequelize.Sequelize);
         /* If Form type General*/
         if(req.body.form_type==1){
+            var fieldData  = req.body.field_id;
+            var fieldsID = fieldData.split(",");
+            for(var i=0;i<fieldsID.length;i++){
 
             field.create({
                 reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
                 labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
-                app_method:req.body.app_method,field_id:req.body.field_id,surface:req.body.surface,
+                app_method:req.body.app_method,surface:req.body.surface,field_id:fieldsID[i],
                 form_type:req.body.form_type,location:req.body.location,
                 reported_date_time:req.body.reported_date_time,company_id:req.body.company_id
             }).then(result=>{
@@ -119,46 +122,65 @@ module.exports = {
             }).catch(err=>{
                 console.log(err);
             });
+            }
         }else
         if(req.body.form_type==4){
-            field.create({
-                reportedby_user_id:req.body.reportedby_user_id,subparcela:req.body.subparcela,start_date:req.body.start_date,
-                field_id:req.body.field_id,
-                horasderiego:req.body.horasderiego,dosis:req.body.dosis,observaciones:req.body.observaciones,
-                form_type:req.body.form_type,location:req.body.location,
-                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-            }).then(result=>{
-                res.send({
-                    'status':200,
-                    'message':'Successfully send'
-                })
-                console.log(req.body)
-                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"riego")
-            }).catch(err=>{
-                console.log(err);
-            });
-
+            var fieldData  = req.body.field_id;
+            var fieldsID = fieldData.split(",");
+            for(var i=0;i<fieldsID.length;i++) {
+                field.create({
+                    reportedby_user_id: req.body.reportedby_user_id,
+                    subparcela: req.body.subparcela,
+                    start_date: req.body.start_date,
+                    field_id: fieldsID[i],
+                    horasderiego: req.body.horasderiego,
+                    dosis: req.body.dosis,
+                    observaciones: req.body.observaciones,
+                    form_type: req.body.form_type,
+                    location: req.body.location,
+                    reported_date_time: getDate() + " " + getTime(),
+                    company_id: req.body.company_id
+                }).then(result=> {
+                    res.send({
+                        'status': 200,
+                        'message': 'Successfully send'
+                    })
+                    console.log(req.body)
+                    db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
+                        , "Cuaderno", result.id, req.body.company_id, "riego")
+                }).catch(err=> {
+                    console.log(err);
+                });
+            }
         }else  if(req.body.form_type==3){
-
-            field.create({
-                reportedby_user_id:req.body.reportedby_user_id,trabajador:req.body.trabajador,start_date:req.body.start_date,
-                field_id:req.body.field_id,
-                tipodeabonado:req.body.tipodeabonado,product:req.body.product,dosis:req.body.dosis,
-                observaciones:req.body.observaciones,
-                form_type:req.body.form_type,location:req.body.location,
-                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-            }).then(result=>{
-                res.send({
-                    'status':200,
-                    'message':'Successfully send'
-                })
-                console.log(req.body)
-                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"abonado")
-            }).catch(err=>{
-                console.log(err);
-            });
+            var fieldData  = req.body.field_id;
+            var fieldsID = fieldData.split(",");
+            for(var i=0;i<fieldsID.length;i++) {
+                field.create({
+                    reportedby_user_id: req.body.reportedby_user_id,
+                    trabajador: req.body.trabajador,
+                    start_date: req.body.start_date,
+                    field_id: fieldsID[i],
+                    tipodeabonado: req.body.tipodeabonado,
+                    product: req.body.product,
+                    dosis: req.body.dosis,
+                    observaciones: req.body.observaciones,
+                    form_type: req.body.form_type,
+                    location: req.body.location,
+                    reported_date_time: getDate() + " " + getTime(),
+                    company_id: req.body.company_id
+                }).then(result=> {
+                    res.send({
+                        'status': 200,
+                        'message': 'Successfully send'
+                    })
+                    console.log(req.body)
+                    db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
+                        , "Cuaderno", result.id, req.body.company_id, "abonado")
+                }).catch(err=> {
+                    console.log(err);
+                });
+            }
         }
         else  if(req.body.form_type==2){
             field.create({
