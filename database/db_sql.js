@@ -1621,12 +1621,12 @@ module.exports = {
             ]
         });
 
-       var query =  client.query("SELECT datetime::date as date, MIN(datetime)::timestamp::time as start_time," +
-            " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
+       var query =  client.query("SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
+           " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
            "usuarios.surname " +
-            " FROM module_tasks_locations,usuarios where company_id=5 " +
-            "AND usuarios.id= module_tasks_locations.app_user_id" +
-            " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date;",(err,results)=>{
+           " FROM module_tasks_locations,usuarios where company_id=5 " +
+           "AND usuarios.id= module_tasks_locations.app_user_id" +
+           " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
            if(results.rowCount>0) {
 
                csvWriter.writeRecords(results.rows)       // returns a promise
