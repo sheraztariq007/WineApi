@@ -379,11 +379,8 @@ app.post('/api/countWorkingHours' ,function (req,res) {
 });
 
 
-app.get('/api/testing',function (req,res) {
-    direcoorylists = getDirectories("maps");
-    for(var i=0;i<1;i++){
-        getFileLists("maps/"+direcoorylists[i]);
-    }
+app.get('/api/exportWorkingTime',function (req,res) {
+    db_sql.exportWorkingTime(req,res)
 });
 
 app.post('/api/trackusertime' ,function (req,res) {

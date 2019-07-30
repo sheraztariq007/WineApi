@@ -1,5 +1,7 @@
 const {pool,Client} = require("pg");
-var md5 = require("md5")
+var fs = require('fs');
+var md5 = require("md5");
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 var dateTime = require('node-datetime');
 var time = new Date();
 const  constants = require('../config/constants.json')
@@ -1606,6 +1608,37 @@ module.exports = {
                 });
             }
         });
+    },exportWorkingTime:function () {
+        const csvWriter = createCsvWriter({
+            path: 'working-data_file.csv',
+            header: [
+                {id: 'date', title: 'Date'},
+                {id: 'start_time', title: 'Start Time'},
+                {id: 'end_time', title: 'End Time'},
+                {id: 'email', title: 'email'},
+                {id: 'name', title: 'name'},
+                {id: 'surname', title: 'surname'},
+            ]
+        });
+
+       var query =  client.query("SELECT datetime::date as date, MIN(datetime)::timestamp::time as start_time," +
+            " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email " +
+            " FROM module_tasks_locations,usuarios where company_id=5 " +
+            "AND usuarios.id= module_tasks_locations.app_user_id" +
+            " GROUP BY datetime::date,app_user_id,usuarios.email  ORDER BY datetime::date;",(err,results)=>{
+           if(results.rowCount>0) {
+
+               csvWriter.writeRecords(results.rows)       // returns a promise
+                   .then(() => {
+                       console.log('...Done');
+                   });
+           }else{
+               console.log('...Sorry no Result found');
+           }
+       });
+
+
+
     }
 
 }
