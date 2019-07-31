@@ -1615,9 +1615,9 @@ module.exports = {
                 {id: 'date', title: 'Date'},
                 {id: 'start_time', title: 'Start Time'},
                 {id: 'end_time', title: 'End Time'},
-                {id: 'email', title: 'email'},
-                {id: 'name', title: 'name'},
-                {id: 'surname', title: 'surname'},
+                {id: 'email', title: 'email',lang:"SPANISH"},
+                {id: 'name', title: 'name',lang:"SPANISH"},
+                {id: 'surname', title: 'surname',lang:"SPANISH"},
             ]
         });
 
