@@ -105,23 +105,23 @@ module.exports = {
             var fieldsID = fieldData.split(",");
             for(var i=0;i<fieldsID.length;i++){
 
-            field.create({
-                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-                labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
-                app_method:req.body.app_method,surface:req.body.surface,field_id:fieldsID[i],
-                form_type:req.body.form_type,location:req.body.location,
-                reported_date_time:req.body.reported_date_time,company_id:req.body.company_id
-            }).then(result=>{
-                res.send({
-                    'status':200,
-                    'message':'Successfully send'
-                })
-                console.log(req.body)
-                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"notebook")
-            }).catch(err=>{
-                console.log(err);
-            });
+                field.create({
+                    reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
+                    labore_id:req.body.labore_id,start_date:req.body.start_date,end_date:req.body.end_date,product:req.body.product,
+                    app_method:req.body.app_method,surface:req.body.surface,field_id:fieldsID[i],
+                    form_type:req.body.form_type,location:req.body.location,
+                    reported_date_time:req.body.reported_date_time,company_id:req.body.company_id
+                }).then(result=>{
+                    res.send({
+                        'status':200,
+                        'message':'Successfully send'
+                    })
+                    console.log(req.body)
+                    db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
+                        ,"Cuaderno",result.id,req.body.company_id,"notebook")
+                }).catch(err=>{
+                    console.log(err);
+                });
             }
         }else
         if(req.body.form_type==4){
@@ -634,51 +634,101 @@ module.exports = {
         });
 
         /*Track Hours Add and Update In hours*/
-      //  if(req.body.status==1) {
+        //  if(req.body.status==1) {
 
-            trackHours.findOne({
-                where: {
+        trackHours.findOne({
+            where: {
+                user_id: req.body.user_id,
+                company_id: req.body.company_id,
+                date: req.body.work_date,
+            }
+        }).then(result=> {
+
+            if (result != null) {
+
+                trackHours.update({
+                        total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
+                    },
+                    {
+                        where: {
+                            user_id: req.body.user_id,
+                            date: req.body.work_date
+                        }
+                    }).then(result=> {
+                    res.send({
+                        "response":"History Saved"
+                    });
+                }).catch(err=> {
+                    console.log(err);
+                });
+            }
+            else {
+                trackHours.create({
                     user_id: req.body.user_id,
                     company_id: req.body.company_id,
+                    total_hours: req.body.total_hours,
                     date: req.body.work_date,
-                }
-            }).then(result=> {
-
-                if (result != null) {
-
-                    trackHours.update({
-                            total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
-                        },
-                        {
-                            where: {
-                                user_id: req.body.user_id,
-                                date: req.body.work_date
-                            }
-                        }).then(result=> {
-                        res.send({
-                            "response":"History Saved"
-                        });
-                    }).catch(err=> {
-                        console.log(err);
-                    });
-                }
-                else {
-                    trackHours.create({
-                        user_id: req.body.user_id,
-                        company_id: req.body.company_id,
-                        total_hours: req.body.total_hours,
-                        date: req.body.work_date,
-                    }).then(result=> {
-                        console.log(result);
-                    }).catch(err=> {
-                        console.log(err);
-                    });
-                }
-            }).catch(err=> {
-                console.log(err);
-            })
-      //  }
+                }).then(result=> {
+                    console.log(result);
+                }).catch(err=> {
+                    console.log(err);
+                });
+            }
+        }).catch(err=> {
+            console.log(err);
+        })
+        //  }
     },
+    saveOfflineWorking:function (req,res) {
+        const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
+        const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
+        var workarray = req.body.record;
+        var data  =  JSON.parse(workarray);
+
+        var hours_data  =  data.hoursarray;
+        // console.log(hours_data);
+
+        var list = data.workarray;
+
+        for(var i=0;i<list.length;i++){
+            single = JSON.parse(list[i]);
+            check = db_sql.searchWork(single.userId,single.companyId,
+                single.workTime,single.workDate,single.status);
+            if(!check) {
+
+                trackWork.create({
+                    user_id: single.userId,
+                    company_id: single.companyId,
+                    work_time: single.workDate,
+                    status: single.status,
+                    work_date: single.workTime
+                }).then(result=> {
+
+                }).catch(err=> {
+                    //console.log(err);
+                });
+
+            }
+        }
+
+        for(var i =0;i<hours_data.length;i++){
+            single = JSON.parse(hours_data[i]);
+            check =  db_sql.searchHours(single.userId,single.companyId,
+                single.date,single.totalhours);
+            if(!check){
+                trackHours.create({
+                    user_id: single.userId,
+                    company_id: single.companyId,
+                    total_hours: single.totalhours,
+                    date: single.date,
+                }).then(result=> {
+                    console.log(result);
+                }).catch(err=> {
+                    console.log(err);
+                });
+            }
+        }
+    }
 }
 /*Get Current Time*/
 function getTime() {

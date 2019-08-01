@@ -389,6 +389,10 @@ app.post('/api/trackusertime' ,function (req,res) {
 app.post('/api/gettimerecord' ,function (req,res) {
     db_sql.getTimeRecord(req,res)
 });
+app.post('/api/saveofflineworking' ,function (req,res) {
+    db_helper.saveOfflineWorking(req,res)
+});
+
 function runPlot() {
     // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");
 

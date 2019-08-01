@@ -1637,9 +1637,26 @@ module.exports = {
                console.log('...Sorry no Result found');
            }
        });
-
-
-
+    },searchWork:function(userId,companyId,time,date,status){
+        console.log(userId,companyId,time,date,status);
+        count = false;
+        client.query("select *from module_tasks_trackworks where user_id='"+userId+"'AND" +
+            " company_id='"+companyId+"' AND work_time='"+time+"' AND work_date='"+date+"' AND " +
+            " status='"+status+"'",(err,result)=>{
+            console.log(err,result);
+            if(result.rowCount>0){
+                count  = true;
+            }
+        });
+    },searchHours:function(userId,companyId,date,total_hours){
+        count = false;
+        client.query("select *from module_tasks_trackhours where user_id='"+userId+"'AND" +
+            " company_id='"+companyId+"' AND total_hours='"+total_hours+"' AND date='"+date+"' ",(err,result)=>{
+            console.log(err,result);
+            if(result.rowCount>0){
+                count  = true;
+            }
+        });
     }
 
 }
