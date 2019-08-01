@@ -94,6 +94,12 @@ module.exports = {
       observation:{
         type: Sequelize.TEXT
       },
+      n_muestreo:{
+        type: Sequelize.TEXT
+      },
+      vuelta :{
+        type: Sequelize.TEXT
+      },
       reported_datetime: {
         type: Sequelize.TEXT
       },
