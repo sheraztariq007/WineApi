@@ -1621,22 +1621,22 @@ module.exports = {
             ]
         });
 
-       var query =  client.query("SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
-           " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
-           "usuarios.surname " +
-           " FROM module_tasks_locations,usuarios where company_id=5 " +
-           "AND usuarios.id= module_tasks_locations.app_user_id" +
-           " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
-           if(results.rowCount>0) {
+        var query =  client.query("SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
+            " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
+            "usuarios.surname " +
+            " FROM module_tasks_locations,usuarios where company_id=5 " +
+            "AND usuarios.id= module_tasks_locations.app_user_id" +
+            " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
+            if(results.rowCount>0) {
 
-               csvWriter.writeRecords(results.rows)       // returns a promise
-                   .then(() => {
-                       console.log('...Done');
-                   });
-           }else{
-               console.log('...Sorry no Result found');
-           }
-       });
+                csvWriter.writeRecords(results.rows)       // returns a promise
+                    .then(() => {
+                        console.log('...Done');
+                    });
+            }else{
+                console.log('...Sorry no Result found');
+            }
+        });
     },searchWork:function(userId,companyId,time,date,status){
         console.log(userId,companyId,time,date,status);
         count = false;
@@ -1648,6 +1648,7 @@ module.exports = {
                 count  = true;
             }
         });
+        return count;
     },searchHours:function(userId,companyId,date,total_hours){
         count = false;
         client.query("select *from module_tasks_trackhours where user_id='"+userId+"'AND" +
@@ -1657,8 +1658,51 @@ module.exports = {
                 count  = true;
             }
         });
-    }
+        return count;
+    },saveOfflineWorking:function (req,res) {
+        var workarray = req.body.record;
+        var data = JSON.parse(workarray);
+        var hours_data = data.hoursarray;
+        var list = data.workarray;
+        // Check and add working Time and Date
+        var single;
 
+        list.forEach(function(element) {
+            single =   JSON.parse(element);
+            client.query("INSERT INTO module_tasks_trackworks(user_id,company_id,work_time,status,work_date) " +
+                "  select '"+single.userId+"','"+single.companyId+ "','"+single.workTime+"','"+single.status+"','"+single.workDate+"'  " +
+                " WHERE NOT EXISTS  (SELECT user_id,company_id,work_time,status,work_date from   module_tasks_trackworks where user_id='"+single.userId+"' AND" +
+                " company_id='"+single.companyId+ "' AND work_time='"+single.workTime+"'  AND " +
+                " status='"+single.status+"' AND work_date='"+single.workDate+"') ", (err, result)=> {
+                console.log(err, result);
+            });
+        });
+
+        hours_data.forEach(function (element) {
+            single = JSON.parse(element);
+            client.query("INSERT INTO module_tasks_trackhours(user_id,company_id,total_hours,date) " +
+                "SELECT '"+single.userId+"','"+single.companyId+"','"+single.date+"' from module_tasks_trackhours " +
+                "WHERE NOT EXISTS (SELECT user_id,company_id,total_hours,date from  module_tasks_trackhours where " +
+                " '"+single.userId+"','"+single.companyId+"','"+single.date+"')",(err,result)=>{
+            });
+        });
+
+        for (var i = 0; i < hours_data.length; i++) {
+
+            client.query("select *from module_tasks_trackhours where user_id='"+single.userId+"' AND" +
+                " company_id='"+single.companyId+"' AND total_hours='"+single.totalhours+"' AND date='"+single.date+"' ",(err,result)=>{
+              //  console.log(err,result);
+                if(result!=null){
+
+                }else{
+                    client.query("INSERT INTO module_tasks_trackhours(user_id,company_id,total_hours,date) " +
+                        "VALUES('"+single.userId+"','"+single.companyId+"','"+single.date+"')",(err,result)=>{
+
+                    });
+                }
+            });
+        }
+    }
 }
 
 function endTask(task_id,user_id,status,company_id,resp){

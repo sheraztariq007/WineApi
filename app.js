@@ -383,14 +383,14 @@ app.get('/api/exportWorkingTime',function (req,res) {
     db_sql.exportWorkingTime(req,res)
 });
 
-app.post('/api/trackusertime' ,function (req,res) {
-    db_helper.trackUserWork(req,res)
+app.post('/api/trackusertime' , async function (req,res) {
+    await  db_helper.trackUserWork(req,res)
 });
 app.post('/api/gettimerecord' ,function (req,res) {
     db_sql.getTimeRecord(req,res)
 });
-app.post('/api/saveofflineworking' ,function (req,res) {
-    db_helper.saveOfflineWorking(req,res)
+app.post('/api/saveofflineworking' , async function (req,res) {
+    await  db_sql.saveOfflineWorking(req,res)
 });
 
 function runPlot() {

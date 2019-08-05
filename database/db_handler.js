@@ -605,7 +605,6 @@ module.exports = {
     },trackUserWork:function(req,res){
         const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
         const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
-
         /*Save and Track Work time*/
 
         trackWork.findOne({
@@ -645,7 +644,7 @@ module.exports = {
         }).then(result=> {
 
             if (result != null) {
-
+/*
                 trackHours.update({
                         total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
                     },
@@ -660,7 +659,7 @@ module.exports = {
                     });
                 }).catch(err=> {
                     console.log(err);
-                });
+                });*/
             }
             else {
                 trackHours.create({
@@ -678,7 +677,7 @@ module.exports = {
             console.log(err);
         })
         //  }
-    },
+    }/*,
     saveOfflineWorking:function (req,res) {
         const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
         const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
@@ -690,24 +689,21 @@ module.exports = {
 
         var list = data.workarray;
 
-        for(var i=0;i<list.length;i++){
+       for(var i=0;i<list.length;i++){
             single = JSON.parse(list[i]);
             check = db_sql.searchWork(single.userId,single.companyId,
                 single.workTime,single.workDate,single.status);
-            if(!check) {
-
+            if(check!=null && check.rowcount==0) {
                 trackWork.create({
                     user_id: single.userId,
                     company_id: single.companyId,
-                    work_time: single.workDate,
+                    work_time: single.workTime,
                     status: single.status,
-                    work_date: single.workTime
+                    work_date: single.workDate
                 }).then(result=> {
-
                 }).catch(err=> {
                     //console.log(err);
                 });
-
             }
         }
 
@@ -715,8 +711,9 @@ module.exports = {
             single = JSON.parse(hours_data[i]);
             check =  db_sql.searchHours(single.userId,single.companyId,
                 single.date,single.totalhours);
-            if(!check){
-                trackHours.create({
+            if(check==false){
+                console.log("Found.....");
+               trackHours.create({
                     user_id: single.userId,
                     company_id: single.companyId,
                     total_hours: single.totalhours,
@@ -728,7 +725,7 @@ module.exports = {
                 });
             }
         }
-    }
+    }*/
 }
 /*Get Current Time*/
 function getTime() {
