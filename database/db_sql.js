@@ -1744,6 +1744,38 @@ module.exports = {
                 });
             }
         });
+    },verifiySecurityCode:function(req,res){
+
+        client.query("select id,email from verification_codes where email='"+req.body.email+"' AND verification_code='"+req.body.code+"' AND" +
+            " token IS NULL AND  datetime::date = CURRENT_DATE",(err,result)=>{
+           console.log(result);
+            if(result.rowCount==0){
+                res.send({
+                    "status":204,
+                    "Message":"Sorry Security code is exprired"
+                });
+            }
+            else{
+                var token = randomstring.generate({
+                    length: 25,
+                    charset: 'alphanumeric'
+                });
+                client.query("Update verification_codes set token='"+token+"' where id='"+result.rows[0].id+"'",(err,result2)=>{
+                  //  console.log(err);
+                    if(result2.rowCount>0){
+                        res.send({
+                            "status":200,
+                            "token":token
+                        });
+                    }else{
+                        res.send({
+                            "status":205,
+                            "message":"Sorry try Again or resend email Again"
+                        });
+                    }
+                });
+            }
+        });
     }
 }
 
