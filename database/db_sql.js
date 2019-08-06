@@ -6,6 +6,8 @@ var dateTime = require('node-datetime');
 var time = new Date();
 const  constants = require('../config/constants.json')
 var FCM = require('fcm-node');
+var email = require('../email/MailSetting');
+var randomstring = require("randomstring");
 var serverKey = constants.server_key; //put your server key here
 var fcm = new FCM(serverKey);
 var data = [];
@@ -441,7 +443,7 @@ module.exports = {
             "m_s.sample_type_field_id as sample_type_field_name,fields.name as field_name ,m_s.phenological_type as phenological_type, " +
             "m_s.thumbnail_url as thumbnail_url,m_s.image_url as image_url, m_s.field_type as field_type_name" +
             ",m_s.sample_name as sample_name, m_s.sample_type as sample_type, m_s.cluster_per_unit_edit," +
-            "m_s.boxes_per_field, m_s.kilogram_transport, m_s.machinery, " +
+            "m_s.boxes_per_field, m_s.kilogram_transport, m_s.machinery,m_s.vuelta,m_s.n_muestreo, " +
             "m_s.location,m_s.sample_type_date,m_s.sample_type_lning,m_s.sample_type_strain," +
             "m_s.sample_type_no_of_breaks, m_s.weight_purning,m_s.drop_buds,m_s.number_of_buds,m_s.cepa," +
             "m_s.valor_scholander,m_s.ubicacion,m_s.hora,m_s.temparature," +
@@ -1702,6 +1704,46 @@ module.exports = {
                 }
             });
         }
+    },resetPasswordRequest(req,res){
+        client.query("select *from usuarios where  email='"+req.body.email+"' LIMIT 1",(err,result)=>{
+            if(result.rowCount>0){
+                // Send Email
+                var code = randomstring.generate({
+                    length: 8,
+                    charset: 'alphanumeric'
+                });
+
+                var setting  = email.setmail();
+                var mailOptions = {
+                    from: 'no-reply@smartrural.net',
+                    to: req.body.email,
+                    subject:"Reset Password Request",
+                    text: "Security Code for reset Password: "+code
+                };
+                setting.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        res.send({
+                            "status":205,
+                            "message":"please search Emai Again"
+                        });
+                    } else {
+                        client.query("delete from verification_codes where email = '"+req.body.email+"'");
+                        client.query("insert into verification_codes(email,verification_code) " +
+                            "VALUES('"+req.body.email+"','"+code+"')");
+                        res.send({
+                            "status":200,
+                            "message":"We have  send Security code at your emails"
+                        });
+                    }
+                });
+
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"Sorry this email not exists"
+                });
+            }
+        });
     }
 }
 

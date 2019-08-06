@@ -100,7 +100,7 @@ app.post('/api/maintaince', upload, function (req,res,next) {
     console.log(originalFileName)
 });
 app.post('/api/sampling',upload ,function (req,res,next) {
-    if(req.file) {
+   if(req.file) {
         thumb({
             source: req.file.path, // could be a filename: dest/path/image.jpg
             destination: 'uploads/thumbnails/',
@@ -115,7 +115,7 @@ app.post('/api/sampling',upload ,function (req,res,next) {
     }else{
         var originalFileName = "";
     }
-    console.log(req);
+    console.log(req.body);
 
    db_helper.saveSamplingWithImage(req,originalFileName,res)
 });
@@ -391,6 +391,11 @@ app.post('/api/gettimerecord' ,function (req,res) {
 });
 app.post('/api/saveofflineworking' , async function (req,res) {
     await  db_sql.saveOfflineWorking(req,res)
+});
+
+app.post('/api/resetpasswordrequest' , async function (req,res) {
+  await  db_sql.resetPasswordRequest(req,res)
+
 });
 
 function runPlot() {

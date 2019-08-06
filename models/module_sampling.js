@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     cepa:DataTypes.TEXT,
     temparature:DataTypes.TEXT,
     humedad_ambiental:DataTypes.TEXT,
+    vuelta:DataTypes.TEXT,
+    n_muestreo:DataTypes.TEXT,
     observation:DataTypes.TEXT
   }, {});
   module_sampling.associate = function(models) {

@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const verification_code = sequelize.define('verification_code', {
     user_id: DataTypes.INTEGER,
+    email: DataTypes.TEXT,
     token: DataTypes.TEXT,
     verification_code: DataTypes.TEXT,
     datetime: DataTypes.DATE
