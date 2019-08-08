@@ -1562,7 +1562,7 @@ module.exports = {
                     " from  module_tasks_trackworks as mt,usuarios,module_tasks_trackhours where  " +
                     "mt.company_id='"+req.body.company_id+"' AND usuarios.id = mt.user_id" +
                     " AND module_tasks_trackhours.date=mt.work_date AND " +
-                    "module_tasks_trackhours.user_id=mt.user_id    order by user_id,date",(err,resp)=>{
+                    "module_tasks_trackhours.user_id=mt.user_id    order by user_id,date ",(err,resp)=>{
                     console.log(err);
                     if(resp.rowCount>0) {
                         client.query("select distinct(work_date) from module_tasks_trackworks where " +
@@ -1760,7 +1760,7 @@ module.exports = {
                     charset: 'alphanumeric'
                 });
                 client.query("Update verification_codes set token='"+token+"' where id='"+result.rows[0].id+"'",(err,result2)=>{
-                  //  console.log(err);
+                   console.log(err);
                     if(result2.rowCount>0){
                         res.send({
                             "status":200,
