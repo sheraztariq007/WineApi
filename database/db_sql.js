@@ -1745,14 +1745,13 @@ module.exports = {
             }
         });
     },verifiySecurityCode:function(req,res){
-
         client.query("select id,email from verification_codes where email='"+req.body.email+"' AND verification_code='"+req.body.code+"' AND" +
             " token IS NULL AND  datetime::date = CURRENT_DATE",(err,result)=>{
            console.log(result);
             if(result.rowCount==0){
                 res.send({
                     "status":204,
-                    "Message":"Sorry Security code is exprired"
+                    "Message":"Sorry Security code is expired"
                 });
             }
             else{
@@ -1776,6 +1775,45 @@ module.exports = {
                 });
             }
         });
+    },changePassword:function(req,res){
+       var password =  req.body.password;
+       var cpassword =  req.body.confrim_pass;
+        if(password.replace(/^\s*|\s*$/g, '')==cpassword.replace(/^\s*|\s*$/g, '')){
+            password = password.replace(/^\s*|\s*$/g, '');
+            client.query("select email from verification_codes" +
+                " where token = '"+req.body.token+"' AND  datetime::date = CURRENT_DATE LIMIT 1",
+                (err,result)=>{
+                    if(result.rowCount>0){
+                        client.query("update usuarios set password = '"+md5(password)+"' where " +
+                            "email = '"+result.rows[0].email+"' ",(err,result2)=>{
+                            console.log(err,result2);
+                            if(result2.rowCount>0){
+                                client.query("delete from verification_codes where email = '"+result.rows[0].email+"'");
+                                res.send({
+                                    "status":200,
+                                    "message":"Password successfully changed"
+                                });
+                            }else{
+                                res.send({
+                                    "status":202,
+                                    "message":"Sorry try again"
+                                });
+                            }
+                        });
+                    }else{
+                        res.send({
+                            "status":204,
+                            "message":"Sorry reconfirm token is expired"
+                        });
+                    }
+                });
+        }
+        else{
+            res.send({
+               "status":205,
+                "message":"Sorry password not match"
+            });
+        }
     }
 }
 
