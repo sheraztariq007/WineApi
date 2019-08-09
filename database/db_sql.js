@@ -1778,43 +1778,50 @@ module.exports = {
     },changePassword:function(req,res){
        var password =  req.body.password;
        var cpassword =  req.body.confrim_pass;
-        if(password.replace(/^\s*|\s*$/g, '')==cpassword.replace(/^\s*|\s*$/g, '')){
-            password = password.replace(/^\s*|\s*$/g, '');
-            client.query("select email from verification_codes" +
-                " where token = '"+req.body.token+"' AND  datetime::date = CURRENT_DATE LIMIT 1",
-                (err,result)=>{
-                    if(result.rowCount>0){
-                        client.query("update usuarios set password = '"+md5(password)+"' where " +
-                            "email = '"+result.rows[0].email+"' ",(err,result2)=>{
-                            console.log(err,result2);
-                            if(result2.rowCount>0){
-                                client.query("delete from verification_codes where email = '"+result.rows[0].email+"'");
-                                res.send({
-                                    "status":200,
-                                    "message":"Password successfully changed"
-                                });
-                            }else{
-                                res.send({
-                                    "status":202,
-                                    "message":"Sorry try again"
-                                });
-                            }
-                        });
-                    }else{
-                        res.send({
-                            "status":204,
-                            "message":"Sorry reconfirm token is expired"
-                        });
-                    }
+        if(password.length <6 ) {
+            if (password == cpassword) {
+                client.query("select email from verification_codes" +
+                    " where token = '" + req.body.token + "' AND  datetime::date = CURRENT_DATE LIMIT 1",
+                    (err, result)=> {
+                        if (result.rowCount > 0) {
+                            client.query("update usuarios set password = '" + md5(password) + "' where " +
+                                "email = '" + result.rows[0].email + "' ", (err, result2)=> {
+                                console.log(err, result2);
+                                if (result2.rowCount > 0) {
+                                    client.query("delete from verification_codes where email = '" + result.rows[0].email + "'");
+                                    res.send({
+                                        "status": 200,
+                                        "message": "Password successfully changed"
+                                    });
+                                } else {
+                                    res.send({
+                                        "status": 202,
+                                        "message": "Sorry try again"
+                                    });
+                                }
+                            });
+                        } else {
+                            res.send({
+                                "status": 204,
+                                "message": "Sorry reconfirm token is expired"
+                            });
+                        }
+                    });
+            }
+            else {
+                res.send({
+                    "status": 205,
+                    "message": "Sorry password not match"
                 });
-        }
-        else{
+            }
+        }else{
             res.send({
-               "status":205,
-                "message":"Sorry password not match"
+                "status": 206,
+                "message": "Password is too short"
             });
         }
     }
+
 }
 
 function endTask(task_id,user_id,status,company_id,resp){
