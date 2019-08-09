@@ -1778,6 +1778,7 @@ module.exports = {
     },changePassword:function(req,res){
        var password =  req.body.password;
        var cpassword =  req.body.confrim_pass;
+        console.log(password+"  "+ cpassword);
         if(password.length >= 6 ) {
             if (password === cpassword) {
                 client.query("select email from verification_codes" +
