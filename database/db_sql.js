@@ -1778,7 +1778,7 @@ module.exports = {
     },changePassword:function(req,res){
        var password =  req.body.password;
        var cpassword =  req.body.confrim_pass;
-        if(password.length <6 ) {
+        if(password.length >= 6 ) {
             if (password == cpassword) {
                 client.query("select email from verification_codes" +
                     " where token = '" + req.body.token + "' AND  datetime::date = CURRENT_DATE LIMIT 1",
