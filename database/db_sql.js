@@ -1778,9 +1778,24 @@ module.exports = {
     },changePassword:function(req,res){
        var password =  req.body.password;
        var cpassword =  req.body.confrim_pass;
-        console.log(password+"  "+ cpassword);
-        if(password.length >= 6 ) {
-            if (password === cpassword) {
+        if(password=="undefined" ) {
+            res.send({
+                "status": 207,
+                "message": "Password missing"
+            });
+        }else if(cpassword=="undefined" ) {
+            res.send({
+                "status": 207,
+                "message": "Confirm password missing"
+            });
+        }else if(password=="undefined" && cpassword=="undefined" ){
+            res.send({
+                "status": 207,
+                "message": "Both fields are missing"
+            });
+        }
+        else if(password.length >= 6 ) {
+            if (password ==  cpassword) {
                 client.query("select email from verification_codes" +
                     " where token = '" + req.body.token + "' AND  datetime::date = CURRENT_DATE LIMIT 1",
                     (err, result)=> {
