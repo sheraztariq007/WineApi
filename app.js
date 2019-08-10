@@ -379,7 +379,7 @@ app.post('/api/countWorkingHours' ,function (req,res) {
 });
 
 
-app.get('/api/exportWorkingTime',function (req,res) {
+app.post('/api/exportWorkingTime',function (req,res) {
     db_sql.exportWorkingTime(req,res)
 });
 

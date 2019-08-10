@@ -1610,9 +1610,9 @@ module.exports = {
                 });
             }
         });
-    },exportWorkingTime:function () {
-        const csvWriter = createCsvWriter({
-            path: 'working-data_file.csv',
+    },exportWorkingTime:function (req,res) {
+       const csvWriter = createCsvWriter({
+            path: 'uploads/working-data_file.csv',
             header: [
                 {id: 'date', title: 'Date'},
                 {id: 'start_time', title: 'Start Time'},
@@ -1626,19 +1626,26 @@ module.exports = {
         var query =  client.query("SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
             " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
             "usuarios.surname " +
-            " FROM module_tasks_locations,usuarios where company_id=5 " +
+            " FROM module_tasks_locations,usuarios where company_id='"+req.body.company_id+"'" +
             "AND usuarios.id= module_tasks_locations.app_user_id" +
             " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
             if(results.rowCount>0) {
 
-                csvWriter.writeRecords(results.rows)       // returns a promise
+              csvWriter.writeRecords(results.rows)       // returns a promise
                     .then(() => {
-                        console.log('...Done');
+                        res.send({
+                            "status":200,
+                            "file_name":"working-data_file.csv"
+                        });
                     });
             }else{
-                console.log('...Sorry no Result found');
+                res.send({
+                    "status":204,
+                });
+               // console.log('...Sorry no Result found');
             }
         });
+
     },searchWork:function(userId,companyId,time,date,status){
         console.log(userId,companyId,time,date,status);
         count = false;
@@ -1724,16 +1731,27 @@ module.exports = {
                     if (error) {
                         res.send({
                             "status":205,
-                            "message":"please search Emai Again"
+                            "message":"please search Email Again"
                         });
                     } else {
                         client.query("delete from verification_codes where email = '"+req.body.email+"'");
                         client.query("insert into verification_codes(email,verification_code) " +
-                            "VALUES('"+req.body.email+"','"+code+"')");
-                        res.send({
-                            "status":200,
-                            "message":"We have  send Security code at your emails"
+                            "VALUES('"+req.body.email+"','"+code+"')",(err,result_email)=>{
+                            console.log("Result=>>>>>>>>>>>");
+                            console.log(result_email);
+                            if(result_email.rowCount>0){
+                                res.send({
+                                    "status":200,
+                                    "message":"We have  send Security code at your emails"
+                                });
+                            }else {
+                                res.send({
+                                    "status":205,
+                                    "message":"please search Email Again"
+                                });
+                            }
                         });
+
                     }
                 });
 
@@ -1778,24 +1796,8 @@ module.exports = {
     },changePassword:function(req,res){
        var password =  req.body.password;
        var cpassword =  req.body.confrim_pass;
-        if(password=="undefined" ) {
-            res.send({
-                "status": 207,
-                "message": "Password missing"
-            });
-        }else if(cpassword=="undefined" ) {
-            res.send({
-                "status": 207,
-                "message": "Confirm password missing"
-            });
-        }else if(password=="undefined" && cpassword=="undefined" ){
-            res.send({
-                "status": 207,
-                "message": "Both fields are missing"
-            });
-        }
-        else if(password.length >= 6 ) {
-            if (password ==  cpassword) {
+        if(password.length >= 6 ) {
+            if (password === cpassword) {
                 client.query("select email from verification_codes" +
                     " where token = '" + req.body.token + "' AND  datetime::date = CURRENT_DATE LIMIT 1",
                     (err, result)=> {
