@@ -115,9 +115,9 @@ app.post('/api/sampling',upload ,function (req,res,next) {
     }else{
         var originalFileName = "";
     }
-    console.log(req.body);
 
-   db_helper.saveSamplingWithImage(req,originalFileName,res)
+    console.log(req.body);
+ db_helper.saveSamplingWithImage(req,originalFileName,res)
 });
 app.post('/api/fieldlist' ,function (req,res) {
     db_helper.fieldlist(res,req.param("company_id","0"))

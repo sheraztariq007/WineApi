@@ -279,6 +279,23 @@ module.exports = {
     },
     saveSamplingWithImage:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        var date = req.param('reported_date_time',null);
+        var sampleType = req.param('sample_type', null);
+        var location = req.param('location',null);
+
+        if(req.headers.app_version!=undefined && sampleType==5){
+            if (req.headers.app_version <= 308) {
+                location = req.param("ubicacion",null);
+            }
+        }
+
+        if(req.headers.app_version!=undefined && sampleType==6) {
+            if (req.headers.app_version == 308) {
+                var date = date.split(" ");
+                var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
+            }
+        }
+
         sampling.create({
             reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
             sample_name:req.param('sample_name', null),
@@ -286,7 +303,7 @@ module.exports = {
             sample_type:req.param('sample_type', null),cluster_per_unit_edit:req.param('cluster_per_unit_edit', null),
             boxes_per_field:req.param('boxes_per_field', null),
             kilogram_transport:req.param('kilogram_transport', null),machinery:req.param('machinery', null)
-            ,location:req.param('location', null),reported_datetime:req.param('reported_date_time',null),sample_type_field_id:req.param('sample_type_field_id', null),
+            ,location:location,reported_datetime:date,sample_type_field_id:req.param('sample_type_field_id', null),
             sample_type_lning:req.param('sample_type_lning', 0),sample_type_strain:req.param('sample_type_strain', null),sample_type_no_of_breaks:req.param('sample_type_no_of_breaks', null),
             weight_purning:req.param('weight_purning', null),drop_buds:req.param('drop_buds', null),number_of_buds:req.param('number_of_buds', null),
             number_of_bunches:req.param('number_of_bunches', null),
@@ -644,22 +661,22 @@ module.exports = {
         }).then(result=> {
 
             if (result != null) {
-/*
-                trackHours.update({
-                        total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
-                    },
-                    {
-                        where: {
-                            user_id: req.body.user_id,
-                            date: req.body.work_date
-                        }
-                    }).then(result=> {
-                    res.send({
-                        "response":"History Saved"
-                    });
-                }).catch(err=> {
-                    console.log(err);
-                });*/
+                /*
+                 trackHours.update({
+                 total_hours: seq.sequelize.literal("total_hours + '"+req.body.total_hours+"' ")
+                 },
+                 {
+                 where: {
+                 user_id: req.body.user_id,
+                 date: req.body.work_date
+                 }
+                 }).then(result=> {
+                 res.send({
+                 "response":"History Saved"
+                 });
+                 }).catch(err=> {
+                 console.log(err);
+                 });*/
             }
             else {
                 trackHours.create({
@@ -678,54 +695,54 @@ module.exports = {
         })
         //  }
     }/*,
-    saveOfflineWorking:function (req,res) {
-        const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
-        const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
-        var workarray = req.body.record;
-        var data  =  JSON.parse(workarray);
+     saveOfflineWorking:function (req,res) {
+     const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
+     const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
+     var workarray = req.body.record;
+     var data  =  JSON.parse(workarray);
 
-        var hours_data  =  data.hoursarray;
-        // console.log(hours_data);
+     var hours_data  =  data.hoursarray;
+     // console.log(hours_data);
 
-        var list = data.workarray;
+     var list = data.workarray;
 
-       for(var i=0;i<list.length;i++){
-            single = JSON.parse(list[i]);
-            check = db_sql.searchWork(single.userId,single.companyId,
-                single.workTime,single.workDate,single.status);
-            if(check!=null && check.rowcount==0) {
-                trackWork.create({
-                    user_id: single.userId,
-                    company_id: single.companyId,
-                    work_time: single.workTime,
-                    status: single.status,
-                    work_date: single.workDate
-                }).then(result=> {
-                }).catch(err=> {
-                    //console.log(err);
-                });
-            }
-        }
+     for(var i=0;i<list.length;i++){
+     single = JSON.parse(list[i]);
+     check = db_sql.searchWork(single.userId,single.companyId,
+     single.workTime,single.workDate,single.status);
+     if(check!=null && check.rowcount==0) {
+     trackWork.create({
+     user_id: single.userId,
+     company_id: single.companyId,
+     work_time: single.workTime,
+     status: single.status,
+     work_date: single.workDate
+     }).then(result=> {
+     }).catch(err=> {
+     //console.log(err);
+     });
+     }
+     }
 
-        for(var i =0;i<hours_data.length;i++){
-            single = JSON.parse(hours_data[i]);
-            check =  db_sql.searchHours(single.userId,single.companyId,
-                single.date,single.totalhours);
-            if(check==false){
-                console.log("Found.....");
-               trackHours.create({
-                    user_id: single.userId,
-                    company_id: single.companyId,
-                    total_hours: single.totalhours,
-                    date: single.date,
-                }).then(result=> {
-                    console.log(result);
-                }).catch(err=> {
-                    console.log(err);
-                });
-            }
-        }
-    }*/
+     for(var i =0;i<hours_data.length;i++){
+     single = JSON.parse(hours_data[i]);
+     check =  db_sql.searchHours(single.userId,single.companyId,
+     single.date,single.totalhours);
+     if(check==false){
+     console.log("Found.....");
+     trackHours.create({
+     user_id: single.userId,
+     company_id: single.companyId,
+     total_hours: single.totalhours,
+     date: single.date,
+     }).then(result=> {
+     console.log(result);
+     }).catch(err=> {
+     console.log(err);
+     });
+     }
+     }
+     }*/
 }
 /*Get Current Time*/
 function getTime() {

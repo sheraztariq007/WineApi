@@ -822,7 +822,7 @@ module.exports = {
         });
 
     },getSamplingLocation:function (req,res) {
-        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, COALESCE(m_s.phenological_type,'') " +
+        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, usuarios.surname as lastname,COALESCE(m_s.phenological_type,'') " +
             "as phenological_type,m_s.thumbnail_url,m_s.image_url," +
             "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
             "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
@@ -834,8 +834,8 @@ module.exports = {
             "m_s.reported_datetime,  COALESCE(m_s.vuelta,'') as vuelta, " +
             "COALESCE(m_s.n_muestreo,'') as n_muestreo  from module_samplings as m_s,fields as fb,usuarios where " +
             "m_s.company_id='"+req.body.company_id+"' AND " +
-            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND m_s.reported_datetime::date>='"+req.body.start_date+"'" +
-            "  AND m_s.reported_datetime::date<='"+req.body.end_date+"'",(err,resp)=>{
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND (substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
+            "  AND (substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
