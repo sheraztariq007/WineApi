@@ -295,7 +295,7 @@ module.exports = {
                 var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
            // }
         }
-sss
+
         sampling.create({
             reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
             sample_name:req.param('sample_name', null),
