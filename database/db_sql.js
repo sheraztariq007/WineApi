@@ -822,7 +822,7 @@ module.exports = {
         });
 
     },getSamplingLocation:function (req,res) {
-        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, usuarios.surname as lastname,COALESCE(m_s.phenological_type,'') " +
+        client.query("select m_s.sample_name,m_s.location,usuarios.name as username, usuarios.surname as lastname,usuarios.email,COALESCE(m_s.phenological_type,'') " +
             "as phenological_type,m_s.thumbnail_url,m_s.image_url," +
             "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
             "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
