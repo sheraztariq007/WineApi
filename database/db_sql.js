@@ -834,8 +834,8 @@ module.exports = {
             "m_s.reported_datetime,  COALESCE(m_s.vuelta,'') as vuelta, " +
             "COALESCE(m_s.n_muestreo,'') as n_muestreo  from module_samplings as m_s,fields as fb,usuarios where " +
             "m_s.company_id='"+req.body.company_id+"' AND " +
-            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND RTRIM((substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
-            "  AND RTRIM((substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp)=>{
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id AND RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
+            "  AND RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp)=>{
             console.log(err,resp);
             if(resp.rowCount>0){
                 res.send({
