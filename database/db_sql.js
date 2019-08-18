@@ -828,7 +828,7 @@ module.exports = {
             "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
             "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
             "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
-            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain,COALESCE(m_s.observation,'') as observation," +
             "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
             "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
             "m_s.reported_datetime,  COALESCE(m_s.vuelta,'') as vuelta, " +
