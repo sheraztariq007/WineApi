@@ -283,19 +283,19 @@ module.exports = {
         var sampleType = req.param('sample_type', null);
         var location = req.param('location',null);
 
-        if(req.headers.app_version!=undefined && sampleType==5){
-            if (req.headers.app_version <= 308) {
+        if(req.headers.app_version==undefined && sampleType==5){
+          //   if (req.headers.app_version <= 308) {
                 location = req.param("ubicacion",null);
-            }
+           // }
         }
 
-        if(req.headers.app_version!=undefined && sampleType==6) {
-            if (req.headers.app_version == 308) {
+        if(req.headers.app_version==undefined && sampleType==6) {
+         //   if (req.headers.app_version == 308) {
                 var date = date.split(" ");
                 var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
-            }
+           // }
         }
-
+sss
         sampling.create({
             reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
             sample_name:req.param('sample_name', null),
