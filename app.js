@@ -48,10 +48,10 @@ app.post('/api/login',function (req,res) {
     //console.log(req.body.email+req.body.password);
     db_sql.loginUser(req.body.email,req.body.password,res);
 });
-app.post('/api/fieldnotebook',function (req,res) {
+app.post('/api/fieldnotebook',async function (req,res) {
   //  console.log(req.body.email+req.body.password);
-    console.log(req);
-   db_helper.saveFieldNodeBook(req,res);
+  // console.log(req.body);
+    await db_helper.saveFieldNodeBook(req,res);
 });
 app.post('/api/disease', upload, function (req,res,next) {
     console.log(req.protocol + req.file.path);
@@ -402,6 +402,7 @@ app.post('/api/verifiysecuritycode' , async function (req,res) {
 });
 app.post('/api/changepassword' , async function (req,res) {
   await  db_sql.changePassword(req,res)
+
 });
 
 function runPlot() {

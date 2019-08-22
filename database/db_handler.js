@@ -183,25 +183,30 @@ module.exports = {
             }
         }
         else  if(req.body.form_type==2){
-            field.create({
-                reportedby_user_id:req.body.reportedby_user_id,marchinar_id:req.body.marchinar_id,
-                trabajador:req.body.trabajador,start_date:req.body.start_date,
-                tratamiento:req.body.tratamiento,product:req.body.product,dosis:req.body.dosis,
-                observaciones:req.body.observaciones,
-                form_type:req.body.form_type,location:req.body.location,
-                reported_date_time:getDate()+" "+getTime(),company_id:req.body.company_id
-            }).then(result=>{
-                saveTreatmetoField(req.body.field_id,result.id);
-                res.send({
-                    'status':200,
-                    'message':'Successfully send'
-                })
-                console.log(req.body)
-                db_sql.sendNotifications("Cuaderno","Notebook uploaded from users"
-                    ,"Cuaderno",result.id,req.body.company_id,"treatmento22")
-            }).catch(err=>{
-                console.log(err);
-            });
+
+            var fieldData  = req.body.field_id;
+            var fieldsID = fieldData.split(",");
+            for(var i=0;i<fieldsID.length;i++) {
+                field.create({
+                    reportedby_user_id: req.body.reportedby_user_id, marchinar_id: req.body.marchinar_id,
+                    trabajador: req.body.trabajador, start_date: req.body.start_date,
+                    tratamiento: req.body.tratamiento, product: req.body.product, dosis: req.body.dosis,
+                    observaciones: req.body.observaciones,field_id: fieldsID[i],
+                    form_type: req.body.form_type, location: req.body.location,
+                    reported_date_time: getDate() + " " + getTime(), company_id: req.body.company_id
+                }).then(result=> {
+                  //  saveTreatmetoField(req.body.field_id, result.id);
+                    res.send(JSON.stringify({
+                        'status': 200,
+                        'message': 'Successfully send'
+                    }))
+                    db_sql.sendNotifications("Cuaderno", "Notebook uploaded from users"
+                        , "Cuaderno", result.id, req.body.company_id, "treatmento22")
+                }).catch(err=> {
+                    console.log(err);
+                });
+
+            }
         }
         else  if(req.body.form_type==22){
             field.create({
