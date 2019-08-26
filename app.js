@@ -404,6 +404,10 @@ app.post('/api/changepassword' , async function (req,res) {
   await  db_sql.changePassword(req,res)
 
 });
+app.post('/api/upgrade_app' , async function (req,res) {
+  await  db_sql.getLatestAppVersion(req,res)
+
+});
 
 function runPlot() {
     // readAndMergeFiles("maps/2019-05-28/19.CS.IND.DG.HR.IND26H1CABEZAS-Map20190528.geojson");

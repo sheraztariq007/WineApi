@@ -1612,7 +1612,8 @@ module.exports = {
                 });
             }
         });
-    },exportWorkingTime:function (req,res) {
+    },
+    exportWorkingTime:function (req,res) {
        const csvWriter = createCsvWriter({
             path: 'uploads/working-data_file.csv',
             header: [
@@ -1840,6 +1841,20 @@ module.exports = {
                 "message": "Password is too short"
             });
         }
+    },getLatestAppVersion(req,res){
+        client.query("select *from upgrade_app order by id DESC  LIMIT 1",(err,result)=>{
+            console.log(err,result);
+           if(result.rowCount>0){
+               res.send({
+                  "status":200,
+                   "data":result.rows,
+               });
+           } else{
+               res.send({
+                   "status":204,
+               });
+           }
+        });
     }
 
 }
