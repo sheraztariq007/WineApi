@@ -710,7 +710,6 @@ module.exports = {
 
         var  disease;
         var  maintain;
-
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
             " usuarios.name as name,usuarios.surname as lastname,usuarios.email as email," +
             "ds.name as disease_name," +
@@ -758,7 +757,7 @@ module.exports = {
     },
     getDiseaseLocations:function(req,res){
         client.query("select m_d.reportedby_user_id as user_id, m_d.company_id," +
-            " usuarios.name,ds.name as disease_name," +
+            " usuarios.name,usuarios.surname as lastname,usuarios.email,ds.name as disease_name," +
             "m_d.maintenace as details, m_d.image_url,m_d.thumbnial,m_d.location, m_d.reported_datetime  " +
             "from module_diseases as m_d,diseases as ds, usuarios " +
             "where m_d.company_id='"+req.body.company_id+"' AND m_d.disease_type=ds.id AND " +
@@ -779,7 +778,7 @@ module.exports = {
 
         });
     },getMaintanceLocation:function (req,res) {
-        client.query("select usuarios.name as username,mant.name as maintance_name,m_m.company_id,m_m.details," +
+        client.query("select usuarios.name as name,usuarios.surname as lastname, usuarios.email,mant.name as maintance_name,m_m.company_id,m_m.details," +
             "m_m.image_url,m_m.thumbnial,m_m.location, m_m.reported_date_time " +
             "from module_maintains as m_m,maintenances as mant,usuarios" +
             " where m_m.company_id='"+req.body.company_id+"' AND m_m.maintane_type=mant.id AND " +
@@ -1614,7 +1613,7 @@ module.exports = {
         });
     },
     exportWorkingTime:function (req,res) {
-       const csvWriter = createCsvWriter({
+        const csvWriter = createCsvWriter({
             path: 'uploads/working-data_file.csv',
             header: [
                 {id: 'date', title: 'Date'},
@@ -1634,7 +1633,7 @@ module.exports = {
             " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
             if(results.rowCount>0) {
 
-              csvWriter.writeRecords(results.rows)       // returns a promise
+                csvWriter.writeRecords(results.rows)       // returns a promise
                     .then(() => {
                         res.send({
                             "status":200,
@@ -1645,7 +1644,7 @@ module.exports = {
                 res.send({
                     "status":204,
                 });
-               // console.log('...Sorry no Result found');
+                // console.log('...Sorry no Result found');
             }
         });
 
@@ -1703,7 +1702,7 @@ module.exports = {
 
             client.query("select *from module_tasks_trackhours where user_id='"+single.userId+"' AND" +
                 " company_id='"+single.companyId+"' AND total_hours='"+single.totalhours+"' AND date='"+single.date+"' ",(err,result)=>{
-              //  console.log(err,result);
+                //  console.log(err,result);
                 if(result!=null){
 
                 }else{
@@ -1768,7 +1767,7 @@ module.exports = {
     },verifiySecurityCode:function(req,res){
         client.query("select id,email from verification_codes where email='"+req.body.email+"' AND verification_code='"+req.body.code+"' AND" +
             " token IS NULL AND  datetime::date = CURRENT_DATE",(err,result)=>{
-           console.log(result);
+            console.log(result);
             if(result.rowCount==0){
                 res.send({
                     "status":204,
@@ -1781,7 +1780,7 @@ module.exports = {
                     charset: 'alphanumeric'
                 });
                 client.query("Update verification_codes set token='"+token+"' where id='"+result.rows[0].id+"'",(err,result2)=>{
-                   console.log(err);
+                    console.log(err);
                     if(result2.rowCount>0){
                         res.send({
                             "status":200,
@@ -1797,8 +1796,8 @@ module.exports = {
             }
         });
     },changePassword:function(req,res){
-       var password =  req.body.password;
-       var cpassword =  req.body.confrim_pass;
+        var password =  req.body.password;
+        var cpassword =  req.body.confrim_pass;
         if(password.length >= 6 ) {
             if (password === cpassword) {
                 client.query("select email from verification_codes" +
@@ -1841,21 +1840,54 @@ module.exports = {
                 "message": "Password is too short"
             });
         }
-    },getLatestAppVersion(req,res){
+    },getLatestAppVersion:function(req,res){
         client.query("select *from upgrade_app order by id DESC  LIMIT 1",(err,result)=>{
             console.log(err,result);
-           if(result.rowCount>0){
-               res.send({
-                  "status":200,
-                   "data":result.rows,
-               });
-           } else{
-               res.send({
-                   "status":204,
-               });
-           }
+            if(result.rowCount>0){
+                res.send({
+                    "status":200,
+                    "data":result.rows,
+                });
+            } else{
+                res.send({
+                    "status":204,
+                });
+            }
+        });
+    },getSamplingLists:function(req,res)  {
+        client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
+            "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
+            "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+            "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+            "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+            "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
+            "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
+            "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
+            "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
+            "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
+            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+            "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
+            "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
+            "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
+            "m_s.reported_datetime, COALESCE(m_s.vuelta,'') as vuelta, " +
+            "COALESCE(m_s.n_muestreo,'') as n_muestreo from module_samplings as m_s,fields as fb,usuarios  where " +
+            "m_s.company_id='"+req.body.company_id+"' AND " +
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id=fb.id",(err,resp_s)=>{
+            console.log(err,resp_s);
+            if(resp_s.rowCount>0) {
+                res.send({
+                    "status": 200,
+                    "sampling": resp_s.rows,
+                });
+            }else{
+                res.send({
+                    "status": 204,
+                    "message": "Sorry not result found",
+                });
+            }
         });
     }
+
 
 }
 

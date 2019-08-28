@@ -45,7 +45,7 @@ var server = app.listen(3000,function () {
     console.log('Server is running  on Http://%s:%s',host,port);
 });
 app.post('/api/login',function (req,res) {
-    //console.log(req.body.email+req.body.password);
+    console.log(req.body);
     db_sql.loginUser(req.body.email,req.body.password,res);
 });
 app.post('/api/fieldnotebook',async function (req,res) {
@@ -406,6 +406,10 @@ app.post('/api/changepassword' , async function (req,res) {
 });
 app.post('/api/upgrade_app' , async function (req,res) {
   await  db_sql.getLatestAppVersion(req,res)
+
+});
+app.post('/api/getsamplinglists' , async function (req,res) {
+  await  db_sql.getSamplingLists(req,res)
 
 });
 

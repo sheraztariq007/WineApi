@@ -51,7 +51,7 @@ module.exports = {
         users.hasMany(role, {foreignKey: 'id', as: 'role'});
         users.findOne({where:{
             'email':email,
-            'password':"aadc03fecca9b5cc2fd64b333cb0875e"
+            'password':md5(password)
         },include: [{model:role, as: 'role'}]}).then(result=> {
             if(result!=null)
             {
