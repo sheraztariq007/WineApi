@@ -1886,8 +1886,75 @@ module.exports = {
                 });
             }
         });
+    },searchSamplingByField:function(req,res){
+            client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
+                "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
+                "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+                "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+                "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+                "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
+                "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
+                "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
+                "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
+                "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
+                "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+                "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
+                "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
+                "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
+                "m_s.reported_datetime, COALESCE(m_s.vuelta,'') as vuelta, " +
+                "COALESCE(m_s.n_muestreo,'') as n_muestreo from module_samplings as m_s,fields as fb,usuarios  where " +
+                "m_s.company_id='"+req.body.company_id+"' AND " +
+                "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id='"+req.body.field_id+"'  AND m_s.sample_type_field_id=fb.id " +
+                " AND m_s.sample_type='"+req.body.sample_type+"' ",(err,resp_s)=>{
+                console.log(err,resp_s);
+                if(resp_s.rowCount>0) {
+                    res.send({
+                        "status": 200,
+                        "sampling": resp_s.rows,
+                    });
+                }else{
+                    res.send({
+                        "status": 204,
+                        "message": "Sorry not result found",
+                    });
+                }
+            });
+    },searchSamplingByAllFields:function(req,res){
+        client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
+            "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
+            "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+            "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+            "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+            "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
+            "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
+            "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
+            "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
+            "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
+            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+            "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
+            "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
+            "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
+            "m_s.reported_datetime, COALESCE(m_s.vuelta,'') as vuelta, " +
+            "COALESCE(m_s.n_muestreo,'') as n_muestreo from module_samplings as m_s,fields as fb,usuarios  where " +
+            "m_s.company_id='"+req.body.company_id+"' AND " +
+            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id='"+req.body.field_id+"'  " +
+            "AND m_s.sample_type_field_id=fb.id " +
+            " AND m_s.sample_type='"+req.body.sample_type+"' AND  RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
+            "  AND RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp_s)=>{
+            console.log(err,resp_s);
+            if(resp_s.rowCount>0) {
+                res.send({
+                    "status": 200,
+                    "sampling": resp_s.rows,
+                });
+            }else{
+                res.send({
+                    "status": 204,
+                    "message": "Sorry not result found",
+                });
+            }
+        });
     }
-
 
 }
 

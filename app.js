@@ -410,7 +410,14 @@ app.post('/api/upgrade_app' , async function (req,res) {
 });
 app.post('/api/getsamplinglists' , async function (req,res) {
   await  db_sql.getSamplingLists(req,res)
-
+});
+app.post('/api/searchsamplingbyfield' , async function (req,res) {
+   // console.log(req.body);
+  await  db_sql.searchSamplingByField(req,res)
+});
+app.post('/api/searchsamplingbyallfields' , async function (req,res) {
+   // console.log(req.body);
+  await  db_sql.searchSamplingByAllFields(req,res)
 });
 
 function runPlot() {
