@@ -44,6 +44,7 @@ module.exports = {
             "COALESCE(comp.module_mantain,false) as comp_mantain," +
             "COALESCE(comp.module_sampling,false) as comp_sampling," +
             "COALESCE(comp.module_notefield,false) as comp_notefield," +
+            "COALESCE(comp.module_visualizador,false) as module_visualizador," +
             "COALESCE(comp.module_tasks,false) as comp_tasks, COALESCE(comp.name,'') as company_name," +
             " COALESCE(comp.mainscreen_image,'') as main_image, COALESCE(comp.splash_image,'') as splash_image," +
             "COALESCE(comp.contactmail,'') as contactmail,COALESCE(splash_color,'') as splash_colors," +
