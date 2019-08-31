@@ -1955,7 +1955,27 @@ module.exports = {
                 });
             }
         });
+    },searchWorkingLocation:function(req,res){
+        client.query("SELECT *FROM module_tasks_locations where" +
+            " datetime::date='" + req.body.current_date + "' AND app_user_id='"+req.body.user_id+"' ", (err, resp)=> {
+            if(resp.rowCount>0) {
+                data = resp.rows
+            }
+            client.query("SELECT DISTINCT(app_user_id) , count(app_user_id) as rows " +
+                "FROM  module_tasks_locations" +
+                "  where datetime::date = '" + req.body.current_date + "' AND app_user_id='"+req.body.user_id+"' " +
+                "  group by app_user_id ", (err, resp1)=> {
+                res.send({
+                    "status": 200,
+                    "data": data,
+                    "rowcount":resp1.rows
+                });
+            });
+
+        });
+
     }
+
 
 }
 

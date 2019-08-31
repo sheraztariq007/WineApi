@@ -644,9 +644,9 @@ module.exports = {
                     status:req.body.status,
                     work_date:req.body.work_date
                 }).then(result=>{
-                    // console.log(result);
+                     console.log(result);
                 }).catch(err=>{
-                    //console.log(err);
+                    console.log(err);
                 });
             }
 
@@ -699,7 +699,10 @@ module.exports = {
             console.log(err);
         })
         //  }
-    }/*,
+    }
+
+
+    /*,
      saveOfflineWorking:function (req,res) {
      const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
      const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);

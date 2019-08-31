@@ -384,6 +384,7 @@ app.post('/api/exportWorkingTime',function (req,res) {
 });
 
 app.post('/api/trackusertime' , async function (req,res) {
+    console.log(req.body)
     await  db_helper.trackUserWork(req,res)
 });
 app.post('/api/gettimerecord' ,function (req,res) {
@@ -418,6 +419,10 @@ app.post('/api/searchsamplingbyfield' , async function (req,res) {
 app.post('/api/searchsamplingbyallfields' , async function (req,res) {
    // console.log(req.body);
   await  db_sql.searchSamplingByAllFields(req,res)
+});
+app.post('/api/searchworkinglocation' , async function (req,res) {
+   // console.log(req.body);
+  await  db_sql.searchWorkingLocation(req,res)
 });
 
 function runPlot() {
