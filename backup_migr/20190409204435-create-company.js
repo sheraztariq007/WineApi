@@ -29,6 +29,9 @@ module.exports = {
       module_notefield:{
         type: Sequelize.BOOLEAN
       },
+      module_visualizador:{
+        type: Sequelize.BOOLEAN
+      },
       contactphone: {
         type: Sequelize.TEXT
       },
