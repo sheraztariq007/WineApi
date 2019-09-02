@@ -1568,7 +1568,7 @@ module.exports = {
                     console.log(err);
                     if(resp.rowCount>0) {
                         client.query("select distinct(work_date) from module_tasks_trackworks where " +
-                            "company_id='"+req.body.company_id+"' order by work_date DESC",(err,result2)=>{
+                            "company_id='"+req.body.company_id+"' order by work_date ASC",(err,result2)=>{
                             if(result2.rowCount>0){
                                 client.query("select distinct(user_id) as user_id from module_tasks_trackworks" +
                                     " where company_id='"+req.body.company_id+"' group by user_id ",(err3,result3)=>{
