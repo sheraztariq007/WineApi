@@ -1629,12 +1629,25 @@ module.exports = {
             ]
         });
 
-        var query =  client.query("SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
-            " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
-            "usuarios.surname " +
-            " FROM module_tasks_locations,usuarios where company_id='"+req.body.company_id+"'" +
-            "AND usuarios.id= module_tasks_locations.app_user_id" +
-            " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date",(err,results)=>{
+        if(req.body.start_date && req.body.end_date){
+            var queryString = "SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
+                " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name,usuarios.surname " +
+                " FROM module_tasks_locations,usuarios " +
+                "where company_id='"+req.body.company_id+"'" +
+                "AND usuarios.id= module_tasks_locations.app_user_id " +
+                "AND module_tasks_locations.datetime BETWEEN '"+req.body.start_date+"' AND '"+req.body.end_date+"'  " +
+                "GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname " +
+                "ORDER BY datetime::date ";
+        }else{
+            var queryString = "SELECT  to_char(datetime::date,'DD/MM/YYYY') as date, MIN(datetime)::timestamp::time as start_time," +
+                " MAX(datetime)::timestamp::time as end_time, app_user_id,usuarios.email,usuarios.name," +
+                "usuarios.surname " +
+                " FROM module_tasks_locations,usuarios where company_id='"+req.body.company_id+"'" +
+                "AND usuarios.id= module_tasks_locations.app_user_id" +
+                " GROUP BY datetime::date,app_user_id,usuarios.email,usuarios.name,usuarios.surname ORDER BY datetime::date";
+        }
+
+        var query =  client.query(queryString,(err,results)=>{
             if(results.rowCount>0) {
 
                 csvWriter.writeRecords(results.rows)       // returns a promise
