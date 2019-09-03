@@ -932,7 +932,10 @@ module.exports = {
                         ",usuarios.email as email," +
                         " COALESCE(m_s.phenological_type,'') " +
                         "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
-                        "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.vuelta,'') as vuelta,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+                        "COALESCE(m_s.observation,'') as observation," +
+                        "COALESCE(m_s.vuelta,'') as vuelta," +
+                        "COALESCE(m_s.n_muestreo,'') as n_muestreo," +
+                        "COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
                         "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
                         "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
                         "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
@@ -1568,7 +1571,7 @@ module.exports = {
                     console.log(err);
                     if(resp.rowCount>0) {
                         client.query("select distinct(work_date) from module_tasks_trackworks where " +
-                            "company_id='"+req.body.company_id+"' order by work_date ASC",(err,result2)=>{
+                            "company_id='"+req.body.company_id+"' order by work_date DESC",(err,result2)=>{
                             if(result2.rowCount>0){
                                 client.query("select distinct(user_id) as user_id from module_tasks_trackworks" +
                                     " where company_id='"+req.body.company_id+"' group by user_id ",(err3,result3)=>{
