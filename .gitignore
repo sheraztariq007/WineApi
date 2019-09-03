@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+node_modules
+email/MailConfig.js
+package-lock.json
+.idea

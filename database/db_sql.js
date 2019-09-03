@@ -932,7 +932,7 @@ module.exports = {
                         ",usuarios.email as email," +
                         " COALESCE(m_s.phenological_type,'') " +
                         "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
-                        "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+                        "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.vuelta,'') as vuelta,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
                         "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
                         "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
                         "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
