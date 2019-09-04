@@ -276,7 +276,7 @@ module.exports = {
             if(req.body.extras){
                 const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
                 samplingComspec.create({
-                    id:                 resut.id,
+                    id:                 result.id,
                     sample_type:        req.body.sample_type,
                     oidio_p:            req.body.oidio_p,
                     mildium_h:          req.body.mildium_h,
