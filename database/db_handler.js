@@ -273,7 +273,7 @@ module.exports = {
             company_id:req.body.company_id
         }).then(result=>{
 
-            if(req.body.params){
+            if(req.body.extras){
                 const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
                 samplingComspec.create({
                     id:                 resut.id,
