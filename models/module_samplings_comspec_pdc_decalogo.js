@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const module_samplings_comspec_pdc_decalogo = sequelize.define('module_samplings_comspec_pdc_decalogo', {
     sample_type: DataTypes.INTEGER,
     oidio_p: DataTypes.TEXT,
-    oidio_p: DataTypes.TEXT,
     mildium_h: DataTypes.TEXT,
     mildium_r: DataTypes.TEXT,
     botrytis: DataTypes.TEXT,
