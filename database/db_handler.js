@@ -259,6 +259,8 @@ module.exports = {
     /*Save Sampling*/
     saveSampling:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
+
         sampling.create({
             reportedby_user_id:req.body.reportedby_user_id,sample_name:req.body.sample_name,
             phenological_type:req.body.phenological_type,image_url:originalFileName,thumbnail_url:thumbnail_folder+originalFileName,
@@ -273,35 +275,36 @@ module.exports = {
             company_id:req.body.company_id
         }).then(result=>{
 
-            if(req.body.extras){
-                const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
-                samplingComspec.create({
-                    id:                 result.id,
-                    sample_type:        req.body.sample_type,
-                    oidio_p:            req.body.oidio_p,
-                    mildium_h:          req.body.mildium_h,
-                    mildium_r:          req.body.mildium_r,
-                    botrytis:           req.body.botrytis,
-                    excoriosis:         req.body.excoriosis,
-                    acariosis:          req.body.acariosis,
-                    erinosis:           req.body.erinosis,
-                    polilla_del_racimo: req.body.polilla_del_racimo,
-                    altica:             req.body.altica,
-                    yesca:              req.body.yesca,
-                    pajaros:            req.body.pajaros,
-                    helada:             req.body.helada,
-                    granizo:            req.body.granizo,
-                    corrimiento:        req.body.corrimiento,
-                    uvas_pasas:         req.body.uvas_pasas,
-                    carencias:          req.body.carencias,
-                    malas_hierbas:      req.body.malas_hierbas,
-                    otros:              req.body.otros,
-                    racimo_numero:      req.body.racimo_numero,
-                    racimo_tamaño:      req.body.racimo_tamaño,
-                    racimo_tipo:        req.body.racimo_tipo,
-                    racimo_peso:        req.body.racimo_peso,
-                    envero:             req.body.envero
-                })
+            if(req.body.extras!=undefined){
+                if(req.body.extras==1) {
+                    samplingComspec.create({
+                        id: resut.id,
+                        sample_type: req.body.sample_type,
+                        oidio_p: req.body.oidio_p,
+                        mildium_h: req.body.mildium_h,
+                        mildium_r: req.body.mildium_r,
+                        botrytis: req.body.botrytis,
+                        excoriosis: req.body.excoriosis,
+                        acariosis: req.body.acariosis,
+                        erinosis: req.body.erinosis,
+                        polilla_del_racimo: req.body.polilla_del_racimo,
+                        altica: req.body.altica,
+                        yesca: req.body.yesca,
+                        pajaros: req.body.pajaros,
+                        helada: req.body.helada,
+                        granizo: req.body.granizo,
+                        corrimiento: req.body.corrimiento,
+                        uvas_pasas: req.body.uvas_pasas,
+                        carencias: req.body.carencias,
+                        malas_hierbas: req.body.malas_hierbas,
+                        otros: req.body.otros,
+                        racimo_numero: req.body.racimo_numero,
+                        racimo_tamaño: req.body.racimo_tamano,
+                        racimo_tipo: req.body.racimo_tipo,
+                        racimo_peso: req.body.racimo_peso,
+                        envero: req.body.envero
+                    });
+                }
             }
             console.log("done");
             res.send({
