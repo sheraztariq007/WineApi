@@ -273,8 +273,6 @@ module.exports = {
             number_of_bunches:req.body.number_of_bunches,sample_type_date:req.body.sample_type_date,
             company_id:req.body.company_id
         }).then(result=>{
-
-
             console.log("done");
             res.send({
                 'status':200,
