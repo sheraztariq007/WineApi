@@ -14,9 +14,6 @@ module.exports = {
       oidio_p: {
         type: Sequelize.TEXT
       },
-      oidio_p: {
-        type: Sequelize.TEXT
-      },
       mildium_h: {
         type: Sequelize.TEXT
       },
@@ -71,7 +68,7 @@ module.exports = {
       racimo_numero: {
         type: Sequelize.TEXT
       },
-      racimo_tamaño: {
+      racimo_tamano: {
         type: Sequelize.TEXT
       },
       racimo_tipo: {

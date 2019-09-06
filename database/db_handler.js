@@ -299,7 +299,7 @@ module.exports = {
                         malas_hierbas: req.body.malas_hierbas,
                         otros: req.body.otros,
                         racimo_numero: req.body.racimo_numero,
-                        racimo_tamaño: req.body.racimo_tamano,
+                        racimo_tamano: req.body.racimo_tamano,
                         racimo_tipo: req.body.racimo_tipo,
                         racimo_peso: req.body.racimo_peso,
                         envero: req.body.envero
