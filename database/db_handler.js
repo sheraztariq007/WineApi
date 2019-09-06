@@ -259,7 +259,6 @@ module.exports = {
     /*Save Sampling*/
     saveSampling:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
-        const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
 
         sampling.create({
             reportedby_user_id:req.body.reportedby_user_id,sample_name:req.body.sample_name,
@@ -275,37 +274,7 @@ module.exports = {
             company_id:req.body.company_id
         }).then(result=>{
 
-            if(req.body.extras!=undefined){
-                if(req.body.extras==1) {
-                    samplingComspec.create({
-                        id: resut.id,
-                        sample_type: req.body.sample_type,
-                        oidio_p: req.body.oidio_p,
-                        mildium_h: req.body.mildium_h,
-                        mildium_r: req.body.mildium_r,
-                        botrytis: req.body.botrytis,
-                        excoriosis: req.body.excoriosis,
-                        acariosis: req.body.acariosis,
-                        erinosis: req.body.erinosis,
-                        polilla_del_racimo: req.body.polilla_del_racimo,
-                        altica: req.body.altica,
-                        yesca: req.body.yesca,
-                        pajaros: req.body.pajaros,
-                        helada: req.body.helada,
-                        granizo: req.body.granizo,
-                        corrimiento: req.body.corrimiento,
-                        uvas_pasas: req.body.uvas_pasas,
-                        carencias: req.body.carencias,
-                        malas_hierbas: req.body.malas_hierbas,
-                        otros: req.body.otros,
-                        racimo_numero: req.body.racimo_numero,
-                        racimo_tamaño: req.body.racimo_tamaño,
-                        racimo_tipo: req.body.racimo_tipo,
-                        racimo_peso: req.body.racimo_peso,
-                        envero: req.body.envero
-                    });
-                }
-            }
+
             console.log("done");
             res.send({
                 'status':200,
@@ -319,6 +288,8 @@ module.exports = {
     },
     saveSamplingWithImage:function(req,originalFileName,res){
         const  sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        const samplingComspec =  ModuleSamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
+
         var date = req.param('reported_date_time',null);
         var sampleType = req.param('sample_type', null);
         var location = req.param('location',null);
@@ -335,7 +306,6 @@ module.exports = {
                 var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
            // }
         }
-
         sampling.create({
             reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
             sample_name:req.param('sample_name', null),
@@ -354,6 +324,39 @@ module.exports = {
 
         }).then(result=>{
             console.log("done");
+            if(req.body.extras==1) {
+                samplingComspec.create({
+                    sample_type: result.id,
+                    oidio_p: req.param('oidio_p',null),
+                    oidio_r: req.param('oidio_r',null),
+                    mildium_h: req.param('mildium_h',null),
+                    mildium_r: req.param('mildium_r',null),
+                    botrytis: req.param('botrytis',null),
+                    excoriosis: req.param('excoriosis',null),
+                    acariosis: req.param('acariosis',null),
+                    erinosis: req.param('erinosis',null),
+                    polilla_del_racimo: req.param('polilla_del_racimo',null),
+                    altica: req.param('altica',null),
+                    yesca: req.param('yesca',null),
+                    pajaros: req.param('pajaros',null),
+                    helada: req.param('helada',null),
+                    granizo: req.param('granizo',null),
+                    corrimiento: req.param('corrimiento',null),
+                    uvas_pasas: req.param('uvas_pasas',null),
+                    carencias: req.param('carencias',null),
+                    malas_hierbas: req.param('malas_hierbas',null),
+                    otros: req.param('otros',null),
+                    racimo_numero:req.param('racimo_numero',null),
+                    racimo_tamano: req.param('racimo_tamano',null),
+                    racimo_tipo: req.param('racimo_tipo',null),
+                    racimo_peso: req.param('racimo_peso',null),
+                    min: req.param('min',null),
+                    max: req.param('max',null),
+                    envero: req.param('envero',null),
+                }).then(result=>{}).catch(er=>{
+                    console.log(er);
+                });
+            }
             res.send({
                 'status':200,
                 'message':'Successfully send'

@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const module_samplings_comspec_pdc_decalogo = sequelize.define('module_samplings_comspec_pdc_decalogo', {
     sample_type: DataTypes.INTEGER,
     oidio_p: DataTypes.TEXT,
+    oidio_r: DataTypes.TEXT,
     mildium_h: DataTypes.TEXT,
     mildium_r: DataTypes.TEXT,
     botrytis: DataTypes.TEXT,
@@ -21,10 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     malas_hierbas: DataTypes.TEXT,
     otros: DataTypes.TEXT,
     racimo_numero: DataTypes.TEXT,
-    racimo_tamaño: DataTypes.TEXT,
+    racimo_tamano: DataTypes.TEXT,
     racimo_tipo: DataTypes.TEXT,
     racimo_peso: DataTypes.TEXT,
-    envero: DataTypes.TEXT
+    envero: DataTypes.TEXT,
+    min: DataTypes.TEXT,
+    max: DataTypes.TEXT,
+
   }, {});
   module_samplings_comspec_pdc_decalogo.associate = function(models) {
     // associations can be defined here
