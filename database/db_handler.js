@@ -782,8 +782,8 @@ module.exports = {
         const works = TrackWork(seq.sequelize,seq.sequelize.Sequelize);
         const hours = TrackHours(seq.sequelize,seq.sequelize.Sequelize);
 
-        users.hasMany(hours, {foreignKey: 'user_id', sourceKey: 'id'});
-        hours.hasMany(works, {foreignKey: 'work_date', sourceKey: 'date'});
+        users.hasMany(hours, {foreignKey: 'user_id', sourceKey: 'id',as:'date'});
+        hours.hasMany(works, {foreignKey: 'work_date', sourceKey: 'date',as:'timeline'});
         users.findAll({
             attributes: ['id','company',"name","surname","email"],
             where:{
@@ -792,8 +792,10 @@ module.exports = {
             include: [{
                 model:hours,
                 attributes: ["date"],
+                as:'date',
                 include:[{
                     model: works,
+                    as:"timeline",
                 }]
             }]
         }).then(result=>{
