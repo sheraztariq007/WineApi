@@ -397,7 +397,9 @@ app.post('/api/gettimerecord' ,function (req,res) {
 app.post('/api/saveofflineworking' , async function (req,res) {
     await  db_sql.saveOfflineWorking(req,res)
 });
-
+app.post('/api/gettemptime' , async function (req,res) {
+    await  db_helper.getTempTime(req,res)
+});
 app.post('/api/resetpasswordrequest' , async function (req,res) {
   await  db_sql.resetPasswordRequest(req,res)
 

@@ -814,7 +814,19 @@ module.exports = {
             console.log(err);
         });
 
-    },
+    },getTempTime(req,res){
+        tempTime =  TempTrackWork(seq.sequelize,seq.sequelize.Sequelize);
+        tempTime.findAll({
+            where:{user_id:req.body.user_id}
+        }).then(result=>{
+            res.send({
+                "status":200,
+                "data":result
+            });
+        }).catch(err=>{
+            console.log(err);
+        });
+    }
 
 
     /*,
