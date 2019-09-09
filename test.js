@@ -5,7 +5,8 @@ var mergeJSON = require("merge-json") ;
 var db_sql = require('./database/db_sql');
 var main_folder = "maps/"
 
-db_sql.updateSampling();
+//db_sql.updateSampling();
+
 //getCompanies();
 
 

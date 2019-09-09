@@ -783,9 +783,13 @@ module.exports = {
 
         hours.hasMany(works, {foreignKey: 'work_date', sourceKey: 'date'});
         hours.findAll({
+            attributes: ['id', 'company_id', 'date'],
             where:{
                 company_id:req.body.company_id,
             },
+            order: [
+                ['date', 'DESC'],
+            ],
             include: [{
                 model: works,
             }]
