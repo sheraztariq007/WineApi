@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     company_id: DataTypes.INTEGER,
     work_time: DataTypes.STRING,
     work_date: DataTypes.STRING,
+    token: DataTypes.STRING,
     status: DataTypes.INTEGER,
   }, {});
   module_tasks_trackwork.associate = function(models) {

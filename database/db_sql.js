@@ -1689,7 +1689,8 @@ module.exports = {
             }
         });
         return count;
-    },saveOfflineWorking:function (req,res) {
+    },
+    saveOfflineWorking:function (req,res) {
         var workarray = req.body.record;
         var data = JSON.parse(workarray);
         var hours_data = data.hoursarray;
@@ -1699,8 +1700,9 @@ module.exports = {
 
         list.forEach(function(element) {
             single =   JSON.parse(element);
-            client.query("INSERT INTO module_tasks_trackworks(user_id,company_id,work_time,status,work_date) " +
-                "  select '"+single.userId+"','"+single.companyId+ "','"+single.workTime+"','"+single.status+"','"+single.workDate+"'  " +
+            client.query("INSERT INTO module_tasks_trackworks(user_id,company_id,work_time,status,work_date,token) " +
+                "  select '"+single.userId+"','"+single.companyId+ "','"+single.workTime+"','"+single.status+"','"+single.workDate+"'," +
+                "'"+single.token+"'  " +
                 " WHERE NOT EXISTS  (SELECT user_id,company_id,work_time,status,work_date from   module_tasks_trackworks where user_id='"+single.userId+"' AND" +
                 " company_id='"+single.companyId+ "' AND work_time='"+single.workTime+"'  AND " +
                 " status='"+single.status+"' AND work_date='"+single.workDate+"') ", (err, result)=> {
@@ -1992,8 +1994,17 @@ module.exports = {
 
         });
 
-    }
-
+    },
+    getWorks:function(){
+        client.query("SELECT module_tasks_trackhours.id, module_tasks_trackhours.user_id,module_tasks_trackhours.company_id, module_tasks_trackhours.total_hours,"+
+           "module_tasks_trackhours.date,"+
+            "module_tasks_trackworks.user_id AS module_tasks_trackworks_user_id, module_tasks_trackworks.company_id AS module_tasks_trackworks_company_id,"+
+            "module_tasks_trackworks.work_time AS module_tasks_trackworks.work_time, module_tasks_trackworks.work_date AS module_tasks_trackworks.work_date,"+
+            "module_tasks_trackworks.status AS module_tasks_trackworks.status,module_tasks_trackworks.createdAt AS module_tasks_trackworks.createdAt  FROM  "+
+            "module_tasks_trackhours AS module_tasks_trackhours INNER JOIN module_tasks_trackworks AS module_tasks_trackworks ON module_tasks_trackhours.date = module_tasks_trackworks.work_date",(err,resullt)=>{
+            console.log(err,resullt)
+        });
+    },
 
 }
 

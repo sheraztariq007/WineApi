@@ -44,6 +44,10 @@ var server = app.listen(3000,function () {
     var port = server.address().port
     console.log('Server is running  on Http://%s:%s',host,port);
 });
+app.post('/api/getworks',async function (req,res) {
+    await db_helper.getWorks(req,res);
+});
+
 app.post('/api/login',function (req,res) {
     console.log(req.body);
     db_sql.loginUser(req.body.email,req.body.password,res);

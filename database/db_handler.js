@@ -14,6 +14,7 @@ const  Diseases = require('../models/disease');
 const  Moduletasks = require('../models/module_task');
 const  AssignTasksUsersLists = require('../models/assign_tasks_users_lists');
 const  ModuleTasksTrackWorks = require('../models/module_tasks_trackwork');
+const  TempTrackWork = require('../models/temp_task_trackwork');
 const  ModuleTasksTrackHours = require('../models/module_tasks_trackhours');
 const  UserTasksDates = require('../models/user_tasks_date');
 const  UserTasksFields = require('../models/user_tasks_fields');
@@ -22,6 +23,8 @@ const  Tasks = require('../models/tasks');
 const  user_role = require('../models/user_role');
 const  TasksLocations =  require('../models/tasks_locations');
 const  Notifications =  require('../models/notifications');
+const  TrackHours = require("../models/module_tasks_trackhours");
+const  TrackWork = require("../models/module_tasks_trackwork");
 const  AppVersion =  require('../models/app_version');
 const  constants = require('../config/constants.json')
 const  db_sql = require('./db_sql')
@@ -42,6 +45,7 @@ module.exports = {
             console.log(err);
         });
     },
+
 
     /*  Login User APi*/
 
@@ -196,7 +200,7 @@ module.exports = {
                     form_type: req.body.form_type, location: req.body.location,
                     reported_date_time: getDate() + " " + getTime(), company_id: req.body.company_id
                 }).then(result=> {
-                  //  saveTreatmetoField(req.body.field_id, result.id);
+                    //  saveTreatmetoField(req.body.field_id, result.id);
                     res.send(JSON.stringify({
                         'status': 200,
                         'message': 'Successfully send'
@@ -293,16 +297,16 @@ module.exports = {
         var location = req.param('location',null);
 
         if(req.headers.app_version==undefined && sampleType==5){
-          //   if (req.headers.app_version <= 308) {
-                location = req.param("ubicacion",null);
-           // }
+            //   if (req.headers.app_version <= 308) {
+            location = req.param("ubicacion",null);
+            // }
         }
 
         if(req.headers.app_version==undefined && sampleType==6) {
-         //   if (req.headers.app_version == 308) {
-                var date = date.split(" ");
-                var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
-           // }
+            //   if (req.headers.app_version == 308) {
+            var date = date.split(" ");
+            var date = date[0].split("-").reverse().join("-") + " " + date[1] + " " + date[2];
+            // }
         }
         sampling.create({
             reportedby_user_id:req.param('reportedby_user_id', null),company_id:req.param('company_id',null),
@@ -663,29 +667,67 @@ module.exports = {
     },trackUserWork:function(req,res){
         const  trackWork = ModuleTasksTrackWorks(seq.sequelize,seq.sequelize.Sequelize);
         const  trackHours = ModuleTasksTrackHours(seq.sequelize,seq.sequelize.Sequelize);
+        const  tempWork = TempTrackWork(seq.sequelize,seq.sequelize.Sequelize);
         /*Save and Track Work time*/
 
         trackWork.findOne({
             where:{ user_id:req.body.user_id,
                 company_id:req.body.company_id,
                 work_time:req.body.work_time,
+                token:req.body.token,
                 status:req.body.status,
                 work_date:req.body.work_date}
         }).then(result1=>{
             if(result1==null){
+
+                // check   request Status
+
+                if(req.body.status==0){
+
+                    // Delete old  temp record
+                    tempWork.destroy({
+                        where:{user_id:req.body.user_id,}
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+
+                    // save   reord  in temp  Table
+
+                    tempWork.create({
+                        user_id:req.body.user_id,
+                        company_id:req.body.company_id,
+                        work_time:req.body.work_time,
+                        token:req.body.token,
+                        status:req.body.status,
+                        work_date:req.body.work_date
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+                }
+
+                // save record in main  table
+
                 trackWork.create({
                     user_id:req.body.user_id,
                     company_id:req.body.company_id,
                     work_time:req.body.work_time,
+                    token:req.body.token,
                     status:req.body.status,
                     work_date:req.body.work_date
                 }).then(result=>{
-                     console.log(result);
+                    console.log(result);
                 }).catch(err=>{
                     console.log(err);
                 });
-            }
+                if(req.body.status==1){
 
+                    tempWork.destroy({
+                        where:{user_id:req.body.user_id,}
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
+            }
         }).catch(err=>{
 
         });
@@ -735,7 +777,35 @@ module.exports = {
             console.log(err);
         })
         //  }
-    }
+    },getWorks:function(req,res){
+        const works = TrackWork(seq.sequelize,seq.sequelize.Sequelize);
+        const hours = TrackHours(seq.sequelize,seq.sequelize.Sequelize);
+
+        hours.hasMany(works, {foreignKey: 'work_date', sourceKey: 'date'});
+        hours.findAll({
+            where:{
+                company_id:req.body.company_id,
+            },
+            include: [{
+                model: works,
+            }]
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "data":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
+
+    },
 
 
     /*,

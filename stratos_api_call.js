@@ -3,8 +3,6 @@ const download = require('download');
 const axios = require('axios');
 var mergeJSON = require("merge-json") ;
 var main_folder = "maps/"
-var token  = "";
-var user_id  = "";
 var start_date = "2019-07-22";
 var end_date = "2019-07-28";
 //db_sql.updateSampling()
@@ -33,10 +31,9 @@ function loginApi() {
     }).then(function (response) {
         var data = response.data;
         user_id = data.user;
-        console.log(token);
         token ="Token "  +data.token;
-    //   console.log(token);
-        getCompanies();
+        console.log();
+        getCompanies(token,user_id);
     })
         .catch(function (error) {
             // handle error
@@ -50,7 +47,7 @@ function loginApi() {
     Main  Entry  Point   for  run api
 **/
 
-function getCompanies() {
+function getCompanies(token,user_id) {
     if (!fs.existsSync(main_folder)){
         fs.mkdirSync(main_folder);
     }
@@ -69,9 +66,9 @@ function getCompanies() {
         var data = response.data;
         console.log(data);
         data = data.data;
-        for (var i=0;data.length;i++){
-            runPlot(data[i].land_name,data[i].land_id);
-        }
+        data.forEach(async (item)=>{
+            runPlot(item.land_name,item.land_id,token);
+        });
         console.log(response);
     })
         .catch(function (error) {
@@ -82,7 +79,7 @@ function getCompanies() {
 
 //    Run Plot api
 
-function runPlot(company,land_id) {
+function runPlot(company,land_id,token) {
     if (!fs.existsSync(main_folder+company)){
         fs.mkdirSync(main_folder+company);
     }
@@ -101,9 +98,10 @@ function runPlot(company,land_id) {
         var data = response.data;
         console.log(data);
         data = data.data;
-        for (var i=0;data.length;i++){
-           mapLists(data[i].plot_id,main_folder+company,company);
-        }
+        data.forEach(async (item)=>{
+            await mapLists(item.plot_id,main_folder+company,company,token);
+        });
+        
         console.log(response);
     })
         .catch(function (error) {
@@ -121,11 +119,11 @@ function downloadFile(fileName,url) {
         console.log('done!=>'+url+"=>"+fileName);
     }).catch(function (error) {
         downloadFile(fileName,url);
-    });;
+    });
 
 }
 // get maps list and call download function and  download maps file 
-function mapLists(plotid,folderName,company) {
+function mapLists(plotid,folderName,company,token) {
     try {
         axios.request({
             method: 'POST',
@@ -145,20 +143,7 @@ function mapLists(plotid,folderName,company) {
             var rs = response.data;
             var reslt = rs.data;
             console.log(rs.data.length);
-            for (var i = 0; i < reslt.length; i++) {
-                var dir = folderName+"/" + reslt[i].date;
-                console.log(dir+"/"+reslt[i].url);
-
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir);
-                    downloadFile(dir, reslt[i].url);
-                }else{
-                    downloadFile(dir, reslt[i].url);
-                }
-                if(i==reslt.length){
-                    console.log("complete all files");
-                }
-            }
+            
 
         }).catch(function (error) {
             // handle error

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('module_tasks_trackworks', {
+    return queryInterface.createTable('temp_task_trackworks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,33 +15,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       work_time: {
-        type: Sequelize.STRING,
-        defaultValue: ""
+        type: Sequelize.TEXT
       },
       work_date: {
-        type: Sequelize.STRING,
-        defaultValue: ""
-      },
-      status: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
+        type: Sequelize.TEXT
       },
       token: {
         type: Sequelize.TEXT
       },
+      status: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now")
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now")
+        type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('module_tasks_trackworks');
+    return queryInterface.dropTable('temp_task_trackworks');
   }
 };
