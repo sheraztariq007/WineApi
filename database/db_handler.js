@@ -778,20 +778,23 @@ module.exports = {
         })
         //  }
     },getWorks:function(req,res){
+        const users = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
         const works = TrackWork(seq.sequelize,seq.sequelize.Sequelize);
         const hours = TrackHours(seq.sequelize,seq.sequelize.Sequelize);
 
+        users.hasMany(hours, {foreignKey: 'user_id', sourceKey: 'id'});
         hours.hasMany(works, {foreignKey: 'work_date', sourceKey: 'date'});
-        hours.findAll({
-            attributes: ['id', 'company_id', 'date'],
+        users.findAll({
+            attributes: ['id','company',"name","surname","email"],
             where:{
-                company_id:req.body.company_id,
+              company:req.body.company_id
             },
-            order: [
-                ['date', 'DESC'],
-            ],
             include: [{
-                model: works,
+                model:hours,
+                attributes: ["date"],
+                include:[{
+                    model: works,
+                }]
             }]
         }).then(result=>{
             if(result.length>0){

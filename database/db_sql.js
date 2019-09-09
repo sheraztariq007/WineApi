@@ -1695,6 +1695,7 @@ module.exports = {
         var data = JSON.parse(workarray);
         var hours_data = data.hoursarray;
         var list = data.workarray;
+        var temptrack = data.temptrack;
         // Check and add working Time and Date
         var single;
 
@@ -1718,6 +1719,24 @@ module.exports = {
                 " '"+single.userId+"','"+single.companyId+"','"+single.date+"')",(err,result)=>{
             });
         });
+        // save in temp  database
+
+        temptrack.forEach(function(element) {
+            single =   JSON.parse(element);
+            if(single.status==1){
+                client.query("DELETE from temp_task_trackworks where user_id='"+ single.userId +"' ", (err, result)=> {
+                    console.log("=========================>>>>");
+                    console.log(err, result);
+                });
+            }else {
+                client.query("INSERT INTO temp_task_trackworks(user_id,company_id,work_time,status,work_date,token) " +
+                    "  select '" + single.userId + "','" + single.companyId + "','" + single.workTime + "','" + single.status + "','" + single.workDate + "','" + single.token + "'", (err, result)=> {
+                    console.log("=========================>>>>");
+                    console.log(err, result);
+                });
+            }
+        });
+
 
         for (var i = 0; i < hours_data.length; i++) {
 
