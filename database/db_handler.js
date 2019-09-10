@@ -795,9 +795,17 @@ module.exports = {
                 as:'date',
                 include:[{
                     model: works,
-                    as:"timeline",
+                    as:"timeline"
                 }]
-            }]
+            }],
+            order: [
+                [
+                    {model: hours, as: 'date'},
+                    {model: works, as: 'timeline'},
+                    'work_time', 'ASC'
+                ]
+            ]
+
         }).then(result=>{
             if(result.length>0){
                 res.send({

@@ -48,6 +48,10 @@ app.post('/api/getworks',async function (req,res) {
     await db_helper.getWorks(req,res);
 });
 
+app.post('/api/gettimerecord' , async function (req,res) {
+    await db_sql.getTimeRecord(req,res)
+});
+
 app.post('/api/login',function (req,res) {
     console.log(req.body);
     db_sql.loginUser(req.body.email,req.body.password,res);
@@ -391,9 +395,7 @@ app.post('/api/trackusertime' , async function (req,res) {
     console.log(req.body)
     await  db_helper.trackUserWork(req,res)
 });
-app.post('/api/gettimerecord' ,function (req,res) {
-    db_sql.getTimeRecord(req,res)
-});
+
 app.post('/api/saveofflineworking' , async function (req,res) {
     await  db_sql.saveOfflineWorking(req,res)
 });
