@@ -13,6 +13,18 @@ var fcm = new FCM(serverKey);
 var data = [];
 var crypto = require('crypto');
 
+/**
+ *
+ * Including models
+ *
+ */
+const  seq = require('../models/index');
+const  Sampling = require('../models/module_sampling');
+const  SamplingComspec = require('../models/module_samplings_comspec_pdc_decalogo');
+
+
+
+
 const client = new Client({
     connectionString:constants.database_url
 });
@@ -1926,6 +1938,50 @@ module.exports = {
             }
         });
     },searchSamplingByField:function(req,res){
+
+        let Sample = Sampling(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize)
+        Sample.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id'});
+        Sample.findAll({
+
+            where:{
+                company_id:req.body.company_id,
+                sample_type:req.body.sample_type,
+                sample_type_field_id:req.body.field_id
+            },
+            include: [{
+                model:SampleComspec,
+
+
+
+            }]
+
+
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "data":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
+
+
+        /**
+         * @TODO Please remove this code after testing
+         */
+
+
+/**
+
+
             client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
                 "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
                 "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
@@ -1958,6 +2014,8 @@ module.exports = {
                     });
                 }
             });
+
+ */
     },searchSamplingByAllFields:function(req,res){
         client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
             "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
