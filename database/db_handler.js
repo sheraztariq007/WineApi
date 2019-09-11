@@ -801,12 +801,12 @@ module.exports = {
             order: [
                 [
                     {model: hours, as: 'date'},
-                    'date',req.body.hour_date_order,
+                    'date',"DESC",
                 ],
                 [
                     {model: hours, as: 'date'},
                     {model: works, as: 'timeline'},
-                    'work_time', req.body.work_time_order
+                    'token', "DESC"
                 ]
             ]
 
