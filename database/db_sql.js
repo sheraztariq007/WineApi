@@ -21,6 +21,7 @@ var crypto = require('crypto');
 const  seq = require('../models/index');
 const  Sampling = require('../models/module_sampling');
 const  SamplingComspec = require('../models/module_samplings_comspec_pdc_decalogo');
+const  Usuarios = require('../models/usuarios');
 
 
 
@@ -1906,6 +1907,52 @@ module.exports = {
             }
         });
     },getSamplingLists:function(req,res)  {
+
+
+        let Sample = Sampling(seq.sequelize,seq.sequelize.Sequelize);
+        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize)
+        Sample.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
+        Sample.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
+
+        Sample.findAll({
+
+            where:{
+                company_id:req.body.company_id,
+
+            },
+            include: [
+                    {
+                    model:User,
+                    attributes:["name","surname","email"],
+                    as:'User'
+                    },
+                    {
+                    model:SampleComspec,
+                    as:'SampleComspec'
+                    }
+                ],
+
+
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "data":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
+
+/**
+
+console.log(req.body.company_id);
         client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
             "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
             "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
@@ -1937,6 +1984,9 @@ module.exports = {
                 });
             }
         });
+
+ **/
+
     },searchSamplingByField:function(req,res){
 
         let Sample = Sampling(seq.sequelize,seq.sequelize.Sequelize);
@@ -2017,40 +2067,122 @@ module.exports = {
 
  */
     },searchSamplingByAllFields:function(req,res){
-        client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
-            "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
-            "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
-            "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
-            "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
-            "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
-            "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
-            "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
-            "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
-            "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
-            "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
-            "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
-            "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
-            "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
-            "m_s.reported_datetime, COALESCE(m_s.vuelta,'') as vuelta, " +
-            "COALESCE(m_s.n_muestreo,'') as n_muestreo from module_samplings as m_s,fields as fb,usuarios  where " +
-            "m_s.company_id='"+req.body.company_id+"' AND " +
-            "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id='"+req.body.field_id+"'  " +
-            "AND m_s.sample_type_field_id=fb.id " +
-            " AND m_s.sample_type='"+req.body.sample_type+"' AND  RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
-            "  AND RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp_s)=>{
-            console.log(err,resp_s);
-            if(resp_s.rowCount>0) {
+console.log(req.body);
+
+        let Sample = Sampling(seq.sequelize,seq.sequelize.Sequelize);
+        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
+
+        Sample.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
+        Sample.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
+
+        const Op = seq.Sequelize.Op;
+
+        Sample.findAll({
+
+            where:{
+                [Op.and]:[
+                    {
+                        company_id:req.body.company_id,
+                        sample_type_field_id:req.body.field_id,
+                        sample_type:req.body.sample_type,
+
+                    },
+
+                        seq.sequelize.Sequelize.where(
+                            seq.sequelize.Sequelize.fn(
+                                    'substring',
+                                    seq.sequelize.Sequelize.col('reported_datetime'),
+                                    0,11
+
+                            ),
+                            '>=',
+                            req.body.start_date
+                        ),
+                    seq.sequelize.Sequelize.where(
+                            seq.sequelize.Sequelize.fn(
+                                    'substring',
+                                    seq.sequelize.Sequelize.col('reported_datetime'),
+                                    0,11
+
+                            ),
+                            '<=',
+                            req.body.end_date
+                        )
+
+
+                ]
+
+            },
+            include: [
+                {
+                    model:User,
+                    attributes:["name","surname","email"],
+                    as:'User'
+                },
+                {
+                    model:SampleComspec,
+                    as:'SampleComspec'
+                }
+            ],
+
+
+        }).then(result=>{
+            if(result.length>0){
                 res.send({
-                    "status": 200,
-                    "sampling": resp_s.rows,
+                    "status":200,
+                    "data":result
                 });
             }else{
                 res.send({
-                    "status": 204,
-                    "message": "Sorry not result found",
+                    "status":204,
+                    "message":"No result found",
                 });
             }
+        }).catch(err=>{
+            console.log(err);
         });
+
+
+
+
+//         client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
+//             "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
+//             "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
+//             "COALESCE(m_s.observation,'') as observation,COALESCE(m_s.humedad_ambiental,'') as humedad_ambiental," +
+//             "COALESCE(m_s.temparature,'') as temparature,COALESCE(m_s.hora,'') as hora," +
+//             "COALESCE(m_s.ubicacion,'') as ubicacion,COALESCE(m_s.valor_scholander,'') as valor_scholander," +
+//             "COALESCE(m_s.sample_type,'') as sample_type, COALESCE(m_s.cluster_per_unit_edit,'') as cluster_per_unit_edit," +
+//             "COALESCE(m_s.boxes_per_field,'') as boxes_per_field ,COALESCE(m_s.kilogram_transport,'') as kilogram_transport," +
+//             "COALESCE(m_s.machinery,'') as machinery,fb.name as field_name,COALESCE(m_s.sample_type_date,'') as sample_type_date," +
+//             "COALESCE(m_s.sample_type_lning,0) as sample_type_lning," +
+//             "COALESCE(m_s.sample_type_strain,0) as sample_type_strain," +
+//             "COALESCE(m_s.sample_type_no_of_breaks,0) as sample_type_no_of_breaks,COALESCE(m_s.weight_purning,0) as weight_purning," +
+//             "COALESCE(m_s.drop_buds,0) as drop_buds ,COALESCE(m_s.number_of_buds,0) as " +
+//             "number_of_buds,COALESCE(m_s.number_of_bunches,0) as number_of_bunches ," +
+//             "m_s.reported_datetime, COALESCE(m_s.vuelta,'') as vuelta, " +
+//             "COALESCE(m_s.n_muestreo,'') as n_muestreo from module_samplings as m_s,fields as fb,usuarios  where " +
+//             "m_s.company_id='"+req.body.company_id+"' AND " +
+//             "m_s.reportedby_user_id=usuarios.id AND m_s.sample_type_field_id='"+req.body.field_id+"'  " +
+//             "AND m_s.sample_type_field_id=fb.id " +
+//             " AND m_s.sample_type='"+req.body.sample_type+"' AND  RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date >= date '"+req.body.start_date+"'" +
+//             "  AND RTRIM(substr(m_s.reported_datetime,0,length(m_s.reported_datetime)-1))::date <= date  '"+req.body.end_date+"'",(err,resp_s)=>{
+// console.log(resp_s)
+//             if( typeof resp_s != "undefined"){
+//                 console.log(resp_s);
+//                 if(resp_s.rowCount>0) {
+//                     res.send({
+//                         "status": 200,
+//                         "sampling": resp_s.rows,
+//                     });
+//                 }
+//             }else{
+//                 res.send({
+//                     "status": 204,
+//                     "message": "Sorry not result found",
+//                 });
+//             }
+//         });
     },searchWorkingLocation:function(req,res){
         client.query("SELECT *FROM module_tasks_locations where" +
             " datetime::date='" + req.body.current_date + "' AND app_user_id='"+req.body.user_id+"' ", (err, resp)=> {
