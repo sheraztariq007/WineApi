@@ -25,6 +25,7 @@ const  TasksLocations =  require('../models/tasks_locations');
 const  Notifications =  require('../models/notifications');
 const  TrackHours = require("../models/module_tasks_trackhours");
 const  TrackWork = require("../models/module_tasks_trackwork");
+const  SamplingComspec = require('../models/module_samplings_comspec_pdc_decalogo');
 const  AppVersion =  require('../models/app_version');
 const  constants = require('../config/constants.json')
 const  db_sql = require('./db_sql')
@@ -835,6 +836,51 @@ module.exports = {
                 "status":200,
                 "data":result
             });
+        }).catch(err=>{
+            console.log(err);
+        });
+    },getSamplingListUpdated:function(req,res){
+        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize)
+        let Field = Fields(seq.sequelize,seq.sequelize.Sequelize)
+        let Sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize)
+        Sampling.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
+        Sampling.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
+        Sampling.hasOne(Field, {foreignKey: 'id', sourceKey: 'sample_type_field_id', as: 'Field'});
+
+        Sampling.findAll({
+
+            where:{
+                company_id:req.body.company_id,
+            },
+            include: [
+                {
+                    model:User,
+                    attributes:["name","surname","email"],
+                    as:'User'
+                },
+                {
+                    model:Field,
+                    attributes:["name"],
+                    as:'Field'
+                },
+                {
+                    model:SampleComspec,
+                    as:'SampleComspec'
+                }
+            ],
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "sampling":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
         }).catch(err=>{
             console.log(err);
         });

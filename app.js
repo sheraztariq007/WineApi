@@ -2,6 +2,7 @@ var express = require('express')
 var multer = require('multer');
 var db_helper = require('./database/db_handler');
 var db_sql = require('./database/db_sql');
+var db_setting = require('./database/db_setting');
 var bodyParser = require('body-parser')
 var md5 = require("md5")
 var fs = require('fs')
@@ -44,6 +45,8 @@ var server = app.listen(3000,function () {
     var port = server.address().port
     console.log('Server is running  on Http://%s:%s',host,port);
 });
+
+
 app.post('/api/getworks',async function (req,res) {
     await db_helper.getWorks(req,res);
 });
@@ -431,4 +434,14 @@ app.post('/api/searchsamplingbyallfields' , async function (req,res) {
 app.post('/api/searchworkinglocation' , async function (req,res) {
    // console.log(req.body);
   await  db_sql.searchWorkingLocation(req,res)
+});
+
+app.post('/api/getnotificationdetails' , async function (req,res) {
+  await  db_setting.getNotificationDetails(req,res)
+});
+app.post('/api/changenotificationstatus' , async function (req,res) {
+  await  db_setting.updateNotificationStatus(req,res)
+});
+app.post('/api/gesamplinglistupdate' , async function (req,res) {
+  await  db_helper.getSamplingListUpdated(req,res)
 });

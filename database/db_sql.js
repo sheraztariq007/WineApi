@@ -13,23 +13,11 @@ var fcm = new FCM(serverKey);
 var data = [];
 var crypto = require('crypto');
 
-/**
- *
- * Including models
- *
- */
-const  seq = require('../models/index');
-const  Sampling = require('../models/module_sampling');
-const  SamplingComspec = require('../models/module_samplings_comspec_pdc_decalogo');
-const  Usuarios = require('../models/usuarios');
-
-
-
-
 const client = new Client({
     connectionString:constants.database_url
 });
 client.connect();
+
 module.exports = {
     AssignTasks:function(user_id,res1){
         client.query("select  module_tasks.id ,tasks.name as task_name,module_tasks.target_date as deadline , " +
@@ -1908,51 +1896,6 @@ module.exports = {
         });
     },getSamplingLists:function(req,res)  {
 
-
-        let Sample = Sampling(seq.sequelize,seq.sequelize.Sequelize);
-        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
-        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize)
-        Sample.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
-        Sample.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
-
-        Sample.findAll({
-
-            where:{
-                company_id:req.body.company_id,
-
-            },
-            include: [
-                    {
-                    model:User,
-                    attributes:["name","surname","email"],
-                    as:'User'
-                    },
-                    {
-                    model:SampleComspec,
-                    as:'SampleComspec'
-                    }
-                ],
-
-
-        }).then(result=>{
-            if(result.length>0){
-                res.send({
-                    "status":200,
-                    "data":result
-                });
-            }else{
-                res.send({
-                    "status":204,
-                    "message":"No result found",
-                });
-            }
-        }).catch(err=>{
-            console.log(err);
-        });
-
-/**
-
-console.log(req.body.company_id);
         client.query("select m_s.id, m_s.sample_name,m_s.location, usuarios.name as username,usuarios.surname as lastname," +
             "usuarios.email as email, COALESCE(m_s.phenological_type,'') " +
             "as phenological_type,m_s.thumbnail_url,m_s.image_url,COALESCE(m_s.cepa,'') as cepa," +
@@ -1985,7 +1928,6 @@ console.log(req.body.company_id);
             }
         });
 
- **/
 
     },searchSamplingByField:function(req,res){
 
