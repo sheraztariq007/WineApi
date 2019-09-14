@@ -884,6 +884,132 @@ module.exports = {
         }).catch(err=>{
             console.log(err);
         });
+    },searchSamplingByFieldUpdated:function (req,res) {
+        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize)
+        let Field = Fields(seq.sequelize,seq.sequelize.Sequelize)
+        let Sampling = Modulesampling(seq.sequelize,seq.sequelize.Sequelize)
+        Sampling.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
+        Sampling.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
+        Sampling.hasOne(Field, {foreignKey: 'id', sourceKey: 'sample_type_field_id', as: 'Field'});
+
+        Sampling.findAll({
+
+            where:{
+                company_id:req.body.company_id,
+                sample_type:req.body.sample_type,
+                sample_type_field_id:req.body.field_id
+            },
+            include: [
+                {
+                    model:User,
+                    attributes:["name","surname","email"],
+                    as:'User'
+                },
+                {
+                    model:Field,
+                    attributes:["name"],
+                    as:'Field'
+                },
+                {
+                    model:SampleComspec,
+                    as:'SampleComspec'
+                }
+            ],
+
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "sampling":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
+
+    },searchSamplingByAllFieldsUpdate:function (req,res) {
+        let Sample = Modulesampling(seq.sequelize,seq.sequelize.Sequelize);
+        let User = Usuarios(seq.sequelize,seq.sequelize.Sequelize);
+        let SampleComspec = SamplingComspec(seq.sequelize,seq.sequelize.Sequelize);
+        let Field = Fields(seq.sequelize,seq.sequelize.Sequelize)
+
+        Sample.hasOne(SampleComspec, {foreignKey: 'sample_type', sourceKey: 'id',as: 'SampleComspec'});
+        Sample.hasOne(User, {foreignKey: 'id', sourceKey: 'reportedby_user_id', as: 'User'});
+        Sample.hasOne(Field, {foreignKey: 'id', sourceKey: 'sample_type_field_id', as: 'Field'});
+
+        const Op = seq.Sequelize.Op;
+
+        Sample.findAll({
+            where:{
+                [Op.and]:[
+                    {
+                        company_id:req.body.company_id,
+                        sample_type_field_id:req.body.field_id,
+                        sample_type:req.body.sample_type,
+
+                    },
+                    seq.sequelize.Sequelize.where(
+                        seq.sequelize.Sequelize.fn(
+                            'substring',
+                            seq.sequelize.Sequelize.col('reported_datetime'),
+                            0,11
+
+                        ),
+                        '>=',
+                        req.body.start_date
+                    ),
+                    seq.sequelize.Sequelize.where(
+                        seq.sequelize.Sequelize.fn(
+                            'substring',
+                            seq.sequelize.Sequelize.col('reported_datetime'),
+                            0,11
+
+                        ),
+                        '<=',
+                        req.body.end_date
+                    )
+                ]
+
+            },
+            include: [
+                {
+                    model:User,
+                    attributes:["name","surname","email"],
+                    as:'User'
+                },
+                {
+                    model:Field,
+                    attributes:["name"],
+                    as:'Field'
+                },
+                {
+                    model:SampleComspec,
+                    as:'SampleComspec'
+                }
+            ],
+
+        }).then(result=>{
+            if(result.length>0){
+                res.send({
+                    "status":200,
+                    "sampling":result
+                });
+            }else{
+                res.send({
+                    "status":204,
+                    "message":"No result found",
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
+
     }
 
 

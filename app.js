@@ -445,3 +445,9 @@ app.post('/api/changenotificationstatus' , async function (req,res) {
 app.post('/api/gesamplinglistupdate' , async function (req,res) {
   await  db_helper.getSamplingListUpdated(req,res)
 });
+app.post('/api/searchsamplingbyfieldupdated' , async function (req,res) {
+  await  db_helper.searchSamplingByFieldUpdated(req,res)
+});
+app.post('/api/searchsamplingbyallfieldsupdate' , async function (req,res) {
+  await  db_helper.searchSamplingByAllFieldsUpdate(req,res)
+});
