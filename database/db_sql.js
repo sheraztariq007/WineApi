@@ -8,6 +8,7 @@ const  constants = require('../config/constants.json')
 var FCM = require('fcm-node');
 var email = require('../email/MailSetting');
 var randomstring = require("randomstring");
+var db_setting = require('./db_setting');
 var serverKey = constants.server_key; //put your server key here
 var fcm = new FCM(serverKey);
 var data = [];
@@ -2045,7 +2046,13 @@ function endTask(task_id,user_id,status,company_id,resp){
                 "status":200,
                 "message":"status updated"
             });
-            sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
+            db_setting.checkNotificationStatus().then(function(result){
+                if(result!=null){
+                    sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
+                }else{
+                    return false;
+                }
+            });
         }else{
             resp.send({
                 "status":204,
@@ -2065,7 +2072,13 @@ function start_task(task_id,user_id,status,company_id,resp){
                 "status":200,
                 "message":"status updated"
             });
-            sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
+            db_setting.checkNotificationStatus().then(function(result){
+                if(result!=null){
+                    sendOtherNotifications("Update Task"," Status Updated","Task",task_id,company_id)
+                }else{
+                    return false;
+                }
+            });
         }else{
             resp.send({
                 "status":204,

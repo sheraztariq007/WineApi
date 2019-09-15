@@ -4,7 +4,8 @@
 
 const  seq = require('../models/index');
 const  AllowNotificationModules = require('../models/allow_notification_module');
-
+const  constants = require("../config/constants");
+var not_list = constants.getNotificationModules();
 module.exports = {
 
     getNotificationDetails:function(req,res){
@@ -56,5 +57,15 @@ module.exports = {
         }).catch(err=>{
             console.log(err);
         });
+    },
+    checkNotificationStatus(){
+        const notification = AllowNotificationModules(seq.sequelize,seq.sequelize.Sequelize);
+        return   notification.findOne({where:{
+            user_id:1,
+            module_name:not_list.START_STOP_NOTIFICATION,
+            is_allow:true
+        }
+        });
     }
 }
+
